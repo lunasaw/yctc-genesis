@@ -1,6 +1,6 @@
 /**
  * 通用方法封装处理
- * Copyright (c) 2019 luna
+ * Copyright (c) 2019 ruoyi
  */
 $(function() {
 	

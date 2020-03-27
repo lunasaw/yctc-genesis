@@ -22,6 +22,7 @@ function register() {
         type: "post",
         url: ctx + "register",
         data: {
+            "userName": username,
             "loginName": username,
             "password": password,
             "validateCode": validateCode

@@ -10,7 +10,7 @@
 
 	<name>Web-Demo</name>
 	<url>http://iszychen.club</url>
-	<description>若依管理系统</description>
+	<description>测试管理系统</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
