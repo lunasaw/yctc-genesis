@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:include="include ::header('常用语法')"/>
+</head>
+<body>
+<div class="panel-group">
+	<div class="panel-default panel">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<a href="#dqpb" data-toggle="collapse" data-parent="#accordion">1. 表达式语法之运算符</a></h4>
+		</div>
+		<div id="dqpb" class="panel-collapse collapse" th:with="year = 2019">
+			<div class="panel-body" th:with="result=true">
+				<p class="text-danger">常量表达式</p>
+				<ul>
+					<li>
+						<p><strong>字符串常量 th:text="'hello, word'" </strong> - <span th:text="'hello, word'"></span></p>
+					</li>
+					<li>
+						<p><strong>数字常量 th:text="'2019, 11'"</strong> - <span th:text="'2019, 11'"></span></p>
+					</li>
+					<li>
+						<p><strong>布尔值常量 th:text="${result}"</strong> - <span th:text="${result}"></span></p>
+					</li>
+					<li>
+						<p><strong>空值常量判断 th:text="${result == null}"</strong> - <span
+								th:text="${result == null}"></span></p>
+					</li>
+				</ul>
+				<p class="text-danger">字符串拼接</p>
+				<ul>
+					<li>
+						<p><strong>一: th:text="${#strings.append('luna','op')}" </strong> - <span
+								th:text="${#strings.append('luna','op')}"></span></p>
+					</li>
+					<li>
+						<p><strong>二: th:text="${#strings.concat('luna','op')}" </strong> - <span
+								th:text="${#strings.concat('luna','op')}"></span></p>
+					</li>
+					<li>
+						<p><strong>三: th:text="${'luna' + 'ob'}" </strong> - <span th:text="${'luna' + 'ob'}"></span>
+						</p>
+					</li>
+					<li>
+						<p><strong>四: th:text="'luna' + 'ob'" </strong> - <span th:text="'luna' + 'ob'"></span></p>
+					</li>
+					<li>
+						<p><strong>五: th:text="luna + ob" </strong> - <span th:text="luna + ob"></span></p>
+					</li>
+					<li>
+						<p><strong>六: th:text="|luna| + |oq|"</strong> - <span th:text="|luna| + |oq|"></span></p>
+					</li>
+				</ul>
+				<p class="text-danger">算术运算符</p>
+				<ul>
+					<li>
+						<p><strong>一:3 + 2= th:text="${3 + 2}" </strong> - <span th:text="${3 + 2}"></span></p>
+					</li>
+					<li>
+						<p><strong>二:3 - 2= th:text="${3 - 2}" </strong> - <span th:text="${3 - 2}"></span></p>
+					</li>
+					<li>
+						<p><strong>三:3 * 2= th:text="${3 * 2}" </strong> - <span th:text="${3 * 2}"></span></p>
+					</li>
+					<li>
+						<p><strong>四:3 / 2= th:text="${3 / 2}" </strong> - <span th:text="${3 / 2}"></span></p>
+					</li>
+					<li>
+						<p><strong>五:3 & 2= th:text="${3 % 2}" </strong> - <span th:text="${3 % 2}"></span></p>
+					</li>
+				</ul>
+				<p class="text-danger">关系运算符</p>
+				<ul>
+					<li>
+						<p><strong>一:1 > 1 = th:text="${1 gt 1}" </strong> - <span th:text="${1 gt 1}"></span></p>
+					</li>
+					<li>
+						<p><strong>二:1 < 1 = th:text="${1 lt 1}" </strong> - <span th:text="${1 lt 1}"></span></p>
+					</li>
+					<li>
+						<p><strong>三:1 >= 1 = th:text="${1 ge 1}" </strong> - <span th:text="${1 ge 1}"></span></p>
+					</li>
+					<li>
+						<p><strong>四:1 <= 1 = th:text="${1 le 1}" </strong> - <span th:text="${1 le 1}"></span></p>
+					</li>
+					<li>
+						<p><strong>五:1 == 1 = th:text="${1 eq 1}" </strong> - <span th:text="${1 eq 1}"></span></p>
+					</li>
+					<li>
+						<p><strong>六:1 != 1 = th:text="${1 ne 1}" </strong> - <span th:text="${1 ne 1}"></span></p>
+					</li>
+				</ul>
+				<p class="text-danger">三目运算符</p>
+				<div>
+					th:text="${1 != 1 } ? |条件成立| : |条件不成立| "
+					<p class="text-success"><strong> 方法一 </strong> <span
+							th:text="${1 != 1 } ? |条件成立| : |条件不成立| "></span>
+					</p>
+					th:text="${value != 'Luna' } ? ${value} : |默认值| "
+					<p class="text-success"><strong> 方法二 </strong> <span
+							th:text="${value != 'Luna' } ? ${value} : |默认值| "></span></p>
+					th:text="${1 == 1} ? |条件成立| "
+					<p class="text-success"><strong> 方法三 不成立返回空 </strong> <span th:text="${1 == 1 } ?  |条件成立| "></span>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="panel-default panel">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<a href="#dqpb1" data-toggle="collapse" data-parent="#accordion">2. 属性设置</a></h4>
+		</div>
+		<div id="dqpb1" class="panel-collapse collapse">
+			<div class="panel-body">
+				<p class="text-info">1. 单个属性设置 th:attr="value = #{user.login.success}"
+					<input class="text-warning" type="submit" value="提交" th:attr="value = #{user.login.success}"></p>
+				<p class="text-info">2. 多个属性设置: ',' th:attr="value = #{user.login.success}, class='btn btn-primar'"
+					<input class="text-warning" type="submit" value="提交"
+					       th:attr="value = #{user.login.success}, class='btn btn-primar'"></p>
+				<p class="text-info">3. HTML节点属性 th:attr="value = #{user.login.success}"
+					<input class="text-warning" type="submit" value="提交" th:value=" #{user.login.success}"></p>
+				<p class="text-info">4. 多个HTML节点属性 th:value =" #{user.login.success}" th:class="'btn btn-primary'"
+					<input class="text-warning" type="submit" value="提交" th:value=" #{user.login.success}"
+					       th:class="'btn btn-primary'"></p>
+				<p class="text-info">5. 属性值后拼接 th:attrappend="id = '-dataId'"
+				<div id="imgDiv" th:attrappend="id = '-dataId'"></div>
+				<p class="text-info">5. 属性值前拼接 th:attrappend="id = '-dataId'"
+				<div id="imgDiv" th:attrprepend="id = 'dataId-'"></div>
+				<p class="text-info">6. 设置style样式 th:styleappend="'color :red'"
+				<div style="text-align: left;" th:styleappend="'color :red;'">style样式</div>
+				<p class="text-info">7. 设置class样式 th:classappend="'btn-rounded'"
+				<div class="btn btn-primary btn-xs" th:classappend="'btn-rounded'">style样式</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="panel-default panel">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<a href="#dqpb2" data-toggle="collapse" data-parent="#accordion">3. 条件判断</a></h4>
+		</div>
+		<div id="dqpb2" class="panel-collapse collapse">
+			<div class="panel-body">
+				<p class="text-danger">添加判断</p>
+				<ul th:with="value = Luna">
+					<li>
+						<p><strong>方法一 th:if="0">数字类型,如果为0; 不显示该标签 </strong> -> <span
+								th:if="0">数字类型,如果为0; 不显示该标签 </span></p>
+					</li>
+					<li>
+						<p><strong>方法一 th:if="true">数字类型,如果为false off no; 不显示该标签 </strong> -> <span th:if="true">数字类型,如果为false off no; 不显示该标签 </span>
+						</p>
+					</li>
+					<li>
+						<p class="text-danger">th:with="sex = 1" th:switch="${sex}" th:case="1"</p>
+						<select claass="select2-selection" name="" th:with="sex = 1" th:switch="${sex}" id="">
+							<option value="" th:case="1">女</option>
+							<option value="" th:case="0">男</option>
+						</select>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div class="panel-default panel">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<a th:href="@{/users}">4. 数据迭代</a></h4>
+		</div>
+	</div>
+
+	<div class="panel-default panel">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<a href="#dqpb4" data-toggle="collapse" data-parent="#accordion">5. 数据对象状态</a></h4>
+		</div>
+		<div id="dqpb4" class="panel-collapse collapse">
+			<div class="panel-body">
+				<p class="text-left">自定义状态对象 逗号分割</p>
+				<table class="table table-bordered">
+					<thead>
+					<tr>
+						<th>用户名</th>
+						<th>从0开始索引</th>
+						<th>从1开始索引</th>
+						<th>数据集合大小</th>
+						<th>是否第一次迭代</th>
+						<th>是否最后一次迭代</th>
+						<th>是否偶数迭代</th>
+						<th>是否奇数迭代</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr class="tab-label" th:each="user, state :${users}">
+						<td th:text="${user.name}"></td>
+						<td th:text="${state.index}"></td>
+						<td th:text="${state.count}"></td>
+						<td th:text="${state.size}"></td>
+						<td th:text="${state.first}"></td>
+						<td th:text="${state.last}"></td>
+						<td th:text="${state.even}"></td>
+						<td th:text="${state.odd}"></td>
+					</tr>
+					</tbody>
+				</table>
+				<p class="text-left">数据状态对象 默认使用 节点变量名 + Stat</p>
+				<table class="table table-bordered">
+					<thead>
+					<tr>
+						<th>用户名</th>
+						<th>从0开始索引</th>
+						<th>从1开始索引</th>
+						<th>数据集合大小</th>
+						<th>是否第一次迭代</th>
+						<th>是否最后一次迭代</th>
+						<th>是否偶数迭代</th>
+						<th>是否奇数迭代</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr class="tab-label" th:each="user :${users}">
+						<td th:text="${user.name}"></td>
+						<td th:text="${userStat.index}"></td>
+						<td th:text="${userStat.count}"></td>
+						<td th:text="${userStat.size}"></td>
+						<td th:text="${userStat.first}"></td>
+						<td th:text="${userStat.last}"></td>
+						<td th:text="${userStat.even}"></td>
+						<td th:text="${userStat.odd}"></td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div class="panel-default panel">
+		<div class="panel-heading">
+			<h4 class="panel-title ">
+				<a href="#dqpb5" data-toggle="collapse" data-parent="#accordion">6. 星号表达式</a></h4>
+		</div>
+		<div id="dqpb5" class="panel-collapse collapse">
+			<div class="panel-body">
+				th:each="user : ${users}" th:object="${user}" 将对象放入object
+				<table th:class="'table table-bordered'">
+					<thead>
+					<tr>
+						<th>用户Id</th>
+						<th>用户名</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr th:each="user : ${users}" th:object="${user}">
+						<td th:text="*{id}"></td>
+						<td th:text="*{name}"></td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+</div>
+<th:block th:include="include ::footer"/>
+</body>
+</html>

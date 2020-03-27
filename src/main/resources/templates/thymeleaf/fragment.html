@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:include="include ::header('模板片段')"/>
+</head>
+<body>
+<div class="panel-group">
+	<div class="panel-default panel">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<a href="#dqpb1" data-toggle="collapse" data-parent="#accordion">1. 标签引入</a></h4>
+		</div>
+		<div id="dqpb1" class="panel-collapse collapse">
+			<div class="panel-body">
+				<p class="text-success"> insert 保留本标签和引入标签</p>
+				<div class="text-center" th:insert="components/footer::copy2020"></div>
+
+				<p class="text-success">保留本标签和除去引入标签</p>
+				<div class="text-center" th:include="components/footer::copy2020"></div>
+
+				<p class="text-success">除去本标签和保留引入标签</p>
+				<div class="text-center" th:replace="components/footer::copy2020"></div>
+			</div>
+		</div>
+	</div>
+
+	<div class="panel-default panel">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<a href="#dqpb2" data-toggle="collapse" data-parent="#accordion">2. 选择器</a></h4>
+		</div>
+		<div id="dqpb2" class="panel-collapse collapse">
+			<div class="panel-body">
+				1. 直接选择子节点的id为footerA 的div
+				<p class="text-left">
+				<div th:insert="~{components/footer.html :: /div[@id= 'footerA']}"></div>
+				</p>
+				2. 选择全部子节点中id为footerB的div
+				<p class="text-left">
+				<div th:insert="components/footer :: //div[@id= 'footerB']"></div>
+				</p>
+				3. 选择class 为content的span节点
+				<p class="text-left">
+				<div th:insert="~{components/footer :: span[@class= 'content']}"></div>
+				</p>
+				4. 选择class为footerG的span (有多个), 选出第一个
+				<p class="text-left">
+				<div th:insert="components/footer :: //span[@class= 'footerG'][0]"></div>
+				</p>
+				5. 选择class为footerContent并且id为footerE的span(多级筛选)
+				<p class="text-left">
+				<div th:insert="components/footer :: //div[@class= 'footerContent']//span[@id='footerE']"></div>
+				</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="panel-default panel">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<a href="#dqpb3" data-toggle="collapse" data-parent="#accordion">3. 含有变量的片段引用</a></h4>
+		</div>
+		<div id="dqpb3" class="panel-collapse collapse">
+			<div class="panel-body" th:with="userName = '张三', deptName= '技术部'">
+				1. 使用常量参数
+				<div th:replace="components/footer :: welcome('张三','技术部')"></div>
+				2. 使用变量参数 不传入参数会报错
+				<div th:replace="components/footer :: welcome(${userName},${deptName})"></div>
+				3. 不传入参数不异常
+				<div th:replace="components/footer :: welcome_1"></div>
+				4. 不显示指定片段参数
+				<div th:replace="components/footer :: welcome_1(val1='张三',val2='技术部')"></div>
+			</div>
+		</div>
+	</div>
+
+	<div class="panel-default panel">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<a href="#dqpb4" data-toggle="collapse" data-parent="#accordion">4. 片段块引用</a></h4>
+		</div>
+		<div id="dqpb4" class="panel-collapse collapse">
+			<div class="panel-body">
+				在不影响原来标签的情况下引入自定义的一些内容 '<'th:block th:each="user : ${users}"'>'
+				<table class="table-bordered table">
+					<thead>
+					<tr>
+						<th>用户Id</th>
+						<th>用户名</th>
+					</tr>
+					</thead>
+					<tbody>
+					<th:block th:each="user : ${users}">
+						<tr>
+							<td th:text="${user.id}"></td>
+							<td th:text="${user.name}"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div class="panel-default panel">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<a href="#dqpb5" data-toggle="collapse" data-parent="#accordion">5. 删除标签</a></h4>
+		</div>
+		<div id="dqpb5" class="panel-collapse collapse">
+			<div class="panel-body">
+				1. 普通方法
+				<p class="text-warning">
+				<div th:if="false" class="text-success">我是当前子节点</div>
+				我是当前子节点</p>
+
+				2. remove方法 (all 删除包含标签和所有子节点)  tr都被删
+				<table class="table-bordered table">
+					<thead>
+					<tr th:remove="all">
+						<th>用户Id</th>
+						<th>用户名</th>
+					</tr>
+					</thead>
+					<tbody>
+					<th:block th:each="user : ${users}">
+					<tr>
+						<td th:text="${user.id}"></td>
+						<td th:text="${user.name}"></td>
+					</tr>
+					</tbody>
+				</table>
+
+				3. remove方法 (body 删除不包含标签和所有子节点)  tr以内都被删
+				<table class="table-bordered table">
+					<thead>
+					<tr th:remove="body">
+						<th>用户Id</th>
+						<th>用户名</th>
+					</tr>
+					</thead>
+					<tbody>
+					<th:block th:each="user : ${users}">
+						<tr>
+							<td th:text="${user.id}"></td>
+							<td th:text="${user.name}"></td>
+						</tr>
+					</tbody>
+				</table>
+
+				4. remove方法 (tag 删除包含标签和删除子节点)  只有tr被删
+				<table class="table-bordered table">
+					<thead>
+					<tr th:remove="tag">
+						<th>用户Id</th>
+						<th>用户名</th>
+					</tr>
+					</thead>
+					<tbody>
+					<th:block th:each="user : ${users}">
+						<tr>
+							<td th:text="${user.id}"></td>
+							<td th:text="${user.name}"></td>
+						</tr>
+					</tbody>
+				</table>
+
+				5. remove方法 (all-but-first 删除除第一个以外的子节点和包含标签)  th第一个不删 tr和剩下的th都被删
+				<table class="table-bordered table">
+					<thead>
+					<tr th:remove="all-but-first">
+						<th>用户Id</th>
+						<th>用户名</th>
+					</tr>
+					</thead>
+					<tbody>
+					<th:block th:each="user : ${users}">
+						<tr>
+							<td th:text="${user.id}"></td>
+							<td th:text="${user.name}"></td>
+						</tr>
+					</tbody>
+				</table>
+
+				6. remove方法 (none 什么都不做 不处理)
+				<table class="table-bordered table">
+					<thead>
+					<tr th:remove="none">
+						<th>用户Id</th>
+						<th>用户名</th>
+					</tr>
+					</thead>
+					<tbody>
+					<th:block th:each="user : ${users}">
+						<tr>
+							<td th:text="${user.id}"></td>
+							<td th:text="${user.name}"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div class="panel-default panel">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<a href="#dqpb6" data-toggle="collapse" data-parent="#accordion">6. 模板注释</a></h4>
+		</div>
+		<div id="dqpb6" class="panel-collapse collapse">
+			<div class="panel-body">
+				1. 注释可见
+			<!--你看得见我-->
+				2. 注释不可见  但是用HTML本地打开依然可见 用模板引擎不可见
+			<!--/*你看不见我 */-->
+			</div>
+		</div>
+	</div>
+</div>
+	<th:block th:include="include :: footer"/>
+</body>
+</html>

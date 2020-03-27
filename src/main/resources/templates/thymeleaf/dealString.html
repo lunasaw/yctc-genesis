@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:include="include ::header('字符串对象处理')"/>
+</head>
+<body>
+
+<div class="panel-group">
+	<div class="panel-default panel">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<a href="#dqpb" data-toggle="collapse" data-parent="#accordion">1. 字符串对象处理</a></h4>
+		</div>
+		<div id="dqpb" class="panel-collapse collapse">
+			<div class="panel-body">
+				<p class="text-left">Thymeleaf 主要使用 org.Thymeleaf.expression.Strings 处理字符串</p>
+				1. toString <p th:text="'[[${#strings.toString(user)}]]'"></p>
+				<p class="text-left">toString 方法: [[${#strings.toString(user)}]]</p>
+				2. length <p th:text="'[[${#strings.length(user)}]]'"></p>
+				<p class="text-left">length 方法: [[${#strings.length(user)}]]</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="panel-default panel">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<a href="#dqpb2" data-toggle="collapse" data-parent="#accordion">2. 默认和空值处理</a></h4>
+		</div>
+		<div id="dqpb2" class="panel-collapse collapse">
+			<div class="panel-body">
+				1. 非空处理 isEmpty <p th:text="'[[${#strings.isEmpty(user)}]]'"></p>
+				<p class="text-left">isEmpty 方法: [[${#strings.isEmpty(user)}]]</p>
+				2. 默认值处理 defaultString<p th:text="'[[${#strings.defaultString(user.department, '+'\'无部门\''+')}]]'"></p>
+				<p class="text-left">defaultString 方法: [[${#strings.defaultString(user.department, '无部门')}]]</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="panel-default panel">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<a href="#dqpb3" data-toggle="collapse" data-parent="#accordion">3. 包含判断</a></h4>
+		</div>
+		<div id="dqpb3" class="panel-collapse collapse">
+			<div class="panel-body">
+				1. 包含判断 contains<p th:text="'[[${#strings.contains(user.name, '+'\'Luna\''+')}]]'"></p>
+				<p class="text-left">contains 方法: [[${#strings.contains(user.name, 'Luna')}]]</p>
+				2. 包含判断==>忽略大小写 containsIgnoreCase<p
+					th:text="'[[${#strings.containsIgnoreCase(user.name, '+'\'Luna\''+')}]]'"></p>
+				<p class="text-left">containsIgnoreCase 方法: [[${#strings.containsIgnoreCase(user.name, 'Luna')}]]</p>
+				3. 前面包含 startsWith<p th:text="'[[${#strings.startsWith(user.name, '+'\'L\''+')}]]'"></p>
+				<p class="text-left">startsWith 方法: [[${#strings.startsWith(user.name, 'L')}]]</p>
+				4. 后面包含 endsWith <p th:text="'[[${#strings.endsWith(user.name, '+'\'a\''+')}]]'"></p>
+				<p class="text-left">endsWith 方法: [[${#strings.endsWith(user.name, 'a')}]]</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="panel-default panel">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<a href="#dqpb4" data-toggle="collapse" data-parent="#accordion">4. 截取替换</a></h4>
+		</div>
+		<div id="dqpb4" class="panel-collapse collapse">
+			<div class="panel-body">
+				1. 单个查找 indexOf 没有则返回-1 <p th:text="'[[${#strings.indexOf(user.name, '+'\'x\''+')}]]'"></p>
+				<p class="text-left">indexOf 方法: [[${#strings.indexOf(user.name, 'x')}]]</p>
+				2. 截取 substring 截取1~3 <p th:text="'[[${#strings.subString(user.name, 1, 3)}]]'"></p>
+				<p class="text-left">substring 方法: [[${#strings.substring(user.name, 1, 3)}]]</p>
+				3. 截取 substringAfter 截取'L'之后的 <p th:text="'[[${#strings.substringAfter(user.name, '+'\'L\''+')}]]'"></p>
+				<p class="text-left">substringAfter 方法: [[${#strings.substringAfter(user.name, 'L')}]]</p>
+				4. 截取 substringBefore 截取'a'之前的 <p
+					th:text="'[[${#strings.substringBefore(user.name, '+'\'a\''+')}]]'"></p>
+				<p class="text-left">substringBefore 方法: [[${#strings.substringBefore(user.name, 'a')}]]</p>
+				5. 替换 replace 将'L' ==> 'l' <p th:text="'[[${#strings.replace(user.name, '+'\'L\',\'l\''+')}]]'"></p>
+				<p class="text-left">replace 方法: [[${#strings.replace(user.name, 'L', 'l')}]]</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="panel-default panel">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<a href="#dqpb5" data-toggle="collapse" data-parent="#accordion">5. 追加字符串</a></h4>
+		</div>
+		<div id="dqpb5" class="panel-collapse collapse">
+			<div class="panel-body">
+				1. 追加 prepend 在Luna之前加一个op <p th:text="'[[${#strings.prepend(user.name, '+'\'op\''+')}]]'"></p>
+				<p class="text-left">prepend 方法: [[${#strings.prepend(user.name, 'op')}]]</p>
+				2. 追加 append 在Luna之后加一个op <p th:text="'[[${#strings.append(user.name, '+'\'op\''+')}]]'"></p>
+				<p class="text-left">append 方法: [[${#strings.append(user.name, 'op')}]]</p>
+				3. 连接 concat Lina op od 连接起来 <p th:text="'[[${#strings.concat(user.name, '+'\'op\',\'od\''+')}]]'"></p>
+				<p class="text-left">concat 方法: [[${#strings.concat(user.name, 'op', 'od')}]]</p>
+				4. 连接第一个值以后的参数 如果值为空 用第一个值代替 concatReplaceNulls Lina null od null 连接起来
+				<p th:text="'[[${#strings.concat(user.name, null, '+'\'od\', '+'null)}]]'"></p>
+				<p class="text-left">concatReplaceNulls 方法: [[${#strings.concatReplaceNulls(user.name, null, 'od',
+					null)}]]</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="panel-default panel">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<a href="#dqpb6" data-toggle="collapse" data-parent="#accordion">6. 分割与连接</a></h4>
+		</div>
+		<div id="dqpb6" class="panel-collapse collapse">
+			<div class="panel-body">
+				1. 按字符分割 arraySplit<p th:text="' ${#strings.arraySplit('+'\'a-b-c\''+',\'-\')}'"></p>
+				<p class="text-left" th:each="array : ${#strings.arraySplit('a-b-c', '-')}"> arraySplit
+					方法:[[${array}]] </p>
+				2. 按字符连接 arrayJoin 连接数组的每个元素<p
+					th:text="' [[${#strings.arrayJoin(new String[]{'+'\'L\','+'\'u\','+'\'n\','+'\'a\','+'\'-\''+')}]]'"></p>
+				<p class="text-left"> arrayJoin 方法: [[${#strings.arrayJoin(new String[]{'L', 'u', 'n', 'a'}, '-')}]]</p>
+				3. listSplit setSplit listJoin setJoin 和上面一致
+			</div>
+		</div>
+	</div>
+
+	<div class="panel-default panel">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<a href="#dqpb7" data-toggle="collapse" data-parent="#accordion">7. 大小写转换</a></h4>
+		</div>
+		<div id="dqpb7" class="panel-collapse collapse">
+			<div class="panel-body">
+				1. 全部转为大写 toUpperCase ==>SpringBoot
+				<p class="text-left">toUpperCase : [[${#strings.toUpperCase('SpringBoot')}]]</p>
+				2. 全部转为小写 toLowerCase ==>SpringBoot
+				<p class="text-left">toLowerCase : [[${#strings.toLowerCase('SpringBoot')}]]</p>
+				3. 首字母转为大写 capitalize ==>springboot
+				<p class="text-left">capitalize : [[${#strings.capitalize('springboot')}]]</p>
+				4. 首字母转为小写 unCapitalize ==>springboot
+				<p class="text-left">unCapitalize : [[${#strings.unCapitalize('SpringBoot')}]]</p>
+				5. 单词首字母大写 空格区分 capitalizeWords ==>spring boot
+				<p class="text-left">capitalizeWords : [[${#strings.capitalizeWords('spring boot')}]]</p>
+				5. 单词首字母大写 指定符号 '-' capitalizeWords ==>spring boot
+				<p th:text="' [[${#strings.capitalizeWords('+'\'spring-boot\','+'\'-\''+')}]]'"></p>
+				<p class="text-left">capitalizeWords : [[${#strings.capitalizeWords('spring-boot' , '-')}]]</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="panel-default panel">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<a href="#dqpb8" data-toggle="collapse" data-parent="#accordion">8. 其他处理</a></h4>
+		</div>
+		<div id="dqpb8" class="panel-collapse collapse">
+			<div class="panel-body">
+				1. 截取前后空格 trim <p th:text="'[[${#strings.trim('+'\'   Spring Boot   \''+')}]]'"></p>
+				<p class="text-left">trim: [[${#strings.trim(' Spring Boot ')}]]</p>
+				2. 省略 abbreviate 只显示个数加上...=指定个数的字符<p th:text="'[[${#strings.abbreviate('+'\'SpringBoot\','+'\'9\''+')}]]'"></p>
+				<p class="text-left">abbreviate: [[${#strings.abbreviate('SpringBoot', '9')}]]</p>
+				3. 随机抽取字符 randomAlphanumeric 随机获取5个字符 <p th:text="' [[${strings.randomAlphanumeric(5)}]]'"></p>
+				<p class="text-left">randomAlphanumeric: [[${#strings.randomAlphanumeric(5)}]]</p>
+			</div>
+		</div>
+
+		<div class="panel-default panel">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					<a href="#dqpb9" data-toggle="collapse" data-parent="#accordion">9. 日期对象</a></h4>
+			</div>
+			<div id="dqpb9" class="panel-collapse collapse">
+				<div class="panel-body">
+					Thymeleaf主要使用org.Thymeleaf.expression.Dates 类处理日期 使用 #dates 标识该对象
+					0. 格式化日期
+					<p class="text-left">[[${#dates.format(user.birth)}]]</p>
+					1. 年月日时分秒
+					<p class="text-left">[[${#dates.format(user.birth, 'yyyy-MM-dd HH:mm:ss')}]]</p>
+					2. ISO 格式
+					<p class="text-left">[[${#dates.formatISO(user.birth)}]]</p>
+					3. 获取日期字段
+					<p class="text-left">获取当前年份: [[${#dates.year(user.birth)}]]</p>
+					<p class="text-left">获取当前月份: [[${#dates.month(user.birth)}]]</p>
+					<p class="text-left">获取当前天数: [[${#dates.day(user.birth)}]]</p>
+					<p class="text-left">获取当前小时: [[${#dates.hour(user.birth)}]]</p>
+					<p class="text-left">获取当前分钟: [[${#dates.minute(user.birth)}]]</p>
+					<p class="text-left">获取当前毫秒: [[${#dates.second(user.birth)}]]</p>
+					<p class="text-left">获取当前月份名称: [[${#dates.monthName(user.birth)}]]</p>
+					<p class="text-left">获取当前星期几: [[${#dates.dayOfWeek(user.birth)}]]</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="panel-default panel">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					<a href="#dqpb10" data-toggle="collapse" data-parent="#accordion">10. 对象使用</a></h4>
+			</div>
+			<div id="dqpb10" class="panel-collapse collapse">
+				<div class="panel-body">
+					<p class="text-left">Arrays Listes Maps Sets </p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+	<th:block th:include="include ::footer"/>
+</body>
+</html>

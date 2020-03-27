@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:include="include ::header('调用后台')"/>
+</head>
+<body>
+<div class="panel-group">
+	<div class="panel-default panel">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<a href="#dqpb1" data-toggle="collapse" data-parent="#accordion">1. html方式调用后台</a></h4>
+		</div>
+		<div id="dqpb1" class="panel-collapse collapse">
+			<div class="panel-body text-danger">
+				1. html方式调用后台 <span class="text-success">th:with="type=${@dict.getType()}"</span> 用户状态:
+				<select name="status" th:with="type=${@thymeleaf_dict.getType()}" id="" class="select-time">
+					<option th:each="dict : ${type}" th:text="${dict.birth}" th:value="${dict.id}"></option>
+				</select>
+				<p class="text-primary" th:text="'2. '+${@thymeleaf_dict.getMessage()}"></p>
+			</div>
+		</div>
+	</div>
+
+	<div class="panel-default panel">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<a href="#dqpb2" data-toggle="collapse" data-parent="#accordion">2. JavaScript 调用后台 </a></h4>
+		</div>
+		<div id="dqpb2" class="panel-collapse collapse">
+			<div class="panel-body">
+				<p class="text-warning">
+					<script th:inline="javascript">
+                        //使用内联语法调用 拿到的是一个json数据
+                        var msg = [[${@thymeleaf_dict.getMessageByParam("JavaScript方式调用后台")}]];
+                        // alert(msg);
+					</script>
+				</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="panel-default panel">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<a href="#dqpb3" data-toggle="collapse" data-parent="#accordion">3. 内置对象</a></h4>
+		</div>
+		<div id="dqpb3" class="panel-collapse collapse">
+			<!--			<div class="panel-body">-->
+			<!--				<p class="text-left">-->
+			<!--					<div class="panel-body">-->
+			<!--				<p class="text-left">-->
+			<!--					<span th:text="${#dateUtils.getDate()}"></span>-->
+			<!--				</p>-->
+			<!--				<p class="text-left">-->
+			<!--					<span th:text="${#dateUtils.dateTimeNow('yyyy-MM-dd HH:mm:ss')}"></span>-->
+			<!--				</p>-->
+			<!--			</div>-->
+			<!--			</p>-->
+		</div>
+	</div>
+</div>
+</div>
+
+
+<th:block th:include="include :: footer"/>
+</body>
+</html>

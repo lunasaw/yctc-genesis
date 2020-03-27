@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:include="include ::header('内联语法')"/>
+</head>
+<body>
+<div class="panel-group">
+	<div class="panel-default panel">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<a href="#dqpb1" data-toggle="collapse" data-parent="#accordion">1. 使用内联语法显示文本</a> <a class="text-right"
+				                                                                                      th:href="@{/}">返回</a>
+			</h4>
+		</div>
+		<div id="dqpb1" class="panel-collapse collapse">
+			<div class="panel-body" th:with="html='<h3>Luna-Demo</h3>'">
+				1. text标签显示 th:text="${html}"
+				<p class="text-left">
+				<div th:text="${html}"></div>
+				</p>
+				2. 内联显示 <br> h3 标签转义
+				<p class="text-success">[[${html}]]</p>
+				h3 标签不转义
+				<p class="text-danger">[(${html})]</p>
+				3. utext标签 th:utext="${html}"
+				<p class="text-uppercase" th:utext="${html}"></p>
+				4. 关闭内联语法 th:inline="none"
+				<p class="text-input-dialog" th:inline="none">[[${html}]]</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="panel-default panel">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<a href="#dqpb2" data-toggle="collapse" data-parent="#accordion">2. 在javaScript 中使用</a></h4>
+		</div>
+		<div id="dqpb2" class="panel-collapse collapse">
+			<div class="panel-body">
+				<script th:inline="javascript">
+                    var userName = [[${user1.name}]]
+                    // alert(userName);
+				</script>
+			</div>
+		</div>
+	</div>
+
+	<div class="panel-default panel">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<a href="#dqpb3" data-toggle="collapse" data-parent="#accordion">3. css中使用内联语法</a></h4>
+		</div>
+		<div id="dqpb3" class="panel-collapse collapse">
+			<div class="panel-body" th:with="color = 'red'">
+				<style th:inline="css">
+					.my-text {
+						color: [ [${color}] ]
+					}
+				</style>
+				<p class="my-text">内联css样式</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="panel-default panel">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<a href="#dqpb4" data-toggle="collapse" data-parent="#accordion">4. 注释</a></h4>
+		</div>
+		<div id="dqpb4" class="panel-collapse collapse">
+			<div class="panel-body">
+				<script>
+                    <!--
+                    function test1() {
+                        alert("用到再说!")
+                    }
+
+                    -->
+				</script>
+				<p class="text-left"></p>
+			</div>
+		</div>
+	</div>
+
+	<div class="panel-default panel">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<a href="#dqpb5" data-toggle="collapse" data-parent="#accordion">5. 内联语法序列化</a></h4>
+		</div>
+		<div id="dqpb5" class="panel-collapse collapse">
+			<div class="panel-body">
+				<script th:inline="javascript">
+                    //javabean
+                    var user = {"id": 1, "name": "张三"};
+                    // alert(user.name);
+                    var user1 = [[${user1}]];
+                    // alert(user1.name);
+                    //list
+                    var userList = [{"id": 1, "name": "张三"}, {"id": 2, "name": "李四"}];
+                    // alert(userList.length);
+                    var list = [[${userList}]];
+                    // alert(list.length);
+                    //map
+                    var userMap = {"user1": {"id": 1, "name": "张三"}, "user2": {"id": 2, "name": "李四"}};
+                    // alert(userMap.user1.name);
+                    var map = [[${userMap}]];
+                    // alert(map.user1.name);
+				</script>
+				<p class="text-left"></p>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<th:block th:include="include :: footer"/>
+</body>
+</html>
