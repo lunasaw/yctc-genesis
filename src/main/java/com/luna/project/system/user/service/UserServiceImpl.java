@@ -473,6 +473,7 @@ public class UserServiceImpl implements IUserService
                 User u = userMapper.selectUserByLoginName(user.getLoginName());
                 if (StringUtils.isNull(u))
                 {
+                	// 从参数配置中获取设置初始密码
                     user.setPassword(password);
                     user.setCreateBy(operName);
                     this.insertUser(user);

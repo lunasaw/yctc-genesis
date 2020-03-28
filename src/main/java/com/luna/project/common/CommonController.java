@@ -47,6 +47,7 @@ public class CommonController
                 throw new Exception(StringUtils.format("文件名称({})非法，不允许下载。 ", fileName));
             }
             String realFileName = System.currentTimeMillis() + fileName.substring(fileName.indexOf("_") + 1);
+	        System.out.println("截取'_'后部分的文件名,根据时间返回修正文件名:==>"+realFileName);
             String filePath = LunaConfig.getDownloadPath() + fileName;
 
             response.setCharacterEncoding("utf-8");

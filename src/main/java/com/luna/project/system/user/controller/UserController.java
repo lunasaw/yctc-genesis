@@ -70,7 +70,9 @@ public class UserController extends BaseController
     public AjaxResult export(User user)
     {
         List<User> list = userService.selectUserList(user);
+	    System.out.println("根据页面条件查出对应数据");
         ExcelUtil<User> util = new ExcelUtil<User>(User.class);
+	    System.out.println("将对应实体对象转为ExcelUtil关联");
         return util.exportExcel(list, "用户数据");
     }
 
@@ -81,7 +83,8 @@ public class UserController extends BaseController
     public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception
     {
         ExcelUtil<User> util = new ExcelUtil<User>(User.class);
-        List<User> userList = util.importExcel(file.getInputStream());
+	    System.out.println("将对应实体对象转为ExcelUtil关联");
+	    List<User> userList = util.importExcel(file.getInputStream());
         String message = userService.importUser(userList, updateSupport);
         return AjaxResult.success(message);
     }
@@ -91,7 +94,8 @@ public class UserController extends BaseController
     @ResponseBody
     public AjaxResult importTemplate()
     {
-        ExcelUtil<User> util = new ExcelUtil<User>(User.class);
+	    System.out.println("将对应实体对象转为ExcelUtil关联");
+	    ExcelUtil<User> util = new ExcelUtil<User>(User.class);
         return util.importTemplateExcel("用户数据");
     }
 

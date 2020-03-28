@@ -296,6 +296,7 @@ public class ExcelUtil<T>
      */
     public AjaxResult exportExcel(List<T> list, String sheetName)
     {
+	    System.out.println("初始化表格信息:"+sheetName+"类型 字段类型（0：导出导入；1：仅导出；2：仅导入）"+Type.EXPORT);
         this.init(list, sheetName, Type.EXPORT);
         return exportExcel();
     }
@@ -324,6 +325,7 @@ public class ExcelUtil<T>
         {
             // 取出一共有多少个sheet.
             double sheetNo = Math.ceil(list.size() / sheetSize);
+	        System.out.println("一共取出"+ sheetNo+ "个sheet");
             for (int index = 0; index <= sheetNo; index++)
             {
                 createSheet(sheetNo, index);
@@ -332,6 +334,7 @@ public class ExcelUtil<T>
                 Row row = sheet.createRow(0);
                 int column = 0;
                 // 写入各个字段的列头名称
+	            System.out.println("创建各个字段的列头名称");
                 for (Object[] os : fields)
                 {
                     Excel excel = (Excel) os[1];
@@ -339,10 +342,12 @@ public class ExcelUtil<T>
                 }
                 if (Type.EXPORT.equals(type))
                 {
+	                System.out.println("将数据写入");
                     fillExcelData(index, row);
                 }
             }
             String filename = encodingFilename(sheetName);
+	        System.out.println("UUDI创建一个文件名字==>"+filename);
             out = new FileOutputStream(getAbsoluteFile(filename));
             wb.write(out);
             return AjaxResult.success(filename);
@@ -388,7 +393,10 @@ public class ExcelUtil<T>
     public void fillExcelData(int index, Row row)
     {
         int startNo = index * sheetSize;
+	    System.out.println("开始行数:"+startNo);
         int endNo = Math.min(startNo + sheetSize, list.size());
+	    System.out.println("结束行数:"+endNo);
+	    System.out.println("一共写入次数:" +endNo);
         for (int i = startNo; i < endNo; i++)
         {
             row = sheet.createRow(i + 1 - startNo);
@@ -689,6 +697,7 @@ public class ExcelUtil<T>
     public String getAbsoluteFile(String filename)
     {
         String downloadPath = LunaConfig.getDownloadPath() + filename;
+	    System.out.println("获取一个配置的下载路径==>"+downloadPath);
         File desc = new File(downloadPath);
         if (!desc.getParentFile().exists())
         {

@@ -101,6 +101,7 @@ public class FileUtils
      */
     public static boolean isValidFilename(String filename)
     {
+    	//检测字符串是否匹配给定的正则表达式
         return filename.matches(FILENAME_PATTERN);
     }
 
