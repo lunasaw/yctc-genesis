@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.luna.project.system.cuisine.mapper.CuisineMapper">
+    
+    <resultMap type="Cuisine" id="CuisineResult">
+        <result property="cuisineId"    column="cuisine_id"    />
+        <result property="cuisineName"    column="cuisine_name"    />
+        <result property="cuisinePath"    column="cuisine_path"    />
+        <result property="cuisineNumber"    column="cuisine_number"    />
+        <result property="cuisinePrice"    column="cuisine_price"    />
+    </resultMap>
+
+    <sql id="selectCuisineVo">
+        select cuisine_id, cuisine_name, cuisine_path, cuisine_number, cuisine_price from sys_cuisine
+    </sql>
+
+    <select id="selectCuisineList" parameterType="Cuisine" resultMap="CuisineResult">
+        <include refid="selectCuisineVo"/>
+        <where>  
+            <if test="cuisineName != null  and cuisineName != ''"> and cuisine_name like concat('%', #{cuisineName}, '%')</if>
+            <if test="cuisinePath != null  and cuisinePath != ''"> and cuisine_path = #{cuisinePath}</if>
+            <if test="cuisineNumber != null "> and cuisine_number = #{cuisineNumber}</if>
+            <if test="cuisinePrice != null "> and cuisine_price = #{cuisinePrice}</if>
+        </where>
+    </select>
+    
+    <select id="selectCuisineById" parameterType="Long" resultMap="CuisineResult">
+        <include refid="selectCuisineVo"/>
+        where cuisine_id = #{cuisineId}
+    </select>
+        
+    <insert id="insertCuisine" parameterType="Cuisine" useGeneratedKeys="true" keyProperty="cuisineId">
+        insert into sys_cuisine
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="cuisineName != null  and cuisineName != ''">cuisine_name,</if>
+            <if test="cuisinePath != null  and cuisinePath != ''">cuisine_path,</if>
+            <if test="cuisineNumber != null ">cuisine_number,</if>
+            <if test="cuisinePrice != null ">cuisine_price,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="cuisineName != null  and cuisineName != ''">#{cuisineName},</if>
+            <if test="cuisinePath != null  and cuisinePath != ''">#{cuisinePath},</if>
+            <if test="cuisineNumber != null ">#{cuisineNumber},</if>
+            <if test="cuisinePrice != null ">#{cuisinePrice},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCuisine" parameterType="Cuisine">
+        update sys_cuisine
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="cuisineName != null  and cuisineName != ''">cuisine_name = #{cuisineName},</if>
+            <if test="cuisinePath != null  and cuisinePath != ''">cuisine_path = #{cuisinePath},</if>
+            <if test="cuisineNumber != null ">cuisine_number = #{cuisineNumber},</if>
+            <if test="cuisinePrice != null ">cuisine_price = #{cuisinePrice},</if>
+        </trim>
+        where cuisine_id = #{cuisineId}
+    </update>
+
+    <delete id="deleteCuisineById" parameterType="Long">
+        delete from sys_cuisine where cuisine_id = #{cuisineId}
+    </delete>
+
+    <delete id="deleteCuisineByIds" parameterType="String">
+        delete from sys_cuisine where cuisine_id in 
+        <foreach item="cuisineId" collection="array" open="(" separator="," close=")">
+            #{cuisineId}
+        </foreach>
+    </delete>
+    
+</mapper>

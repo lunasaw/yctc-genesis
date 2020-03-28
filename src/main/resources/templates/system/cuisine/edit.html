@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改菜品信息')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-cuisine-edit" th:object="${cuisine}">
+            <input name="cuisineId" th:field="*{cuisineId}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">菜品名称：</label>
+                <div class="col-sm-8">
+                    <input name="cuisineName" th:field="*{cuisineName}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">菜品图片路径：</label>
+                <div class="col-sm-8">
+                    <input name="cuisinePath" th:field="*{cuisinePath}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">今日菜品份数：</label>
+                <div class="col-sm-8">
+                    <input name="cuisineNumber" th:field="*{cuisineNumber}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">菜品价格：</label>
+                <div class="col-sm-8">
+                    <input name="cuisinePrice" th:field="*{cuisinePrice}" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "system/cuisine";
+        $("#form-cuisine-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-cuisine-edit').serialize());
+            }
+        }
+    </script>
+</body>
+</html>
