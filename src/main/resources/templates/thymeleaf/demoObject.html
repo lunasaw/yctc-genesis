@@ -54,13 +54,13 @@
 		<div id="dqpb3" class="panel-collapse collapse">
 			<div class="panel-body" th:with="html='<h3>Luna测试</h3>'">
 				<p class="text-left">
-					<button><a th:href="@{/getUser(userId=${user1.getId()})}">设置单个参数url</a></button>
+					<button><a th:href="@{/thymeleaf/getUser(userId=${user1.getId()})}">设置单个参数url</a></button>
 				</p>
 				<p class="text-left">
-					<button><a th:href="@{/getIdAndName(userId=${user1.id},name=${user1.name})}">设置多个参数url</a></button>
+					<button><a th:href="@{/thymeleaf/getIdAndName(userId=${user1.id},name=${user1.name})}">设置多个参数url</a></button>
 				</p>
 				<p class="text-left">
-					<button><a th:href="@{/users}">rest风格url </a></button>
+					<button><a th:href="@{/thymeleaf/users}">rest风格url </a></button>
 				</p>
 			</div>
 		</div>

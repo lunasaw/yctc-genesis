@@ -8,8 +8,8 @@ luna:
   copyrightYear: 2019
   # 实例演示开关
   demoEnabled: true
-  # 文件路径 示例（ Windows配置D:/ruoyi/uploadPath，Linux配置 /home/ruoyi/uploadPath）
-  profile: D:/ruoyi/uploadPath
+  # 文件路径 示例（ Windows配置D:/luna/uploadPath，Linux配置 /home/luna/uploadPath）
+  profile: D:/luna/uploadPath
   # 获取ip地址开关
   addressEnabled: true
 
@@ -73,7 +73,7 @@ spring:
 # MyBatis
 mybatis:
     # 搜索指定包别名
-    typeAliasesPackage: com.ruoyi.project.**.domain
+    typeAliasesPackage: com.luna.project.**.domain
     # 配置mapper的扫描，找到所有的mapper.xml映射文件
     mapperLocations: classpath:mybatis/**/*Mapper.xml
     # 加载全局的配置文件
@@ -132,9 +132,9 @@ xss:
 # 代码生成
 gen: 
   # 作者
-  author: ruoyi
+  author: luna
   # 默认生成包路径 system 需改成自己的模块名称 如 system monitor tool
-  packageName: com.ruoyi.project.system
+  packageName: com.luna.project.system
   # 自动去除表前缀，默认是true
   autoRemovePre: true
   # 表前缀（生成类名不会包含表前缀，多个用逗号分隔）

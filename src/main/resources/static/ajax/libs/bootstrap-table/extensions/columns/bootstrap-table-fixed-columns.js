@@ -1,7 +1,7 @@
 /**
  * 基于bootstrap-table-fixed-columns修改
  * 支持左右列冻结、支持固定高度
- * Copyright (c) 2019 ruoyi
+ * Copyright (c) 2019 luna
  */
 (function ($) {
     'use strict';
