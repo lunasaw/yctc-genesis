@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<th:block th:include="include ::header('模板片段')"/>
+	<th:block th:include="include :: header('模板片段')"/>
 </head>
 <body class="gray-bg">
 <div class="panel-group">
@@ -13,13 +13,13 @@
 		<div id="dqpb1" class="panel-collapse collapse">
 			<div class="panel-body">
 				<p class="text-success"> insert 保留本标签和引入标签</p>
-				<div class="text-center" th:insert="components/footer::copy2020"></div>
+				<div class="text-center" th:insert="thymeleaf/footer::copy2020"></div>
 
 				<p class="text-success">保留本标签和除去引入标签</p>
-				<div class="text-center" th:include="components/footer::copy2020"></div>
+				<div class="text-center" th:include="thymeleaf/footer::copy2020"></div>
 
 				<p class="text-success">除去本标签和保留引入标签</p>
-				<div class="text-center" th:replace="components/footer::copy2020"></div>
+				<div class="text-center" th:replace="thymeleaf/footer::copy2020"></div>
 			</div>
 		</div>
 	</div>
@@ -33,23 +33,23 @@
 			<div class="panel-body">
 				1. 直接选择子节点的id为footerA 的div
 				<p class="text-left">
-				<div th:insert="~{components/footer.html :: /div[@id= 'footerA']}"></div>
+				<div th:insert="~{thymeleaf/footer.html :: /div[@id= 'footerA']}"></div>
 				</p>
 				2. 选择全部子节点中id为footerB的div
 				<p class="text-left">
-				<div th:insert="components/footer :: //div[@id= 'footerB']"></div>
+				<div th:insert="thymeleaf/footer :: //div[@id= 'footerB']"></div>
 				</p>
 				3. 选择class 为content的span节点
 				<p class="text-left">
-				<div th:insert="~{components/footer :: span[@class= 'content']}"></div>
+				<div th:insert="~{thymeleaf/footer :: span[@class= 'content']}"></div>
 				</p>
 				4. 选择class为footerG的span (有多个), 选出第一个
 				<p class="text-left">
-				<div th:insert="components/footer :: //span[@class= 'footerG'][0]"></div>
+				<div th:insert="thymeleaf/footer :: //span[@class= 'footerG'][0]"></div>
 				</p>
 				5. 选择class为footerContent并且id为footerE的span(多级筛选)
 				<p class="text-left">
-				<div th:insert="components/footer :: //div[@class= 'footerContent']//span[@id='footerE']"></div>
+				<div th:insert="thymeleaf/footer :: //div[@class= 'footerContent']//span[@id='footerE']"></div>
 				</p>
 			</div>
 		</div>
@@ -63,13 +63,13 @@
 		<div id="dqpb3" class="panel-collapse collapse">
 			<div class="panel-body" th:with="userName = '张三', deptName= '技术部'">
 				1. 使用常量参数
-				<div th:replace="components/footer :: welcome('张三','技术部')"></div>
+				<div th:replace="thymeleaf/footer :: welcome('张三','技术部')"></div>
 				2. 使用变量参数 不传入参数会报错
-				<div th:replace="components/footer :: welcome(${userName},${deptName})"></div>
+				<div th:replace="thymeleaf/footer :: welcome(${userName},${deptName})"></div>
 				3. 不传入参数不异常
-				<div th:replace="components/footer :: welcome_1"></div>
+				<div th:replace="thymeleaf/footer :: welcome_1"></div>
 				4. 不显示指定片段参数
-				<div th:replace="components/footer :: welcome_1(val1='张三',val2='技术部')"></div>
+				<div th:replace="thymeleaf/footer :: welcome_1(val1='张三',val2='技术部')"></div>
 			</div>
 		</div>
 	</div>

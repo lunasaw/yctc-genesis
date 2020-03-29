@@ -1,0 +1,32 @@
+<footer class="footer" th:fragment="copy2020" xmlns:th="http://www.thymeleaf.org">
+	CopyRight © 2020 <a href="http://luna.iszychen.club" target="_blank">Luna-Web</a> All rights reserved.
+	<span class="pull-right">Version 1.0.0</span>
+</footer>
+
+<!--第一种语法获取-->
+<div id="footerA" class="text-success">footerA</div>
+<!--第二种语法-->
+<div>
+	<div id="footerB" class="text-info">footerB</div>
+</div>
+<!--第三种语法获取-->
+<div>
+	<span class="content text-warning">footerC</span>
+	<span class="content text-warning">footerD</span>
+</div>
+<!--第四种语法获取-->
+<span class="footerG text-danger" >footerG1</span>
+<span class="footerG text-danger" >footerG2</span>
+<!--第五种语法获取-->
+<div class="footerContent">
+	<span id="footerE" class="badge-primary">footerE</span>
+	<span  class="badge-primary">footerF</span>
+</div>
+
+<div th:fragment="welcome(userName , deptName)" xmlns:th="http://www.thymeleaf.org">
+	<span class="bg-info" th:text="|姓名:| + ${userName} + |,部门:| + ${deptName}"></span>
+</div>
+
+<div th:fragment="welcome_1" xmlns:th="http://www.thymeleaf.org">
+	<span class="bg-danger" th:text="|姓名:| + ${val1} + |,部门:| + ${val2}"></span>
+</div>
