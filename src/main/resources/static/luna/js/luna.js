@@ -215,7 +215,7 @@ var table = {
             	$(optionsIds).off("click").on("click", '.img-circle', function() {
     			    var src = $(this).attr('src');
     			    var width = $(this).data('width');
-    			    if($.common.equals("self", target)) {
+    			    if($.common.equals("self", $(this).data('target'))) {
     			    	var height = $(this).data('height');
 						var width = $(this).data('width');
 						// 如果是移动端，就使用自适应大小弹窗
