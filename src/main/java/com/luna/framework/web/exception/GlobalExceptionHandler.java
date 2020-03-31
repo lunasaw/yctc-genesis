@@ -1,6 +1,8 @@
 package com.luna.framework.web.exception;
 
 import javax.servlet.http.HttpServletRequest;
+
+import com.luna.common.exception.LoginException;
 import org.apache.shiro.authz.AuthorizationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -113,4 +115,19 @@ public class GlobalExceptionHandler
     {
         return AjaxResult.error("演示模式，不允许操作");
     }
+
+	/**
+	 * 登录异常
+	 */
+	@ExceptionHandler(LoginException.class)
+	public Object loginException(HttpServletRequest request, LoginException e)
+	{
+		log.error(e.getMessage(), e);
+
+		if (ServletUtils.isAjaxRequest(request)){
+			return AjaxResult.error(e.getMessage());
+		}else {
+			return new ModelAndView("/error/500");
+		}
+	}
 }

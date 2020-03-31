@@ -1,6 +1,10 @@
 package com.luna.project.system.user.controller;
 
 import java.util.List;
+
+import com.luna.common.exception.LoginException;
+import com.luna.common.utils.StringUtils;
+import com.luna.common.utils.security.ShiroUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -29,12 +33,22 @@ public class IndexController extends BaseController
     @Autowired
     private LunaConfig lunaConfig;
 
-    // 系统首页
-    @GetMapping("/index")
+	/**
+	 * 系统首页
+	 * @param mmap
+	 * @return
+	 */
+	@GetMapping("/index")
     public String index(ModelMap mmap)
     {
         // 取身份信息
         User user = getSysUser();
+	    if (StringUtils.isNull(user))
+	    {
+		    throw new LoginException("用户未登录，无法访问请求。");
+	    }
+	    mmap.put("user", user);
+
         // 根据用户id取出菜单
         List<Menu> menus = menuService.selectMenusByUser(user);
         mmap.put("menus", menus);
