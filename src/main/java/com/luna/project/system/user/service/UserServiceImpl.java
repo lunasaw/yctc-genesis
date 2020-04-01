@@ -77,7 +77,7 @@ public class UserServiceImpl implements IUserService {
      * @param user 用户信息
      * @return 用户信息集合信息
      */
-    @DataScope(deptAlias = "d", userAlias = "u")
+    @DataScope(deptAlias = "d", userAlias = "u") //指定的别名为数据表的别名
     @Override
     public List<User> selectAllocatedList(User user) {
         return userMapper.selectAllocatedList(user);

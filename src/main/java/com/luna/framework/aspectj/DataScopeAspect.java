@@ -102,6 +102,7 @@ public class DataScopeAspect
         for (Role role : user.getRoles())
         {
             String dataScope = role.getDataScope();
+	        System.out.println("拿到前端配置的数据权限");
             if (DATA_SCOPE_ALL.equals(dataScope))
             {
                 sqlString = new StringBuilder();
@@ -109,6 +110,7 @@ public class DataScopeAspect
             }
             else if (DATA_SCOPE_CUSTOM.equals(dataScope))
             {
+	            System.out.println("自定义权限追加sql");
                 sqlString.append(StringUtils.format(
                         " OR {}.dept_id IN ( SELECT dept_id FROM sys_role_dept WHERE role_id = {} ) ", deptAlias,
                         role.getRoleId()));
