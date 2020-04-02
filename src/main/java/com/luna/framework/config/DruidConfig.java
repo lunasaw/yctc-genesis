@@ -45,9 +45,13 @@ public class DruidConfig
     @ConditionalOnProperty(prefix = "spring.datasource.druid.slave", name = "enabled", havingValue = "true")
     public DataSource slaveDataSource(DruidProperties druidProperties)
     {
+    	//创建数据源
         DruidDataSource dataSource = DruidDataSourceBuilder.create().build();
+        //参数值设置 druid 还未设置继承配置 需手动读取配置
         return druidProperties.dataSource(dataSource);
     }
+
+    /**在此配置数据源加载入spring */
 
     @Bean(name = "dynamicDataSource")
     @Primary

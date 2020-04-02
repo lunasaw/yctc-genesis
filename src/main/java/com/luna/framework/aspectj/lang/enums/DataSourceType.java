@@ -16,4 +16,6 @@ public enum DataSourceType
      * 从库
      */
     SLAVE
+
+	/**在此配置数据原名称 */
 }

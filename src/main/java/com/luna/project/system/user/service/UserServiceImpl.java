@@ -2,8 +2,8 @@ package com.luna.project.system.user.service;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.sun.xml.internal.bind.v2.TODO;
+import com.luna.framework.aspectj.lang.enums.DataSourceType;
+import com.luna.framework.datasource.DynamicDataSourceContextHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,7 +66,12 @@ public class UserServiceImpl implements IUserService {
      */
     @Override
     @DataScope(deptAlias = "d", userAlias = "u")
+//    @DataSource(value = DataSourceType.SLAVE)
     public List<User> selectUserList(User user) {
+//	    DynamicDataSourceContextHolder.setDataSourceType(DataSourceType.SLAVE.name());
+//	    List<User> userList = userMapper.selectUserList(user);
+//	    DynamicDataSourceContextHolder.clearDataSourceType();
+//	    return userList;
         // 生成数据权限过滤条件
         return userMapper.selectUserList(user);
     }
