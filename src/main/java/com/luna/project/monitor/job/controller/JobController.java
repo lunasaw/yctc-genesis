@@ -29,25 +29,22 @@ import com.luna.project.monitor.job.service.IJobService;
  */
 @Controller
 @RequestMapping("/monitor/job")
-public class JobController extends BaseController
-{
-    private String prefix = "monitor/job";
+public class JobController extends BaseController {
+    private String      prefix = "monitor/job";
 
     @Autowired
     private IJobService jobService;
 
     @RequiresPermissions("monitor:job:view")
     @GetMapping()
-    public String job()
-    {
+    public String job() {
         return prefix + "/job";
     }
 
     @RequiresPermissions("monitor:job:list")
     @PostMapping("/list")
     @ResponseBody
-    public TableDataInfo list(Job job)
-    {
+    public TableDataInfo list(Job job) {
         startPage();
         List<Job> list = jobService.selectJobList(job);
         return getDataTable(list);
@@ -57,8 +54,7 @@ public class JobController extends BaseController
     @RequiresPermissions("monitor:job:export")
     @PostMapping("/export")
     @ResponseBody
-    public AjaxResult export(Job job)
-    {
+    public AjaxResult export(Job job) {
         List<Job> list = jobService.selectJobList(job);
         ExcelUtil<Job> util = new ExcelUtil<Job>(Job.class);
         return util.exportExcel(list, "定时任务");
@@ -68,16 +64,14 @@ public class JobController extends BaseController
     @RequiresPermissions("monitor:job:remove")
     @PostMapping("/remove")
     @ResponseBody
-    public AjaxResult remove(String ids) throws SchedulerException
-    {
+    public AjaxResult remove(String ids) throws SchedulerException {
         jobService.deleteJobByIds(ids);
         return success();
     }
 
     @RequiresPermissions("monitor:job:detail")
     @GetMapping("/detail/{jobId}")
-    public String detail(@PathVariable("jobId") Long jobId, ModelMap mmap)
-    {
+    public String detail(@PathVariable("jobId") Long jobId, ModelMap mmap) {
         mmap.put("name", "job");
         mmap.put("job", jobService.selectJobById(jobId));
         return prefix + "/detail";
@@ -90,8 +84,7 @@ public class JobController extends BaseController
     @RequiresPermissions("monitor:job:changeStatus")
     @PostMapping("/changeStatus")
     @ResponseBody
-    public AjaxResult changeStatus(Job job) throws SchedulerException
-    {
+    public AjaxResult changeStatus(Job job) throws SchedulerException {
         Job newJob = jobService.selectJobById(job.getJobId());
         newJob.setStatus(job.getStatus());
         return toAjax(jobService.changeStatus(newJob));
@@ -104,8 +97,7 @@ public class JobController extends BaseController
     @RequiresPermissions("monitor:job:changeStatus")
     @PostMapping("/run")
     @ResponseBody
-    public AjaxResult run(Job job) throws SchedulerException
-    {
+    public AjaxResult run(Job job) throws SchedulerException {
         jobService.run(job);
         return success();
     }
@@ -114,8 +106,7 @@ public class JobController extends BaseController
      * 新增调度
      */
     @GetMapping("/add")
-    public String add()
-    {
+    public String add() {
         return prefix + "/add";
     }
 
@@ -126,8 +117,8 @@ public class JobController extends BaseController
     @RequiresPermissions("monitor:job:add")
     @PostMapping("/add")
     @ResponseBody
-    public AjaxResult addSave(@Validated Job job) throws SchedulerException, TaskException
-    {
+    /**TODO @Validated 用于加载实体属性的注解参数检查 */
+    public AjaxResult addSave(@Validated Job job) throws SchedulerException, TaskException {
         return toAjax(jobService.insertJob(job));
     }
 
@@ -135,8 +126,7 @@ public class JobController extends BaseController
      * 修改调度
      */
     @GetMapping("/edit/{jobId}")
-    public String edit(@PathVariable("jobId") Long jobId, ModelMap mmap)
-    {
+    public String edit(@PathVariable("jobId") Long jobId, ModelMap mmap) {
         mmap.put("job", jobService.selectJobById(jobId));
         return prefix + "/edit";
     }
@@ -148,8 +138,7 @@ public class JobController extends BaseController
     @RequiresPermissions("monitor:job:edit")
     @PostMapping("/edit")
     @ResponseBody
-    public AjaxResult editSave(@Validated Job job) throws SchedulerException, TaskException
-    {
+    public AjaxResult editSave(@Validated Job job) throws SchedulerException, TaskException {
         return toAjax(jobService.updateJob(job));
     }
 
@@ -158,8 +147,7 @@ public class JobController extends BaseController
      */
     @PostMapping("/checkCronExpressionIsValid")
     @ResponseBody
-    public boolean checkCronExpressionIsValid(Job job)
-    {
+    public boolean checkCronExpressionIsValid(Job job) {
         return jobService.checkCronExpressionIsValid(job.getCronExpression());
     }
 }

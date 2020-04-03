@@ -31,6 +31,7 @@ public class ScheduleUtils
     private static Class<? extends org.quartz.Job> getQuartzJobClass(Job job)
     {
         boolean isConcurrent = "0".equals(job.getConcurrent());
+        // 根据选择调用不同类
         return isConcurrent ? QuartzJobExecution.class : QuartzDisallowConcurrentExecution.class;
     }
 
@@ -55,14 +56,17 @@ public class ScheduleUtils
      */
     public static void createScheduleJob(Scheduler scheduler, Job job) throws SchedulerException, TaskException
     {
+	    // 拿到界面传入的并发配置 1or 1
         Class<? extends org.quartz.Job> jobClass = getQuartzJobClass(job);
         // 构建job信息
         Long jobId = job.getJobId();
         String jobGroup = job.getJobGroup();
+        // 构建Key
         JobDetail jobDetail = JobBuilder.newJob(jobClass).withIdentity(getJobKey(jobId, jobGroup)).build();
 
         // 表达式调度构建器
         CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(job.getCronExpression());
+        // 设置策略
         cronScheduleBuilder = handleCronScheduleMisfirePolicy(job, cronScheduleBuilder);
 
         // 按新的cronExpression表达式构建一个新的trigger
@@ -78,7 +82,7 @@ public class ScheduleUtils
             // 防止创建时存在数据问题 先移除，然后在执行创建操作
             scheduler.deleteJob(getJobKey(jobId, jobGroup));
         }
-
+		// 调用api
         scheduler.scheduleJob(jobDetail, trigger);
 
         // 暂停任务

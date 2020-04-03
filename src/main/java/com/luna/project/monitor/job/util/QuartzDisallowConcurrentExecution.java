@@ -11,6 +11,7 @@ import com.luna.project.monitor.job.domain.Job;
  *
  */
 @DisallowConcurrentExecution
+/**禁止并发执行的控制操作注解 默认允许 */
 public class QuartzDisallowConcurrentExecution extends AbstractQuartzJob
 {
     @Override
