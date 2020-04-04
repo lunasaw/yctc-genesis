@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <title>注册若依系统</title>
+    <title>注册</title>
     <meta name="description" content="若依后台管理框架">
     <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
     <link href="../static/css/font-awesome.min.css" th:href="@{/css/font-awesome.min.css}" rel="stylesheet"/>
@@ -23,10 +23,10 @@
             <div class="col-sm-7">
                 <div class="signin-info">
                     <div class="logopanel m-b">
-                        <h1><img alt="[ 若依 ]" src="../static/ruoyi.png" th:src="@{/ruoyi.png}"></h1>
+                        <h1><img alt="[ luna ]" src="../static/luna.png" th:src="@{/luna.png}"></h1>
                     </div>
                     <div class="m-b"></div>
-                    <h4>欢迎使用 <strong>若依 后台管理系统</strong></h4>
+                    <h4>欢迎使用 <strong>月神 后台管理系统</strong></h4>
                     <ul class="m-b">
                         <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> SpringBoot</li>
                         <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> Mybatis</li>
@@ -34,16 +34,15 @@
                         <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> Thymeleaf</li>
                         <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> Bootstrap</li>
                     </ul>
-                    <strong>已经注册过? <a th:href="@{/login}">直接登录&raquo;</a></strong>
                 </div>
             </div>
             <div class="col-sm-5">
                 <form id="registerForm" autocomplete="off">
                     <h4 class="no-margins">注册：</h4>
-                    <p class="m-t-md">你若不离不弃，我必生死相依</p>
-                    <input type="text"     name="username" class="form-control uname"         placeholder="用户名"   maxlength="20" />
-                    <input type="password" name="password" class="form-control pword"         placeholder="密码"     maxlength="20" />
-                    <input type="password" name="confirmPassword" class="form-control pword"  placeholder="确认密码" maxlength="20" />
+	                <p class="m-t-md" th:text="#{user.login.title}">有一种隐忍其实是蕴藏着的一种力量，有一种静默其实是惊天的告白</p>
+                    <input type="text"     name="username" class="form-control uname"        th:placeholder="#{user.login.username}"   maxlength="20" />
+                    <input type="password" name="password" class="form-control pword"          th:placeholder="#{user.login.password}"      maxlength="20" />
+                    <input type="password" name="confirmPassword" class="form-control pword"  th:placeholder="#{user.register.ensurePassword}" maxlength="20" />
 					<div class="row m-t" th:if="${captchaEnabled==true}">
 						<div class="col-xs-6">
 						    <input type="text" name="validateCode" class="form-control code"  placeholder="验证码"   maxlength="5" >
@@ -58,13 +57,16 @@
 				        <input type="checkbox" id="acceptTerm" name="acceptTerm"> <label for="acceptTerm">我已阅读并同意</label>
 				        <a href="https://gitee.com/y_project/RuoYi/blob/master/README.md" target="_blank">使用条款</a>
 				    </div>
-                    <button class="btn btn-success btn-block" id="btnSubmit" data-loading="正在验证注册，请稍后...">注册</button>
+                    <button class="btn btn-success btn-block" id="btnSubmit" data-loading="正在验证注册，请稍后..." th:text="#{user.register.submit}">注册</button>
+	                <a class="warning" href="?lang=en_US"> English </a>
+	                <a class="warning" href="?lang=zh_CN"> 中文 </a>
                 </form>
+	            <strong>已经注册过? <a th:href="@{/login}" th:text="#{user.register.loginNow}">直接登录&raquo;</a></strong>
             </div>
         </div>
         <div class="signup-footer">
             <div class="pull-left">
-                &copy; 2019 All Rights Reserved. RuoYi <br>
+                &copy; 2020 All Rights Reserved. Luna <br>
             </div>
         </div>
     </div>

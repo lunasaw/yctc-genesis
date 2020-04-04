@@ -2,6 +2,8 @@ package com.luna.framework.shiro.realm;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import com.luna.common.utils.MessageUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -96,6 +98,8 @@ public class UserRealm extends AuthorizingRealm
         User user = null;
         try
         {
+	        System.out.println(MessageUtils.message("user.login.username"));
+	        System.out.println( MessageUtils.message("user.login.password"));
             user = loginService.login(username, password);
         }
         catch (CaptchaException e)
