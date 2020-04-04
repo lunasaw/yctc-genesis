@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.luna</groupId>
-	<artifactId>Web-Demo</artifactId>
+	<artifactId>phoebe</artifactId>
 	<version>4.2.0</version>
 	<packaging>jar</packaging>
 
-	<name>Web-Demo</name>
+	<name>phoebe</name>
 	<url>http://iszychen.club</url>
 	<description>测试管理系统</description>
 
