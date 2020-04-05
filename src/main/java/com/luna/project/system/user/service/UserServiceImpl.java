@@ -68,6 +68,7 @@ public class UserServiceImpl implements IUserService {
     @DataScope(deptAlias = "d", userAlias = "u")
 //    @DataSource(value = DataSourceType.SLAVE)
     public List<User> selectUserList(User user) {
+    	//多数据源
 //	    DynamicDataSourceContextHolder.setDataSourceType(DataSourceType.SLAVE.name());
 //	    List<User> userList = userMapper.selectUserList(user);
 //	    DynamicDataSourceContextHolder.clearDataSourceType();

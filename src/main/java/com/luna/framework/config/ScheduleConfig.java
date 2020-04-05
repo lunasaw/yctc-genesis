@@ -1,5 +1,8 @@
 package com.luna.framework.config;
 
+import com.luna.framework.shiro.realm.UserRealm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
@@ -15,7 +18,9 @@ import java.util.Properties;
 @Configuration
 public class ScheduleConfig
 {
-    @Bean
+	private static final Logger log = LoggerFactory.getLogger(ScheduleConfig.class);
+
+	@Bean
     public SchedulerFactoryBean schedulerFactoryBean(DataSource dataSource)
     {
         SchedulerFactoryBean factory = new SchedulerFactoryBean();
@@ -23,13 +28,13 @@ public class ScheduleConfig
 
         // quartz参数
         Properties prop = new Properties();
-	    System.out.println("定时任务配置");
+	    log.info("定时任务配置");
 	    // 放入实例名称
         prop.put("org.quartz.scheduler.instanceName", "RuoyiScheduler");
 	    // 放入实例Id
         prop.put("org.quartz.scheduler.instanceId", "AUTO");
         // 线程池配置
-	    System.out.println("线程迟配置");
+	    log.info("线程迟配置");
 	    // 线程池实现类名
         prop.put("org.quartz.threadPool.class", "org.quartz.simpl.SimpleThreadPool");
         // 线程数量
@@ -37,14 +42,14 @@ public class ScheduleConfig
         // 线程优先级 1-10
         prop.put("org.quartz.threadPool.threadPriority", "5");
         // JobStore配置
-	    System.out.println("数据持久化配置");
+	    log.info("数据持久化配置");
         prop.put("org.quartz.jobStore.class", "org.quartz.impl.jdbcjobstore.JobStoreTX");
         // 集群配置
-	    System.out.println("集群配置  实例名称需要一致");
+	    log.info("集群配置  实例名称需要一致");
         prop.put("org.quartz.jobStore.isClustered", "true");
         // 失效时间检查
         prop.put("org.quartz.jobStore.clusterCheckinInterval", "15000");
-	    System.out.println("优化配置");
+	    log.info("优化配置");
 	    // 处理错过触发器tager的最大数量
         prop.put("org.quartz.jobStore.maxMisfiresToHandleAtATime", "1");
         // 高负载和长时间运行有一个优化

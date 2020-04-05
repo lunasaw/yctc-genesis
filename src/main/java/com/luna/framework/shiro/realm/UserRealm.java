@@ -18,6 +18,7 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.hibernate.validator.internal.util.logging.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,25 +39,23 @@ import com.luna.project.system.user.domain.User;
  * 
  * @author luna
  */
-public class UserRealm extends AuthorizingRealm
-{
+public class UserRealm extends AuthorizingRealm {
     private static final Logger log = LoggerFactory.getLogger(UserRealm.class);
 
     @Autowired
-    private IMenuService menuService;
+    private IMenuService        menuService;
 
     @Autowired
-    private IRoleService roleService;
+    private IRoleService        roleService;
 
     @Autowired
-    private LoginService loginService;
+    private LoginService        loginService;
 
     /**
      * 授权
      */
     @Override
-    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection arg0)
-    {
+    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection arg0) {
         User user = ShiroUtils.getSysUser();
         // 角色列表
         Set<String> roles = new HashSet<String>();
@@ -64,13 +63,10 @@ public class UserRealm extends AuthorizingRealm
         Set<String> menus = new HashSet<String>();
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         // 管理员拥有所有权限
-        if (user.isAdmin())
-        {
+        if (user.isAdmin()) {
             info.addRole("admin");
             info.addStringPermission("*:*:*");
-        }
-        else
-        {
+        } else {
             roles = roleService.selectRoleKeys(user.getUserId());
             menus = menuService.selectPermsByUserId(user.getUserId());
             // 角色加入AuthorizationInfo认证对象
@@ -85,49 +81,32 @@ public class UserRealm extends AuthorizingRealm
      * 登录认证
      */
     @Override
-    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException
-    {
-        UsernamePasswordToken upToken = (UsernamePasswordToken) token;
+    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+        UsernamePasswordToken upToken = (UsernamePasswordToken)token;
         String username = upToken.getUsername();
         String password = "";
-        if (upToken.getPassword() != null)
-        {
+        if (upToken.getPassword() != null) {
             password = new String(upToken.getPassword());
         }
 
         User user = null;
-        try
-        {
-	        System.out.println(MessageUtils.message("user.login.username"));
-	        System.out.println( MessageUtils.message("user.login.password"));
+        try {
+	        log.info("国际化:"+MessageUtils.message("user.login.username"));
+            log.info("国际化:"+MessageUtils.message("user.login.password"));
             user = loginService.login(username, password);
-        }
-        catch (CaptchaException e)
-        {
+        } catch (CaptchaException e) {
             throw new AuthenticationException(e.getMessage(), e);
-        }
-        catch (UserNotExistsException e)
-        {
+        } catch (UserNotExistsException e) {
             throw new UnknownAccountException(e.getMessage(), e);
-        }
-        catch (UserPasswordNotMatchException e)
-        {
+        } catch (UserPasswordNotMatchException e) {
             throw new IncorrectCredentialsException(e.getMessage(), e);
-        }
-        catch (UserPasswordRetryLimitExceedException e)
-        {
+        } catch (UserPasswordRetryLimitExceedException e) {
             throw new ExcessiveAttemptsException(e.getMessage(), e);
-        }
-        catch (UserBlockedException e)
-        {
+        } catch (UserBlockedException e) {
             throw new LockedAccountException(e.getMessage(), e);
-        }
-        catch (RoleBlockedException e)
-        {
+        } catch (RoleBlockedException e) {
             throw new LockedAccountException(e.getMessage(), e);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             log.info("对用户[" + username + "]进行登录验证..验证未通过{}", e.getMessage());
             throw new AuthenticationException(e.getMessage(), e);
         }
@@ -138,8 +117,7 @@ public class UserRealm extends AuthorizingRealm
     /**
      * 清理缓存权限
      */
-    public void clearCachedAuthorizationInfo()
-    {
+    public void clearCachedAuthorizationInfo() {
         this.clearCachedAuthorizationInfo(SecurityUtils.getSubject().getPrincipals());
     }
 }

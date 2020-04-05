@@ -9,6 +9,11 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.sql.DataSource;
+
+import com.luna.framework.aspectj.lang.annotation.Log;
+import com.luna.framework.shiro.realm.UserRealm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -32,10 +37,14 @@ import com.luna.framework.datasource.DynamicDataSource;
 @Configuration
 public class DruidConfig
 {
-    @Bean
+	private static final Logger log = LoggerFactory.getLogger(DruidConfig.class);
+
+
+	@Bean
     @ConfigurationProperties("spring.datasource.druid.master")
     public DataSource masterDataSource(DruidProperties druidProperties)
     {
+	    log.info("创建数据源");
         DruidDataSource dataSource = DruidDataSourceBuilder.create().build();
         return druidProperties.dataSource(dataSource);
     }
@@ -45,7 +54,7 @@ public class DruidConfig
     @ConditionalOnProperty(prefix = "spring.datasource.druid.slave", name = "enabled", havingValue = "true")
     public DataSource slaveDataSource(DruidProperties druidProperties)
     {
-    	//创建数据源
+    	log.info("读取配置");
         DruidDataSource dataSource = DruidDataSourceBuilder.create().build();
         //参数值设置 druid 还未设置继承配置 需手动读取配置
         return druidProperties.dataSource(dataSource);
@@ -59,6 +68,7 @@ public class DruidConfig
     {
         Map<Object, Object> targetDataSources = new HashMap<>();
         targetDataSources.put(DataSourceType.MASTER.name(), masterDataSource);
+        // 添加数据源
         setDataSource(targetDataSources, DataSourceType.SLAVE.name(), "slaveDataSource");
         return new DynamicDataSource(masterDataSource, targetDataSources);
     }

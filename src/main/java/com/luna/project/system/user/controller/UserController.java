@@ -115,6 +115,7 @@ public class UserController extends BaseController
      */
     @RequiresPermissions("system:user:add")
     @Log(title = "用户管理", businessType = BusinessType.INSERT)
+//    @Log(title = "测试", businessType = BusinessType.TEST)
     @PostMapping("/add")
     @ResponseBody
     public AjaxResult addSave(@Validated User user)
