@@ -1,7 +1,7 @@
 package edu.yctc.user.entity;
 
 /**
- * @author yctc@win10
+ * @author luna@win10
  * @date 2020/3/22 9:59
  */
 public class DepartmentDO {

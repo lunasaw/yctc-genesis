@@ -7,7 +7,7 @@ import edu.yctc.common.utils.StringUtils;
 /**
  * 字符集工具类
  * 
- * @author yctc
+ * @author luna
  *
  */
 public class CharsetKit

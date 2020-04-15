@@ -5,7 +5,7 @@ import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
- * @author yctc@win10
+ * @author luna@win10
  * @date 2020/3/21 14:42
  */
 public class UserDO {

@@ -3,7 +3,7 @@ package edu.yctc.common.exception.user;
 /**
  * 用户锁定异常类
  * 
- * @author yctc
+ * @author luna
  */
 public class UserBlockedException extends UserException
 {

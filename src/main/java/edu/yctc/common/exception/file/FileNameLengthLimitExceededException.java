@@ -3,7 +3,7 @@ package edu.yctc.common.exception.file;
 /**
  * 文件名称超长限制异常类
  * 
- * @author yctc
+ * @author luna
  */
 public class FileNameLengthLimitExceededException extends FileException
 {

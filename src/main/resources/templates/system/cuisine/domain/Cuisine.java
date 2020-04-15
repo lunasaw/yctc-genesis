@@ -5,7 +5,7 @@ import edu.yctc.framework.aspectj.lang.annotation.Excel;
 /**
  * 菜品信息对象 sys_cuisine
  * 
- * @author yctc
+ * @author luna
  * @date 2020-03-28
  */
 public class Cuisine extends BaseEntity

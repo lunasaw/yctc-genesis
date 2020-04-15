@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 /**
  * 通用http发送方法
  * 
- * @author yctc
+ * @author luna
  */
 public class HttpUtils
 {

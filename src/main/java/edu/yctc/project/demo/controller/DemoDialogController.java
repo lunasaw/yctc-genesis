@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 /**
  * 模态窗口
  * 
- * @author yctc
+ * @author luna
  */
 @Controller
 @RequestMapping("/demo/modal")

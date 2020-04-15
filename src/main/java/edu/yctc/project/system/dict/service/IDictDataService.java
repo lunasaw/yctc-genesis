@@ -6,7 +6,7 @@ import edu.yctc.project.system.dict.domain.DictData;
 /**
  * 字典 业务层
  * 
- * @author yctc
+ * @author luna
  */
 public interface IDictDataService
 {

@@ -6,7 +6,7 @@ import edu.yctc.common.utils.MessageUtils;
 /**
  * 基础异常
  * 
- * @author yctc
+ * @author luna
  */
 public class BaseException extends RuntimeException
 {

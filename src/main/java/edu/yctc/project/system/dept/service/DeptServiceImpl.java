@@ -19,7 +19,7 @@ import edu.yctc.project.system.dept.mapper.DeptMapper;
 /**
  * 部门管理 服务实现
  * 
- * @author yctc
+ * @author luna
  */
 @Service
 public class DeptServiceImpl implements IDeptService

@@ -3,7 +3,7 @@ package edu.yctc.common.constant;
 /**
  * Shiro通用常量
  * 
- * @author yctc
+ * @author luna
  */
 public interface ShiroConstants
 {

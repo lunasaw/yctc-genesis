@@ -3,7 +3,7 @@ package edu.yctc.common.exception.user;
 /**
  * 用户账号已被删除
  * 
- * @author yctc
+ * @author luna
  */
 public class UserDeleteException extends UserException
 {

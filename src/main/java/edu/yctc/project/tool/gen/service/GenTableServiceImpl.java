@@ -36,7 +36,7 @@ import edu.yctc.project.tool.gen.util.VelocityUtils;
 /**
  * 业务 服务层实现
  * 
- * @author yctc
+ * @author luna
  */
 @Service
 public class GenTableServiceImpl implements IGenTableService

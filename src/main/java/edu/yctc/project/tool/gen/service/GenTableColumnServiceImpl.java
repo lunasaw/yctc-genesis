@@ -10,7 +10,7 @@ import edu.yctc.project.tool.gen.mapper.GenTableColumnMapper;
 /**
  * 业务字段 服务层实现
  * 
- * @author yctc
+ * @author luna
  */
 @Service
 public class GenTableColumnServiceImpl implements IGenTableColumnService 

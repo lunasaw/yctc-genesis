@@ -3,7 +3,7 @@ package edu.yctc.common.exception.user;
 /**
  * 验证码错误异常类
  * 
- * @author yctc
+ * @author luna
  */
 public class CaptchaException extends UserException
 {

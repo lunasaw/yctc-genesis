@@ -53,7 +53,7 @@ import edu.yctc.common.utils.StringUtils;
 /**
  * Excel相关处理
  * 
- * @author yctc
+ * @author luna
  */
 public class ExcelUtil<T>
 {

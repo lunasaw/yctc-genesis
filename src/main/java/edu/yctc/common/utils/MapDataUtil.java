@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Map通用处理方法
  * 
- * @author yctc
+ * @author luna
  */
 public class MapDataUtil
 {

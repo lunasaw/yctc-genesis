@@ -12,7 +12,7 @@ import edu.yctc.common.utils.StringUtils;
 /**
  * 代码生成器 工具类
  * 
- * @author yctc
+ * @author luna
  */
 public class GenUtils
 {

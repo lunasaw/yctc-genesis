@@ -9,7 +9,7 @@ import edu.yctc.project.system.dept.domain.Dept;
 /**
  * 部门管理 服务层
  * 
- * @author yctc
+ * @author luna
  */
 public interface IDeptService
 {

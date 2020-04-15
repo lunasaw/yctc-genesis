@@ -22,7 +22,7 @@ import edu.yctc.project.system.dict.utils.DictUtils;
 /**
  * 字典 业务层处理
  * 
- * @author yctc
+ * @author luna
  */
 @Service
 public class DictTypeServiceImpl implements IDictTypeService

@@ -7,7 +7,7 @@ import edu.yctc.project.system.dict.domain.DictType;
 /**
  * 字典表 数据层
  * 
- * @author yctc
+ * @author luna
  */
 public interface DictTypeMapper
 {

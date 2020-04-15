@@ -3,7 +3,7 @@ package edu.yctc.common.constant;
 /**
  * 用户常量信息
  * 
- * @author yctc
+ * @author luna
  */
 public class UserConstants
 {

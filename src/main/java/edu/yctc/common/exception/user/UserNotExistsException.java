@@ -3,7 +3,7 @@ package edu.yctc.common.exception.user;
 /**
  * 用户不存在异常类
  * 
- * @author yctc
+ * @author luna
  */
 public class UserNotExistsException extends UserException
 {

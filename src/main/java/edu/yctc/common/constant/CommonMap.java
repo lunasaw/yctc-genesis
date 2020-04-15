@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * 通用数据库映射Map数据
  * 
- * @author yctc
+ * @author luna
  */
 public class CommonMap
 {

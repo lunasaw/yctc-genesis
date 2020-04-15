@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 /**
  * Bean 工具类
  * 
- * @author yctc
+ * @author luna
  */
 public class BeanUtils extends org.springframework.beans.BeanUtils
 {

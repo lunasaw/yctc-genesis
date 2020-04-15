@@ -9,7 +9,7 @@ import edu.yctc.project.system.menu.domain.Menu;
 /**
  * 权限数据处理
  * 
- * @author yctc
+ * @author luna
  */
 public class TreeUtils
 {

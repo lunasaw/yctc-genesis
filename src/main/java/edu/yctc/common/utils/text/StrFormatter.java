@@ -5,7 +5,7 @@ import edu.yctc.common.utils.StringUtils;
 /**
  * 字符串格式化
  * 
- * @author yctc
+ * @author luna
  */
 public class StrFormatter
 {

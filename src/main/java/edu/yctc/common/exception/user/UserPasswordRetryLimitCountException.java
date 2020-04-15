@@ -3,7 +3,7 @@ package edu.yctc.common.exception.user;
 /**
  * 用户错误记数异常类
  * 
- * @author yctc
+ * @author luna
  */
 public class UserPasswordRetryLimitCountException extends UserException
 {

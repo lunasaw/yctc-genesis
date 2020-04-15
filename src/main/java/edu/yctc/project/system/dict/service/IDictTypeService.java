@@ -9,7 +9,7 @@ import edu.yctc.project.system.dict.domain.DictType;
 /**
  * 字典 业务层
  * 
- * @author yctc
+ * @author luna
  */
 public interface IDictTypeService
 {

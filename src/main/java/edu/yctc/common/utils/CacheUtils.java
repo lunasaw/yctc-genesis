@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Cache工具类
  * 
- * @author yctc
+ * @author luna
  */
 public class CacheUtils
 {

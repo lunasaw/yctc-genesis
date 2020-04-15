@@ -6,7 +6,7 @@ import edu.yctc.project.tool.gen.domain.GenTable;
 /**
  * 业务 数据层
  * 
- * @author yctc
+ * @author luna
  */
 public interface GenTableMapper
 {

@@ -3,7 +3,7 @@ package edu.yctc.user.controller;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * @author yctc@win10
+ * @author luna@win10
  * @date 2020/3/21 16:07
  */
 @RestController

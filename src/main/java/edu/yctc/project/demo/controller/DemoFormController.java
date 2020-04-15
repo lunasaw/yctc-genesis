@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 /**
  * 表单相关
  * 
- * @author yctc
+ * @author luna
  */
 @Controller
 @RequestMapping("/demo/form")

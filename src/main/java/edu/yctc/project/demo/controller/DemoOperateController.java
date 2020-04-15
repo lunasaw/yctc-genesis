@@ -27,7 +27,7 @@ import edu.yctc.project.demo.domain.UserOperateModel;
 /**
  * 操作控制
  * 
- * @author yctc
+ * @author luna
  */
 @Controller
 @RequestMapping("/demo/operate")

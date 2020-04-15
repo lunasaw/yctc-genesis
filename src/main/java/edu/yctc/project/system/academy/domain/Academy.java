@@ -10,7 +10,7 @@ import java.util.Date;
 /**
  * 学院对象 sys_academy
  * 
- * @author yctc
+ * @author luna
  * @date 2020-04-15
  */
 public class Academy extends BaseEntity {

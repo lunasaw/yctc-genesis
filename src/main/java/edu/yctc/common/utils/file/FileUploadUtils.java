@@ -17,7 +17,7 @@ import edu.yctc.common.utils.StringUtils;
 /**
  * 文件上传工具类
  * 
- * @author yctc
+ * @author luna
  */
 public class FileUploadUtils
 {

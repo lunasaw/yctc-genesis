@@ -1,7 +1,7 @@
 package edu.yctc.common.exception;
 
 /**
- * @author yctc@win10
+ * @author luna@win10
  * @date 2020/3/31 13:24
  */
 public class LoginException extends RuntimeException {

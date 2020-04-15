@@ -5,7 +5,7 @@ import edu.yctc.common.exception.base.BaseException;
 /**
  * 文件信息异常类
  * 
- * @author yctc
+ * @author luna
  */
 public class FileException extends BaseException
 {

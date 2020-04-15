@@ -7,7 +7,7 @@ import edu.yctc.project.tool.gen.domain.GenTable;
 /**
  * 业务 服务层
  * 
- * @author yctc
+ * @author luna
  */
 public interface IGenTableService
 {

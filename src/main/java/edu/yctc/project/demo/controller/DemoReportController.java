@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 /**
  * 报表
  * 
- * @author yctc
+ * @author luna
  */
 @Controller
 @RequestMapping("/demo/report")

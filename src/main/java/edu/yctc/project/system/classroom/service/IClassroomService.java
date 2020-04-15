@@ -6,7 +6,7 @@ import edu.yctc.project.system.classroom.domain.Classroom;
 /**
  * 教室Service接口
  * 
- * @author yctc
+ * @author luna
  * @date 2020-04-15
  */
 public interface IClassroomService 

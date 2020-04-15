@@ -3,7 +3,7 @@ package edu.yctc.common.exception.job;
 /**
  * 计划策略异常
  * 
- * @author yctc
+ * @author luna
  */
 public class TaskException extends Exception
 {

@@ -15,7 +15,7 @@ import edu.yctc.framework.interceptor.annotation.RepeatSubmit;
 /**
  * 防止重复提交拦截器
  * 
- * @author yctc
+ * @author luna
  */
 @Component
 public abstract class RepeatSubmitInterceptor extends HandlerInterceptorAdapter

@@ -6,7 +6,7 @@ import edu.yctc.project.system.cuisine.domain.Cuisine;
 /**
  * 菜品信息Service接口
  * 
- * @author yctc
+ * @author luna
  * @date 2020-03-28
  */
 public interface ICuisineService 

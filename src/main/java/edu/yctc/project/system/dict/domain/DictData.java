@@ -11,7 +11,7 @@ import edu.yctc.common.constant.UserConstants;
 /**
  * 字典数据表 sys_dict_data
  * 
- * @author yctc
+ * @author luna
  */
 public class DictData extends BaseEntity
 {

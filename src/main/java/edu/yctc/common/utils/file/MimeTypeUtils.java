@@ -3,7 +3,7 @@ package edu.yctc.common.utils.file;
 /**
  * 媒体类型工具类
  * 
- * @author yctc
+ * @author luna
  */
 public class MimeTypeUtils
 {

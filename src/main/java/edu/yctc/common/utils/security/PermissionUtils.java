@@ -7,7 +7,7 @@ import edu.yctc.common.utils.MessageUtils;
 /**
  * permission 工具类
  * 
- * @author yctc
+ * @author luna
  */
 public class PermissionUtils
 {

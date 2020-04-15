@@ -5,7 +5,7 @@ import edu.yctc.common.exception.base.BaseException;
 /**
  * 用户信息异常类
  * 
- * @author yctc
+ * @author luna
  */
 public class UserException extends BaseException
 {

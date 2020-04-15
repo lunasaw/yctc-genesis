@@ -11,7 +11,7 @@ import edu.yctc.common.utils.StringUtils;
 /**
  * 类型转换器
  * 
- * @author yctc
+ * @author luna
  */
 public class Convert
 {

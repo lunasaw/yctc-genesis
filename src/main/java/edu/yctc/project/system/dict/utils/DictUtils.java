@@ -10,7 +10,7 @@ import edu.yctc.common.utils.StringUtils;
 /**
  * 字典工具类
  * 
- * @author yctc
+ * @author luna
  */
 public class DictUtils
 {

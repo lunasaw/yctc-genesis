@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Param;
 /**
  * 部门管理 数据层
  * 
- * @author yctc
+ * @author luna
  */
 public interface DeptMapper
 {

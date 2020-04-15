@@ -3,7 +3,7 @@ package edu.yctc.common.exception;
 /**
  * 业务异常
  * 
- * @author yctc
+ * @author luna
  */
 public class BusinessException extends RuntimeException
 {

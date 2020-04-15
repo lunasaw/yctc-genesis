@@ -14,7 +14,7 @@ import edu.yctc.common.utils.bean.BeanUtils;
 /**
  * shiro 工具类
  * 
- * @author yctc
+ * @author luna
  */
 public class ShiroUtils
 {

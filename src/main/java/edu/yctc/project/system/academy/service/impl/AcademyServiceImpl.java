@@ -12,7 +12,7 @@ import edu.yctc.project.system.academy.mapper.AcademyMapper;
 /**
  * 学院Service业务层处理
  * 
- * @author yctc
+ * @author luna
  * @date 2020-04-15
  */
 @Service

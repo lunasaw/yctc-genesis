@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 
 /**
- * @author yctc@win10
+ * @author luna@win10
  * @date 2020/3/24 16:35
  */
 @Service("thymeleaf_dict")

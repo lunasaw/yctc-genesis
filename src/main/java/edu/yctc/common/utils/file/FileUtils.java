@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * 文件处理工具类
  * 
- * @author yctc
+ * @author luna
  */
 public class FileUtils
 {

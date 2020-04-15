@@ -19,7 +19,7 @@ import edu.yctc.common.utils.StringUtils;
 /**
  * 防止XSS攻击的过滤器
  * 
- * @author yctc
+ * @author luna
  */
 public class XssFilter implements Filter
 {

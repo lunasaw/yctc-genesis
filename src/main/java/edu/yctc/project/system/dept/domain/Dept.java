@@ -9,7 +9,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 /**
  * 部门表 sys_dept
  * 
- * @author yctc
+ * @author luna
  */
 public class Dept extends BaseEntity
 {
