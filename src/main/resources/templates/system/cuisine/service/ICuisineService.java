@@ -1,12 +1,12 @@
-package com.luna.project.system.cuisine.service;
+package edu.yctc.project.system.cuisine.service;
 
 import java.util.List;
-import com.luna.project.system.cuisine.domain.Cuisine;
+import edu.yctc.project.system.cuisine.domain.Cuisine;
 
 /**
  * 菜品信息Service接口
  * 
- * @author luna
+ * @author yctc
  * @date 2020-03-28
  */
 public interface ICuisineService 

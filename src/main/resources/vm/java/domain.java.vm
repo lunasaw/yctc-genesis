@@ -1,6 +1,6 @@
 package ${packageName}.${businessName}.domain;
 
-import com.luna.framework.aspectj.lang.annotation.Excel;
+import edu.yctc.framework.aspectj.lang.annotation.Excel;
 #if($table.crud)
 #elseif($table.tree)
 #end

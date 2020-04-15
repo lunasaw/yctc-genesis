@@ -1,11 +1,11 @@
-package com.luna.project.system.cuisine.domain;
+package edu.yctc.project.system.cuisine.domain;
 
-import com.luna.framework.aspectj.lang.annotation.Excel;
+import edu.yctc.framework.aspectj.lang.annotation.Excel;
 
 /**
  * 菜品信息对象 sys_cuisine
  * 
- * @author luna
+ * @author yctc
  * @date 2020-03-28
  */
 public class Cuisine extends BaseEntity

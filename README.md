@@ -1,9 +1,9 @@
 # web-demo
-luna.com web-demo
+yctc.edu yctc.genesis
 基于若依的二次开发模板示例
 
 # Contributor
-- luna
+- yctc
 
 
 # 代码规范

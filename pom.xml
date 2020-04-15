@@ -3,19 +3,19 @@
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.luna</groupId>
-	<artifactId>phoebe</artifactId>
+	<groupId>edu.yctc</groupId>
+	<artifactId>genesis</artifactId>
 	<version>4.2.0</version>
 	<packaging>jar</packaging>
 
-	<name>phoebe</name>
-	<url>http://iszychen.club</url>
-	<description>测试管理系统</description>
+	<name>genesis</name>
+	<url>http://yctc.iszychen.club/genesis</url>
+	<description>智慧教室</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.1.1.RELEASE</version>
+		<version>2.2.2.RELEASE</version>
 		<relativePath />
 	</parent>
 

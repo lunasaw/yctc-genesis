@@ -1,17 +1,17 @@
-package com.luna.project.system.cuisine.service.impl;
+package edu.yctc.project.system.cuisine.service.impl;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.luna.project.system.cuisine.mapper.CuisineMapper;
-import com.luna.project.system.cuisine.domain.Cuisine;
-import com.luna.project.system.cuisine.service.ICuisineService;
-import com.luna.common.utils.text.Convert;
+import edu.yctc.project.system.cuisine.mapper.CuisineMapper;
+import edu.yctc.project.system.cuisine.domain.Cuisine;
+import edu.yctc.project.system.cuisine.service.ICuisineService;
+import edu.yctc.common.utils.text.Convert;
 
 /**
  * 菜品信息Service业务层处理
  * 
- * @author luna
+ * @author yctc
  * @date 2020-03-28
  */
 @Service

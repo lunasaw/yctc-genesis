@@ -31,25 +31,25 @@
 				<p class="text-danger">字符串拼接</p>
 				<ul>
 					<li>
-						<p><strong>一: th:text="${#strings.append('luna','op')}" </strong> - <span
-								th:text="${#strings.append('luna','op')}"></span></p>
+						<p><strong>一: th:text="${#strings.append('yctc','op')}" </strong> - <span
+								th:text="${#strings.append('yctc','op')}"></span></p>
 					</li>
 					<li>
-						<p><strong>二: th:text="${#strings.concat('luna','op')}" </strong> - <span
-								th:text="${#strings.concat('luna','op')}"></span></p>
+						<p><strong>二: th:text="${#strings.concat('yctc','op')}" </strong> - <span
+								th:text="${#strings.concat('yctc','op')}"></span></p>
 					</li>
 					<li>
-						<p><strong>三: th:text="${'luna' + 'ob'}" </strong> - <span th:text="${'luna' + 'ob'}"></span>
+						<p><strong>三: th:text="${'yctc' + 'ob'}" </strong> - <span th:text="${'yctc' + 'ob'}"></span>
 						</p>
 					</li>
 					<li>
-						<p><strong>四: th:text="'luna' + 'ob'" </strong> - <span th:text="'luna' + 'ob'"></span></p>
+						<p><strong>四: th:text="'yctc' + 'ob'" </strong> - <span th:text="'yctc' + 'ob'"></span></p>
 					</li>
 					<li>
-						<p><strong>五: th:text="luna + ob" </strong> - <span th:text="luna + ob"></span></p>
+						<p><strong>五: th:text="yctc + ob" </strong> - <span th:text="yctc + ob"></span></p>
 					</li>
 					<li>
-						<p><strong>六: th:text="|luna| + |oq|"</strong> - <span th:text="|luna| + |oq|"></span></p>
+						<p><strong>六: th:text="|yctc| + |oq|"</strong> - <span th:text="|yctc| + |oq|"></span></p>
 					</li>
 				</ul>
 				<p class="text-danger">算术运算符</p>
@@ -97,9 +97,9 @@
 					<p class="text-success"><strong> 方法一 </strong> <span
 							th:text="${1 != 1 } ? |条件成立| : |条件不成立| "></span>
 					</p>
-					th:text="${value != 'Luna' } ? ${value} : |默认值| "
+					th:text="${value != 'yctc' } ? ${value} : |默认值| "
 					<p class="text-success"><strong> 方法二 </strong> <span
-							th:text="${value != 'Luna' } ? ${value} : |默认值| "></span></p>
+							th:text="${value != 'yctc' } ? ${value} : |默认值| "></span></p>
 					th:text="${1 == 1} ? |条件成立| "
 					<p class="text-success"><strong> 方法三 不成立返回空 </strong> <span th:text="${1 == 1 } ?  |条件成立| "></span>
 					</p>
@@ -145,7 +145,7 @@
 		<div id="dqpb2" class="panel-collapse collapse">
 			<div class="panel-body">
 				<p class="text-danger">添加判断</p>
-				<ul th:with="value = Luna">
+				<ul th:with="value = yctc">
 					<li>
 						<p><strong>方法一 th:if="0">数字类型,如果为0; 不显示该标签 </strong> -> <span
 								th:if="0">数字类型,如果为0; 不显示该标签 </span></p>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.yctc.project.system.classroom.mapper.ClassroomMapper">
+    
+    <resultMap type="Classroom" id="ClassroomResult">
+        <result property="id"    column="id"    />
+        <result property="buildingFloorId"    column="building_floor_id"    />
+        <result property="number"    column="number"    />
+        <result property="equipmentId"    column="equipment_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="modifyTime"    column="modify_time"    />
+    </resultMap>
+
+    <sql id="selectClassroomVo">
+        select id, building_floor_id, number, equipment_id, create_time, modify_time from sys_classroom
+    </sql>
+
+    <select id="selectClassroomList" parameterType="Classroom" resultMap="ClassroomResult">
+        <include refid="selectClassroomVo"/>
+        <where>  
+            <if test="buildingFloorId != null "> and building_floor_id = #{buildingFloorId}</if>
+            <if test="number != null  and number != ''"> and number = #{number}</if>
+            <if test="equipmentId != null  and equipmentId != ''"> and equipment_id = #{equipmentId}</if>
+            <if test="modifyTime != null "> and modify_time = #{modifyTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectClassroomById" parameterType="Long" resultMap="ClassroomResult">
+        <include refid="selectClassroomVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertClassroom" parameterType="Classroom" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_classroom
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="buildingFloorId != null ">building_floor_id,</if>
+            <if test="number != null  and number != ''">number,</if>
+            <if test="equipmentId != null  and equipmentId != ''">equipment_id,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="modifyTime != null ">modify_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="buildingFloorId != null ">#{buildingFloorId},</if>
+            <if test="number != null  and number != ''">#{number},</if>
+            <if test="equipmentId != null  and equipmentId != ''">#{equipmentId},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="modifyTime != null ">#{modifyTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateClassroom" parameterType="Classroom">
+        update sys_classroom
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="buildingFloorId != null ">building_floor_id = #{buildingFloorId},</if>
+            <if test="number != null  and number != ''">number = #{number},</if>
+            <if test="equipmentId != null  and equipmentId != ''">equipment_id = #{equipmentId},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="modifyTime != null ">modify_time = #{modifyTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteClassroomById" parameterType="Long">
+        delete from sys_classroom where id = #{id}
+    </delete>
+
+    <delete id="deleteClassroomByIds" parameterType="String">
+        delete from sys_classroom where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

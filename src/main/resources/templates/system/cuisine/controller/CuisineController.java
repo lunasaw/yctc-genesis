@@ -1,4 +1,4 @@
-package com.luna.project.system.cuisine.controller;
+package edu.yctc.project.system.cuisine.controller;
 
 import java.util.List;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -9,19 +9,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.luna.framework.aspectj.lang.annotation.Log;
-import com.luna.framework.aspectj.lang.enums.BusinessType;
-import com.luna.project.system.cuisine.domain.Cuisine;
-import com.luna.project.system.cuisine.service.ICuisineService;
-import com.luna.framework.web.controller.BaseController;
-import com.luna.framework.web.domain.AjaxResult;
-import com.luna.common.utils.poi.ExcelUtil;
-import com.luna.framework.web.page.TableDataInfo;
+import edu.yctc.framework.aspectj.lang.annotation.Log;
+import edu.yctc.framework.aspectj.lang.enums.BusinessType;
+import edu.yctc.project.system.cuisine.domain.Cuisine;
+import edu.yctc.project.system.cuisine.service.ICuisineService;
+import edu.yctc.framework.web.controller.BaseController;
+import edu.yctc.framework.web.domain.AjaxResult;
+import edu.yctc.common.utils.poi.ExcelUtil;
+import edu.yctc.framework.web.page.TableDataInfo;
 
 /**
  * 菜品信息Controller
  * 
- * @author luna
+ * @author yctc
  * @date 2020-03-28
  */
 @Controller
