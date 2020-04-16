@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.yctc.project.system.knowledge.mapper.KnowledgeMapper">
+    
+    <resultMap type="Knowledge" id="KnowledgeResult">
+        <result property="id"    column="id"    />
+        <result property="content"    column="content"    />
+        <result property="length"    column="length"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="modifyTime"    column="modify_time"    />
+    </resultMap>
+
+    <sql id="selectKnowledgeVo">
+        select id, content, length, create_time, modify_time from sys_knowledge
+    </sql>
+
+    <select id="selectKnowledgeList" parameterType="Knowledge" resultMap="KnowledgeResult">
+        <include refid="selectKnowledgeVo"/>
+        <where>  
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="length != null "> and length = #{length}</if>
+            <if test="modifyTime != null "> and modify_time = #{modifyTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectKnowledgeById" parameterType="Long" resultMap="KnowledgeResult">
+        <include refid="selectKnowledgeVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertKnowledge" parameterType="Knowledge" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_knowledge
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="content != null  and content != ''">content,</if>
+            <if test="length != null ">length,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="modifyTime != null ">modify_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="content != null  and content != ''">#{content},</if>
+            <if test="length != null ">#{length},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="modifyTime != null ">#{modifyTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateKnowledge" parameterType="Knowledge">
+        update sys_knowledge
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="content != null  and content != ''">content = #{content},</if>
+            <if test="length != null ">length = #{length},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="modifyTime != null ">modify_time = #{modifyTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteKnowledgeById" parameterType="Long">
+        delete from sys_knowledge where id = #{id}
+    </delete>
+
+    <delete id="deleteKnowledgeByIds" parameterType="String">
+        delete from sys_knowledge where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
