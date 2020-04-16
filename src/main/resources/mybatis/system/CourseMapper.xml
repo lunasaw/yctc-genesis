@@ -13,10 +13,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="term"    column="term"    />
         <result property="deptId"    column="dept_id"    />
         <result property="classesId"    column="classes_id"    />
+        <association property="dept"    column="dept_id" javaType="Dept" resultMap="deptResult" />
+    </resultMap>
+
+    <resultMap id="deptResult" type="Dept">
+        <id     property="deptId"   column="dept_id"     />
+        <result property="parentId" column="parent_id"   />
+        <result property="deptName" column="dept_name"   />
+        <result property="orderNum" column="order_num"   />
+        <result property="leader"   column="leader"   />
+        <result property="status"   column="dept_status" />
     </resultMap>
 
     <sql id="selectCourseVo">
-        select id, number, name, lesson_sum, year, term, dept_id, classes_id from sys_course
+        select c.id, c.number, c.name, c.lesson_sum, c.year, c.term, c.dept_id, c.classes_id ,
+         d.dept_id, d.parent_id, d.dept_name, d.order_num, d.leader, d.status as dept_status
+        from sys_course c
+            left join sys_dept d on c.dept_id = d.dept_id
     </sql>
 
     <select id="selectCourseList" parameterType="Course" resultMap="CourseResult">
@@ -27,7 +40,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="lessonSum != null "> and lesson_sum = #{lessonSum}</if>
             <if test="year != null  and year != ''"> and year = #{year}</if>
             <if test="term != null "> and term = #{term}</if>
-            <if test="deptId != null "> and dept_id = #{deptId}</if>
+            <if test="deptId != null and deptId != 0">
+                AND (c.dept_id = #{deptId} OR c.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE FIND_IN_SET (#{deptId},ancestors)))
+            </if>
             <if test="classesId != null  and classesId != ''"> and classes_id = #{classesId}</if>
         </where>
     </select>

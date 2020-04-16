@@ -2,8 +2,13 @@ package edu.yctc.project.system.course.domain;
 
 import edu.yctc.framework.aspectj.lang.annotation.Excel;
 import edu.yctc.framework.web.domain.BaseEntity;
+import edu.yctc.project.system.classes.domain.Classes;
+import edu.yctc.project.system.dept.domain.Dept;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 课程信息对象 sys_course
@@ -46,7 +51,33 @@ public class Course extends BaseEntity
     @Excel(name = "开课班级")
     private String classesId;
 
-    public void setId(Long id) 
+	private Dept dept;
+
+	public Dept getDept() {
+		if (dept == null) {
+			dept = new Dept();
+		}
+		return dept;
+	}
+
+	public void setDept(Dept dept) {
+		this.dept = dept;
+	}
+
+	private List<Classes> classesList;
+
+	public List<Classes> getClassesList() {
+		if (classesList == null) {
+			classesList = new ArrayList<Classes>();
+		}
+		return classesList;
+	}
+
+	public void setClassesList(List<Classes> classesList) {
+		this.classesList = classesList;
+	}
+
+	public void setId(Long id)
     {
         this.id = id;
     }

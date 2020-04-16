@@ -13,79 +13,90 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @author yctc
  * @date 2020-04-16
  */
-public class Classes extends BaseEntity {
+public class Classes extends BaseEntity
+{
     private static final long serialVersionUID = 1L;
 
     /** 编号 */
-    private Long              id;
+    private Long id;
 
     /** 学院编号 */
     @Excel(name = "学院编号")
-    private Long              academyId;
+    private Long academyId;
 
     /** 专业编号 */
     @Excel(name = "专业编号")
-    private Long              deptId;
+    private Long deptId;
 
     /** 班级编号 */
     @Excel(name = "班级编号")
-    private String            number;
+    private String number;
 
-    private Academy           academy;
+    private Academy academy;
 
-    private Dept              dept;
+	private Dept dept;
+	public Academy getAcademy()
+	{
+		if (academy == null)
+		{
+			academy = new Academy();
+		}
+		return academy;
+	}
 
-    public Academy getAcademy() {
-        if (academy == null) {
-            academy = new Academy();
-        }
-        return academy;
-    }
+	public void setacademy(Academy academy)
+	{
+		this.academy = academy;
+	}
 
-    public void setacademy(Academy academy) {
-        this.academy = academy;
-    }
+	public Dept getDept()
+	{
+		if (dept == null)
+		{
+			dept = new Dept();
+		}
+		return dept;
+	}
 
-    public Dept getDept() {
-        if (dept == null) {
-            dept = new Dept();
-        }
-        return dept;
-    }
+	public void setDept(Dept dept)
+	{
+		this.dept = dept;
+	}
 
-    public void setDept(Dept dept) {
-        this.dept = dept;
-    }
-
-    public void setId(Long id) {
+    public void setId(Long id)
+    {
         this.id = id;
     }
 
-    public Long getId() {
+    public Long getId()
+    {
         return id;
     }
-
-    public void setAcademyId(Long academyId) {
+    public void setAcademyId(Long academyId)
+    {
         this.academyId = academyId;
     }
 
-    public Long getAcademyId() {
+    public Long getAcademyId()
+    {
         return academyId;
     }
-
-    public void setDeptId(Long deptId) {
+    public void setDeptId(Long deptId)
+    {
         this.deptId = deptId;
     }
 
-    public Long getDeptId() {
+    public Long getDeptId()
+    {
         return deptId;
     }
-
-    public void setNumber(String number) {
+    public void setNumber(String number)
+    {
         this.number = number;
     }
 
-    public String getNumber() {
+    public String getNumber()
+    {
         return number;
     }
 
