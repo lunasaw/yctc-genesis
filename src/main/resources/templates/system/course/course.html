@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
-    <th:block th:include="include :: header('班级信息列表')" />
+    <th:block th:include="include :: header('课程信息列表')" />
 </head>
 <body class="gray-bg">
      <div class="container-div">
@@ -11,16 +11,32 @@
                     <div class="select-list">
                         <ul>
                             <li>
-                                <label>学院编号：</label>
-                                <input type="text" name="academyId"/>
+                                <label>课程号：</label>
+                                <input type="text" name="number"/>
                             </li>
                             <li>
-                                <label>专业编号：</label>
+                                <label>课程名称：</label>
+                                <input type="text" name="name"/>
+                            </li>
+                            <li>
+                                <label>课时(第几课时)：</label>
+                                <input type="text" name="lessonSum"/>
+                            </li>
+                            <li>
+                                <label>开课学年：</label>
+                                <input type="text" name="year"/>
+                            </li>
+                            <li>
+                                <label>开课学期：</label>
+                                <input type="text" name="term"/>
+                            </li>
+                            <li>
+                                <label>开课专业：</label>
                                 <input type="text" name="deptId"/>
                             </li>
                             <li>
-                                <label>班级编号：</label>
-                                <input type="text" name="number"/>
+                                <label>开课班级：</label>
+                                <input type="text" name="classesId"/>
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
@@ -32,16 +48,16 @@
             </div>
 
             <div class="btn-group-sm" id="toolbar" role="group">
-                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:classes:add">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:course:add">
                     <i class="fa fa-plus"></i> 添加
                 </a>
-                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:classes:edit">
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:course:edit">
                     <i class="fa fa-edit"></i> 修改
                 </a>
-                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:classes:remove">
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:course:remove">
                     <i class="fa fa-remove"></i> 删除
                 </a>
-                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:classes:export">
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:course:export">
                     <i class="fa fa-download"></i> 导出
                 </a>
             </div>
@@ -52,9 +68,9 @@
     </div>
     <th:block th:include="include :: footer" />
     <script th:inline="javascript">
-        var editFlag = [[${@permission.hasPermi('system:classes:edit')}]];
-        var removeFlag = [[${@permission.hasPermi('system:classes:remove')}]];
-        var prefix = ctx + "system/classes";
+        var editFlag = [[${@permission.hasPermi('system:course:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:course:remove')}]];
+        var prefix = ctx + "system/course";
 
         $(function() {
             var options = {
@@ -63,30 +79,42 @@
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
-                modalName: "班级信息",
+                modalName: "课程信息",
                 columns: [{
                     checkbox: true
                 },
                 {
-                    field: 'id',
-                    title: '编号',
+                    field: 'id', 
+                    title: '课程id',
                     visible: false
                 },
                 {
-                    field: 'academyId',
-                    title: '学院编号'
-                },
-	            {
-                    field: 'academy.academy',
-                    title: '学院编号'
+                    field: 'number', 
+                    title: '课程号'
                 },
                 {
-                    field: 'dept.deptName',
-                    title: '专业'
+                    field: 'name', 
+                    title: '课程名称'
                 },
                 {
-                    field: 'number',
-                    title: '班级编号'
+                    field: 'lessonSum', 
+                    title: '课时(第几课时)'
+                },
+                {
+                    field: 'year', 
+                    title: '开课学年'
+                },
+                {
+                    field: 'term', 
+                    title: '开课学期'
+                },
+                {
+                    field: 'deptId', 
+                    title: '开课专业'
+                },
+                {
+                    field: 'classesId', 
+                    title: '开课班级'
                 },
                 {
                     title: '操作',
@@ -101,13 +129,6 @@
             };
             $.table.init(options);
         });
-
-
-        /* 用户管理-部门 */
-        function deptId() {
-            var url = ctx + "system/dept";
-            $.modal.openTab("部门管理", url);
-        }
     </script>
 </body>
 </html>

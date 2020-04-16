@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.yctc.project.system.course.mapper.CourseMapper">
+    
+    <resultMap type="Course" id="CourseResult">
+        <result property="id"    column="id"    />
+        <result property="number"    column="number"    />
+        <result property="name"    column="name"    />
+        <result property="lessonSum"    column="lesson_sum"    />
+        <result property="year"    column="year"    />
+        <result property="term"    column="term"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="classesId"    column="classes_id"    />
+    </resultMap>
+
+    <sql id="selectCourseVo">
+        select id, number, name, lesson_sum, year, term, dept_id, classes_id from sys_course
+    </sql>
+
+    <select id="selectCourseList" parameterType="Course" resultMap="CourseResult">
+        <include refid="selectCourseVo"/>
+        <where>  
+            <if test="number != null  and number != ''"> and number = #{number}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="lessonSum != null "> and lesson_sum = #{lessonSum}</if>
+            <if test="year != null  and year != ''"> and year = #{year}</if>
+            <if test="term != null "> and term = #{term}</if>
+            <if test="deptId != null "> and dept_id = #{deptId}</if>
+            <if test="classesId != null  and classesId != ''"> and classes_id = #{classesId}</if>
+        </where>
+    </select>
+    
+    <select id="selectCourseById" parameterType="Long" resultMap="CourseResult">
+        <include refid="selectCourseVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertCourse" parameterType="Course" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_course
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="number != null  and number != ''">number,</if>
+            <if test="name != null  and name != ''">name,</if>
+            <if test="lessonSum != null ">lesson_sum,</if>
+            <if test="year != null  and year != ''">year,</if>
+            <if test="term != null ">term,</if>
+            <if test="deptId != null ">dept_id,</if>
+            <if test="classesId != null  and classesId != ''">classes_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="number != null  and number != ''">#{number},</if>
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="lessonSum != null ">#{lessonSum},</if>
+            <if test="year != null  and year != ''">#{year},</if>
+            <if test="term != null ">#{term},</if>
+            <if test="deptId != null ">#{deptId},</if>
+            <if test="classesId != null  and classesId != ''">#{classesId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCourse" parameterType="Course">
+        update sys_course
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="number != null  and number != ''">number = #{number},</if>
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="lessonSum != null ">lesson_sum = #{lessonSum},</if>
+            <if test="year != null  and year != ''">year = #{year},</if>
+            <if test="term != null ">term = #{term},</if>
+            <if test="deptId != null ">dept_id = #{deptId},</if>
+            <if test="classesId != null  and classesId != ''">classes_id = #{classesId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCourseById" parameterType="Long">
+        delete from sys_course where id = #{id}
+    </delete>
+
+    <delete id="deleteCourseByIds" parameterType="String">
+        delete from sys_course where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

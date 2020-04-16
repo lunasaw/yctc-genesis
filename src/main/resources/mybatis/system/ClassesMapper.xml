@@ -10,6 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="deptId"    column="dept_id"    />
         <result property="number"    column="number"    />
         <association property="dept"    column="dept_id" javaType="Dept" resultMap="deptResult" />
+        <association property="academy"    column="academy_id" javaType="Academy" resultMap="academyResult" />
     </resultMap>
 
     <resultMap id="deptResult" type="Dept">
@@ -21,16 +22,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="status"   column="dept_status" />
     </resultMap>
 
+    <resultMap type="Academy" id="academyResult">
+        <id     property="id"    column="id"    />
+        <result property="academy"    column="academy"    />
+        <result property="modifyTime"    column="modify_time"    />
+    </resultMap>
+
+
     <sql id="selectClassesVo">
         select u.id, u.academy_id, u.dept_id, u.number ,
-            d.dept_id, d.parent_id, d.dept_name, d.order_num, d.leader, d.status as dept_status
-        from sys_classes u left join sys_dept d on u.dept_id = d.dept_id
+            d.dept_id, d.parent_id, d.dept_name, d.order_num, d.leader, d.status as dept_status,
+            a.id, a.academy, a.create_time, a.modify_time
+        from sys_classes u
+            left join sys_dept d on u.dept_id = d.dept_id
+            left join sys_academy a on a.id = u.academy_id
     </sql>
 
     <select id="selectClassesList" parameterType="Classes" resultMap="ClassesResult">
         <include refid="selectClassesVo"/>
         <where>  
-            <if test="academyId != null "> and academy_id = #{academyId}</if>
+            <if test="academyId != null ">
+                AND  (u.academy_id = #{academyId} OR u.academy_id IN ( SELECT t.id FROM sys_academy t WHERE FIND_IN_SET (#{academyId},ancestors) ))
+             </if>
             <if test="deptId != null and deptId != 0">
                 AND (u.dept_id = #{deptId} OR u.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE FIND_IN_SET (#{deptId},ancestors) ))
             </if>
