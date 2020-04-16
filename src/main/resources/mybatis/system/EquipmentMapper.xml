@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.yctc.project.system.equipment.mapper.EquipmentMapper">
+    
+    <resultMap type="Equipment" id="EquipmentResult">
+        <result property="id"    column="id"    />
+        <result property="number"    column="number"    />
+        <result property="name"    column="name"    />
+        <result property="video"    column="video"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="modifyTime"    column="modify_time"    />
+    </resultMap>
+
+    <sql id="selectEquipmentVo">
+        select id, number, name, video, create_time, modify_time from sys_equipment
+    </sql>
+
+    <select id="selectEquipmentList" parameterType="Equipment" resultMap="EquipmentResult">
+        <include refid="selectEquipmentVo"/>
+        <where>  
+            <if test="number != null  and number != ''"> and number = #{number}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="video != null  and video != ''"> and video = #{video}</if>
+            <if test="modifyTime != null "> and modify_time = #{modifyTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectEquipmentById" parameterType="Long" resultMap="EquipmentResult">
+        <include refid="selectEquipmentVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertEquipment" parameterType="Equipment" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_equipment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="number != null  and number != ''">number,</if>
+            <if test="name != null  and name != ''">name,</if>
+            <if test="video != null  and video != ''">video,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="modifyTime != null ">modify_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="number != null  and number != ''">#{number},</if>
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="video != null  and video != ''">#{video},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="modifyTime != null ">#{modifyTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEquipment" parameterType="Equipment">
+        update sys_equipment
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="number != null  and number != ''">number = #{number},</if>
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="video != null  and video != ''">video = #{video},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="modifyTime != null ">modify_time = #{modifyTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteEquipmentById" parameterType="Long">
+        delete from sys_equipment where id = #{id}
+    </delete>
+
+    <delete id="deleteEquipmentByIds" parameterType="String">
+        delete from sys_equipment where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
