@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.yctc.project.system.score.mapper.ClassScoreMapper">
+    
+    <resultMap type="ClassScore" id="ClassScoreResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="lessonId"    column="lesson_id"    />
+        <result property="score"    column="score"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="modifyTime"    column="modify_time"    />
+    </resultMap>
+
+    <sql id="selectClassScoreVo">
+        select id, user_id, lesson_id, score, create_time, modify_time from sys_class_score
+    </sql>
+
+    <select id="selectClassScoreList" parameterType="ClassScore" resultMap="ClassScoreResult">
+        <include refid="selectClassScoreVo"/>
+        <where>  
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="lessonId != null "> and lesson_id = #{lessonId}</if>
+            <if test="score != null "> and score = #{score}</if>
+            <if test="modifyTime != null "> and modify_time = #{modifyTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectClassScoreById" parameterType="Long" resultMap="ClassScoreResult">
+        <include refid="selectClassScoreVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertClassScore" parameterType="ClassScore" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_class_score
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">user_id,</if>
+            <if test="lessonId != null ">lesson_id,</if>
+            <if test="score != null ">score,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="modifyTime != null ">modify_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">#{userId},</if>
+            <if test="lessonId != null ">#{lessonId},</if>
+            <if test="score != null ">#{score},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="modifyTime != null ">#{modifyTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateClassScore" parameterType="ClassScore">
+        update sys_class_score
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null ">user_id = #{userId},</if>
+            <if test="lessonId != null ">lesson_id = #{lessonId},</if>
+            <if test="score != null ">score = #{score},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="modifyTime != null ">modify_time = #{modifyTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteClassScoreById" parameterType="Long">
+        delete from sys_class_score where id = #{id}
+    </delete>
+
+    <delete id="deleteClassScoreByIds" parameterType="String">
+        delete from sys_class_score where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
