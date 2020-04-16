@@ -3,7 +3,7 @@ yctc.edu yctc.genesis
 基于若依的二次开发模板示例
 
 # Contributor
-- yctc
+- luna
 
 
 # 代码规范
