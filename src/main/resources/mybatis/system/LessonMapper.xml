@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.yctc.project.system.lesson.mapper.LessonMapper">
+    
+    <resultMap type="Lesson" id="LessonResult">
+        <result property="id"    column="id"    />
+        <result property="courseId"    column="course_id"    />
+        <result property="number"    column="number"    />
+        <result property="classroomId"    column="classroom_id"    />
+        <result property="begin"    column="begin"    />
+        <result property="end"    column="end"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="modifyTime"    column="modify_time"    />
+    </resultMap>
+
+    <sql id="selectLessonVo">
+        select id, course_id, number, classroom_id, begin, end, create_time, modify_time from sys_lesson
+    </sql>
+
+    <select id="selectLessonList" parameterType="Lesson" resultMap="LessonResult">
+        <include refid="selectLessonVo"/>
+        <where>  
+            <if test="courseId != null "> and course_id = #{courseId}</if>
+            <if test="number != null "> and number = #{number}</if>
+            <if test="classroomId != null "> and classroom_id = #{classroomId}</if>
+            <if test="begin != null "> and begin = #{begin}</if>
+            <if test="end != null "> and end = #{end}</if>
+            <if test="modifyTime != null "> and modify_time = #{modifyTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectLessonById" parameterType="Long" resultMap="LessonResult">
+        <include refid="selectLessonVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertLesson" parameterType="Lesson" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_lesson
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="courseId != null ">course_id,</if>
+            <if test="number != null ">number,</if>
+            <if test="classroomId != null ">classroom_id,</if>
+            <if test="begin != null ">begin,</if>
+            <if test="end != null ">end,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="modifyTime != null ">modify_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="courseId != null ">#{courseId},</if>
+            <if test="number != null ">#{number},</if>
+            <if test="classroomId != null ">#{classroomId},</if>
+            <if test="begin != null ">#{begin},</if>
+            <if test="end != null ">#{end},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="modifyTime != null ">#{modifyTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateLesson" parameterType="Lesson">
+        update sys_lesson
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="courseId != null ">course_id = #{courseId},</if>
+            <if test="number != null ">number = #{number},</if>
+            <if test="classroomId != null ">classroom_id = #{classroomId},</if>
+            <if test="begin != null ">begin = #{begin},</if>
+            <if test="end != null ">end = #{end},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="modifyTime != null ">modify_time = #{modifyTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteLessonById" parameterType="Long">
+        delete from sys_lesson where id = #{id}
+    </delete>
+
+    <delete id="deleteLessonByIds" parameterType="String">
+        delete from sys_lesson where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
