@@ -85,11 +85,13 @@
                 },
                     {
                         field: 'user.userName',
-                        title: '姓名'
+                        title: '姓名',
+                        sortable: true
                     },
                     {
-                        field: 'lesson.course.claaes.number',
-                        title: '班级'
+                        field: 'lesson.course.classes.number',
+                        title: '班级',
+                        sortable: true
                     },
                 {
                     field: 'lessonId', 
@@ -107,6 +109,7 @@
                         field: 'attendState',
                         title: '出勤情况',
                         align: 'center',
+                        sortable: true,
                         formatter: function(value, row, index) {
                             if (value == '0') {
                                 return '<span class="badge badge-primary">正常</span>';

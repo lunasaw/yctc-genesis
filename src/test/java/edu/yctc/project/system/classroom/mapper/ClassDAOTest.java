@@ -1,4 +1,4 @@
-package java.edu.yctc.project.system.classroom.mapper;
+package edu.yctc.project.system.classroom.mapper;
 
 import edu.yctc.project.system.infost.domain.Infost;
 import edu.yctc.project.system.infost.mapper.InfostMapper;

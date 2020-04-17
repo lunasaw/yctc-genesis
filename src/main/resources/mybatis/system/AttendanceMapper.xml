@@ -12,7 +12,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createTime"    column="create_time"    />
         <result property="modifyTime"    column="modify_time"    />
         <association property="lesson"    column="lesson" javaType="Lesson" resultMap="LessonResult" />
-<!--        <association property="user"    column="user" javaType="User" resultMap="UserResult" />-->
+        <association property="user"    column="user" javaType="User" resultMap="UserResult" />
     </resultMap>
 
     <resultMap type="User" id="UserResult">
@@ -99,12 +99,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
              l.course_id, l.number, l.classroom_id, l.begin, l.end,
              c.number as cnumber, c.name , c.lesson_sum, c.year, c.term, c.dept_id, c.classes_id,
              u.dept_id as depte_uid, u.login_name, u.user_name, u.user_type, u.email, u.avatar, u.phonenumber, u.sex, u.password, u.salt, u.status, u.del_flag, u.login_ip, u.login_date, u.remark,
-            q.number as qnmber
+            q.number as qnumber
          from sys_attendance t
              left join sys_lesson l on l.id = t.lesson_id
              left join sys_course c on c.id = l.course_id
              left join sys_user u on u.user_id = t.user_id
-             left join sys_classes q on c.dept_id = q.dept_id
+             left join sys_classes q on c.classes_id = q.id
     </sql>
 
     <select id="selectAttendanceList" parameterType="Attendance" resultMap="AttendanceResult">
