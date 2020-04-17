@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.yctc.project.system.infost.mapper.InfostMapper">
+    
+    <resultMap type="Infost" id="InfostResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="academyId"    column="academy_id"    />
+        <result property="classId"    column="class_id"    />
+        <result property="number"    column="number"    />
+        <result property="name"    column="name"    />
+        <result property="type"    column="type"    />
+        <result property="sex"    column="sex"    />
+        <result property="idCardNumber"    column="id_card_number"    />
+        <result property="phone"    column="phone"    />
+        <result property="mail"    column="mail"    />
+        <result property="picture"    column="picture"    />
+        <result property="faceToken"    column="face_token"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="modifyTime"    column="modify_time"    />
+    </resultMap>
+
+    <sql id="selectInfostVo">
+        select id, user_id, academy_id, class_id, number, name, type, sex, id_card_number, phone, mail, picture, face_token, create_time, modify_time from sys_infost
+    </sql>
+
+    <select id="selectInfostList" parameterType="Infost" resultMap="InfostResult">
+        <include refid="selectInfostVo"/>
+        <where>  
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="academyId != null "> and academy_id = #{academyId}</if>
+            <if test="classId != null "> and class_id = #{classId}</if>
+            <if test="number != null  and number != ''"> and number = #{number}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="type != null "> and type = #{type}</if>
+            <if test="sex != null  and sex != ''"> and sex = #{sex}</if>
+            <if test="idCardNumber != null  and idCardNumber != ''"> and id_card_number = #{idCardNumber}</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="mail != null  and mail != ''"> and mail = #{mail}</if>
+            <if test="picture != null  and picture != ''"> and picture = #{picture}</if>
+            <if test="faceToken != null  and faceToken != ''"> and face_token = #{faceToken}</if>
+            <if test="modifyTime != null "> and modify_time = #{modifyTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectInfostById" parameterType="Long" resultMap="InfostResult">
+        <include refid="selectInfostVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertInfost" parameterType="Infost" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_infost
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">user_id,</if>
+            <if test="academyId != null ">academy_id,</if>
+            <if test="classId != null ">class_id,</if>
+            <if test="number != null  and number != ''">number,</if>
+            <if test="name != null  and name != ''">name,</if>
+            <if test="type != null ">type,</if>
+            <if test="sex != null  and sex != ''">sex,</if>
+            <if test="idCardNumber != null  and idCardNumber != ''">id_card_number,</if>
+            <if test="phone != null  and phone != ''">phone,</if>
+            <if test="mail != null  and mail != ''">mail,</if>
+            <if test="picture != null  and picture != ''">picture,</if>
+            <if test="faceToken != null  and faceToken != ''">face_token,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="modifyTime != null ">modify_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">#{userId},</if>
+            <if test="academyId != null ">#{academyId},</if>
+            <if test="classId != null ">#{classId},</if>
+            <if test="number != null  and number != ''">#{number},</if>
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="type != null ">#{type},</if>
+            <if test="sex != null  and sex != ''">#{sex},</if>
+            <if test="idCardNumber != null  and idCardNumber != ''">#{idCardNumber},</if>
+            <if test="phone != null  and phone != ''">#{phone},</if>
+            <if test="mail != null  and mail != ''">#{mail},</if>
+            <if test="picture != null  and picture != ''">#{picture},</if>
+            <if test="faceToken != null  and faceToken != ''">#{faceToken},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="modifyTime != null ">#{modifyTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateInfost" parameterType="Infost">
+        update sys_infost
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null ">user_id = #{userId},</if>
+            <if test="academyId != null ">academy_id = #{academyId},</if>
+            <if test="classId != null ">class_id = #{classId},</if>
+            <if test="number != null  and number != ''">number = #{number},</if>
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="type != null ">type = #{type},</if>
+            <if test="sex != null  and sex != ''">sex = #{sex},</if>
+            <if test="idCardNumber != null  and idCardNumber != ''">id_card_number = #{idCardNumber},</if>
+            <if test="phone != null  and phone != ''">phone = #{phone},</if>
+            <if test="mail != null  and mail != ''">mail = #{mail},</if>
+            <if test="picture != null  and picture != ''">picture = #{picture},</if>
+            <if test="faceToken != null  and faceToken != ''">face_token = #{faceToken},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="modifyTime != null ">modify_time = #{modifyTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteInfostById" parameterType="Long">
+        delete from sys_infost where id = #{id}
+    </delete>
+
+    <delete id="deleteInfostByIds" parameterType="String">
+        delete from sys_infost where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

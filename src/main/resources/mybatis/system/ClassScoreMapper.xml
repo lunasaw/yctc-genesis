@@ -80,7 +80,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectClassScoreList" parameterType="ClassScore" resultMap="ClassScoreResult">
         <include refid="selectClassScoreVo"/>
         <where>  
-            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="userId != null "> and s.user_id = #{userId}</if>
             <if test="lessonId != null "> and lesson_id = #{lessonId}</if>
             <if test="score != null "> and score = #{score}</if>
             <if test="modifyTime != null "> and modify_time = #{modifyTime}</if>

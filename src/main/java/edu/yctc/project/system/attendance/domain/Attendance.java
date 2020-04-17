@@ -4,6 +4,7 @@ import edu.yctc.framework.aspectj.lang.annotation.Excel;
 import edu.yctc.framework.web.domain.BaseEntity;
 import edu.yctc.project.system.course.domain.Course;
 import edu.yctc.project.system.lesson.domain.Lesson;
+import edu.yctc.project.system.user.domain.User;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -39,6 +40,20 @@ public class Attendance extends BaseEntity
     private Date modifyTime;
 
     private Lesson lesson;
+
+    private User user;
+
+	public User getUser() {
+		if (user == null)
+		{
+			user = new User();
+		}
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 
 	public Lesson getLesson() {
 		if (lesson == null)
