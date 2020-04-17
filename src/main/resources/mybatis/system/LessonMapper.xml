@@ -14,6 +14,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createTime"    column="create_time"    />
         <result property="modifyTime"    column="modify_time"    />
         <association property="classroom"    column="classroom" javaType="Classroom" resultMap="ClassroomResult" />
+        <association property="course"    column="course" javaType="Course" resultMap="CourseResult" />
+
+    </resultMap>
+
+    <resultMap type="Course" id="CourseResult">
+        <result property="id"    column="id"    />
+        <result property="number"    column="cnumber"    />
+        <result property="name"    column="name"    />
+        <result property="lessonSum"    column="lesson_sum"    />
+        <result property="year"    column="year"    />
+        <result property="term"    column="term"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="classesId"    column="classes_id"    />
+<!--        <association property="dept"    column="dept_id" javaType="Dept" resultMap="deptResult" />-->
     </resultMap>
 
     <resultMap type="Classroom" id="ClassroomResult">
@@ -34,10 +48,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <sql id="selectLessonVo">
         select l.id, l.course_id, l.number, l.classroom_id, l.begin, l.end, l.create_time, l.modify_time,
             q.building_floor_id, q.number as qnumber, q.equipment_id,
-            b.building, b.floor
+            b.building, b.floor,
+            c.number as cnumber, c.name , c.lesson_sum, c.year, c.term, c.dept_id
         from sys_lesson l
             left join sys_classroom q on q.id = l.classroom_id
             left join sys_building_floor b on q.building_floor_id = b.id
+            left join sys_course c on c.id = l.course_id
     </sql>
 
     <select id="selectLessonList" parameterType="Lesson" resultMap="LessonResult">
