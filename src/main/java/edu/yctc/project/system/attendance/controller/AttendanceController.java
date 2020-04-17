@@ -1,6 +1,8 @@
 package edu.yctc.project.system.attendance.controller;
 
 import java.util.List;
+
+import edu.yctc.project.system.user.domain.User;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,7 @@ import edu.yctc.framework.web.controller.BaseController;
 import edu.yctc.framework.web.domain.AjaxResult;
 import edu.yctc.common.utils.poi.ExcelUtil;
 import edu.yctc.framework.web.page.TableDataInfo;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 学生考勤点名汇总Controller
@@ -123,4 +126,5 @@ public class AttendanceController extends BaseController
     {
         return toAjax(attendanceService.deleteAttendanceByIds(ids));
     }
+
 }

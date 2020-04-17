@@ -2,6 +2,7 @@ package edu.yctc.project.system.attendance.service;
 
 import java.util.List;
 import edu.yctc.project.system.attendance.domain.Attendance;
+import edu.yctc.project.system.user.domain.User;
 
 /**
  * 学生考勤点名汇总Service接口
