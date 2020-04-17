@@ -2,6 +2,8 @@ package edu.yctc.project.system.infost.domain;
 
 import edu.yctc.framework.aspectj.lang.annotation.Excel;
 import edu.yctc.framework.web.domain.BaseEntity;
+import edu.yctc.project.system.academy.domain.Academy;
+import edu.yctc.project.system.classes.domain.Classes;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -71,7 +73,21 @@ public class Infost extends BaseEntity {
     @Excel(name = "修改时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date              modifyTime;
 
-    public void setId(Long id) {
+    private Classes classes;
+
+	public Classes getClasses() {
+		if (classes == null)
+		{
+			classes = new Classes();
+		}
+		return classes;
+	}
+
+	public void setClasses(Classes classes) {
+		this.classes = classes;
+	}
+
+	public void setId(Long id) {
         this.id = id;
     }
 

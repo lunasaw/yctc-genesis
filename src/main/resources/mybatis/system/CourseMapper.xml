@@ -14,6 +14,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="deptId"    column="dept_id"    />
         <result property="classesId"    column="classes_id"    />
         <association property="dept"    column="dept_id" javaType="Dept" resultMap="deptResult" />
+        <association property="classes"    column="classes" javaType="Classes" resultMap="ClassesResult" />
+    </resultMap>
+
+    <resultMap type="Classes" id="ClassesResult">
+        <result property="id"    column="id"    />
+        <result property="academyId"    column="academy_id"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="number"    column="unumber"    />
+<!--        <association property="dept"    column="dept_id" javaType="Dept" resultMap="deptResult" />-->
+<!--        <association property="academy"    column="academy_id" javaType="Academy" resultMap="academyResult" />-->
     </resultMap>
 
     <resultMap id="deptResult" type="Dept">
@@ -27,9 +37,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <sql id="selectCourseVo">
         select c.id, c.number, c.name, c.lesson_sum, c.year, c.term, c.dept_id, c.classes_id ,
-         d.dept_id, d.parent_id, d.dept_name, d.order_num, d.leader, d.status as dept_status
+         d.dept_id, d.parent_id, d.dept_name, d.order_num, d.leader, d.status as dept_status ,
+         u.academy_id, u.dept_id, u.number as  unumber
         from sys_course c
             left join sys_dept d on c.dept_id = d.dept_id
+            left join sys_classes u on u.id = c.classes_id
     </sql>
 
     <select id="selectCourseList" parameterType="Course" resultMap="CourseResult">

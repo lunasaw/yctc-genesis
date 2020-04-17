@@ -51,7 +51,21 @@ public class Course extends BaseEntity
     @Excel(name = "开课班级")
     private String classesId;
 
+    @Excel(name = "开课班级")
+    private Classes classes;
+
 	private Dept dept;
+
+	public Classes getClasses() {
+		if (classes == null) {
+			classes = new Classes();
+		}
+		return classes;
+	}
+
+	public void setClasses(Classes classes) {
+		this.classes = classes;
+	}
 
 	public Dept getDept() {
 		if (dept == null) {
