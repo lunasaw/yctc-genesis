@@ -5,6 +5,8 @@ import edu.yctc.project.system.attendance.mapper.AttendanceMapper;
 import edu.yctc.project.system.classroom.mapper.ClassroomMapper;
 import edu.yctc.project.system.course.domain.Course;
 import edu.yctc.project.system.course.mapper.CourseMapper;
+import edu.yctc.project.system.courseState.domain.StudentCoursestate;
+import edu.yctc.project.system.courseState.mapper.StudentCoursestateMapper;
 import edu.yctc.project.system.infost.domain.Infost;
 import edu.yctc.project.system.infost.mapper.InfostMapper;
 import edu.yctc.project.system.lesson.domain.Lesson;
@@ -16,9 +18,19 @@ import edu.yctc.project.system.state.mapper.ClassroomStateMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -48,29 +60,104 @@ public class ApplicationTests {
     AttendanceMapper     attendanceMapper;
 
     @Test
+    public void dTest() throws ParseException {
+        Course course = new Course();
+        course.setClassesId("3");
+        List<Course> courses = courseMapper.selectCourseList(course);
+        // System.out.println(courses);
+        Lesson lesson = new Lesson();
+        Date date = null;
+        Date end = null;
+        Date date1 = new Date();
+	    int j=10;
+	    for (int i = 0; i < courses.size(); i++) {
+            Course course1 = courses.get(i);
+            lesson.setCourseId(course1.getId());
+            lesson.setNumber(2L);
+
+            if (course1.getTerm() == 0) {
+                DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+	            String s="2019-05-"+j+" 08:00:00";
+	            date = df.parse(s);
+	            s="2019-05-"+j+" 09:40:00";
+	            end = df.parse(s);
+	            j++;
+
+                // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                // LocalDateTime ldt = LocalDateTime.parse("2019-03-15 14:00:00", formatter);
+                //
+                // LocalDateTime end = LocalDateTime.parse("2019-03-15 14:40:00", formatter);
+                //
+                // ZonedDateTime zdt = ldt.atZone(ZoneId.systemDefault());
+                // date = Date.from(zdt.toInstant());
+                //
+                // ZonedDateTime endd = end.atZone(ZoneId.systemDefault());
+                // endds = Date.from(endd.toInstant());
+            } else {
+
+                DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String s="2018-12-"+j+" 08:00:00";
+                date = df.parse(s);
+	            s="2018-12-"+j+" 09:40:00";
+                end = df.parse(s);
+	            j++;
+                // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                // LocalDateTime ldt = LocalDateTime.parse("2018-10-15 14:00:00", formatter);
+                //
+                // LocalDateTime end = LocalDateTime.parse("2018-10-15 14:40:00", formatter);
+                //
+                // ZonedDateTime zdt = ldt.atZone(ZoneId.systemDefault());
+                // date = Date.from(zdt.toInstant());
+                //
+                // ZonedDateTime endd = end.atZone(ZoneId.systemDefault());
+                // endds = Date.from(endd.toInstant());
+            }
+            lesson.setBegin(date);
+            lesson.setEnd(end);
+            lesson.setCreateTime(date1);
+            lesson.setModifyTime(date1);
+            lessonMapper.insertLesson(lesson);
+        }
+    }
+
+    @Test
     public void cTest() {
         Infost infost = new Infost();
         infost.setType(0L);
         infost.setClassId(3L);
+        Course course = new Course();
+        course.setClassesId("3");
         List<Infost> infosts = infostMapper.selectInfostList(infost);
+        List<Course> courses = courseMapper.selectCourseList(course);
         List<Lesson> lessons = lessonMapper.selectLessonList(new Lesson());
         Attendance attendance = new Attendance();
-	    Date date = new Date();
-	    for (int i = 0; i < infosts.size(); i++) {
+        Lesson lesson = new Lesson();
+        Date date = new Date();
+        for (int i = 0; i < infosts.size(); i++) {
             Infost infost1 = infosts.get(i);
             attendance.setUserId(infost1.getUserId());
-            for (int i1 = 0; i1 < lessons.size(); i1++) {
-                Long id = lessons.get(i1).getId();
-                attendance.setLessonId(id);
-                if (Math.random() * 10 < 1) {
-                    attendance.setAttendState(1L);
-                } else {
-                    attendance.setAttendState(0L);
+            for (int i1 = 0; i1 < courses.size(); i1++) {
+                String classesId = courses.get(i1).getClassesId();
+                if (classesId.equals("3")) {
+                     lesson.setCourseId(courses.get(i1).getId());
+                    List<Lesson> lessons1 = lessonMapper.selectLessonList(lesson);
+
+                    Long id = lessons1.get(0).getId();
+                    attendance.setLessonId(id);
+                    if (Math.random() * 10 < 1) {
+                        attendance.setAttendState(1L);
+                    } else {
+                        attendance.setAttendState(0L);
+                    }
+                    attendance.setModifyTime(date);
+                    attendance.setCreateTime(date);
+                    attendanceMapper.insertAttendance(attendance);
+
                 }
-                attendance.setModifyTime(date);
-                attendance.setCreateTime(date);
-                attendanceMapper.insertAttendance(attendance);
+
             }
+
         }
     }
 
@@ -83,21 +170,30 @@ public class ApplicationTests {
         // System.out.println(infosts);
         ClassScore classScore = new ClassScore();
         List<Course> courses = courseMapper.selectCourseList(new Course());
+		Lesson lesson=new Lesson();
+	    Date date = new Date();
+	    List<Lesson> lessons = lessonMapper.selectLessonList(new Lesson());
+	    for (int i = 0; i < infosts.size(); i++) {
+		    Infost infost1 = infosts.get(i);
+		    classScore.setUserId(infost1.getUserId());
+		    for (int i1 = 0; i1 < courses.size(); i1++) {
+			    String classesId = courses.get(i1).getClassesId();
+			    if (classesId.equals("3")) {
+				    lesson.setCourseId(courses.get(i1).getId());
+				    List<Lesson> lessons1 = lessonMapper.selectLessonList(lesson);
 
-        List<Lesson> lessons = lessonMapper.selectLessonList(new Lesson());
-        Date date = new Date();
-        System.out.println(date);
-        for (int i = 0; i < lessons.size(); i++) {
-            for (int j = 0; j < infosts.size(); j++) {
-                Long userId = infosts.get(j).getUserId();
-                classScore.setUserId(userId);
-                classScore.setLessonId(lessons.get(i).getId());
-                classScore.setScore(Double.valueOf(new Random().nextInt(50) + 50));
-                classScore.setCreateTime(date);
-                classScore.setModifyTime(date);
-                classScoreMapper.insertClassScore(classScore);
-            }
-        }
+				    Long id = lessons1.get(0).getId();
+				    classScore.setLessonId(id);
+				    classScore.setScore(Double.valueOf(new Random().nextInt(50) + 50));
+				    classScore.setModifyTime(date);
+				    classScore.setCreateTime(date);
+				    classScoreMapper.insertClassScore((classScore));
+
+			    }
+
+		    }
+
+	    }
         Date date1 = new Date();
         System.out.println(date1);
 
@@ -129,5 +225,55 @@ public class ApplicationTests {
             classroomStateMapper.insertClassroomState(classroomState);
         }
     }
+
+    @Resource
+	StudentCoursestateMapper setScore;
+
+	@Test
+	public void eTest() {
+		Infost infost = new Infost();
+		infost.setType(0L);
+		infost.setClassId(2L);
+		List<Infost> infosts = infostMapper.selectInfostList(infost);
+		// System.out.println(infosts);
+		StudentCoursestate studentCoursestate=new StudentCoursestate();
+		List<Course> courses = courseMapper.selectCourseList(new Course());
+		Lesson lesson=new Lesson();
+		Random random = new Random();
+		Date date = new Date();
+		List<Lesson> lessons = lessonMapper.selectLessonList(new Lesson());
+		for (int i = 0; i < infosts.size(); i++) {
+			Infost infost1 = infosts.get(i);
+			studentCoursestate.setUserId(infost1.getUserId());
+			for (int i1 = 0; i1 < courses.size(); i1++) {
+				String classesId = courses.get(i1).getClassesId();
+				if (classesId.equals("2")) {
+					lesson.setCourseId(courses.get(i1).getId());
+					List<Lesson> lessons1 = lessonMapper.selectLessonList(lesson);
+
+					Long id = lessons1.get(0).getId();
+					studentCoursestate.setScanStartTime(lessons1.get(0).getBegin());
+					studentCoursestate.setScanEndTime(lessons1.get(0).getEnd());
+					studentCoursestate.setLessonId(id);
+					studentCoursestate.setState(Long.valueOf(rmain()));
+					studentCoursestate.setModifyTime(date);
+					studentCoursestate.setCreateTime(date);
+					setScore.insertStudentCoursestate((studentCoursestate));
+
+				}
+
+			}
+
+		}
+	}
+
+	public static int rmain() {
+		int max=5;
+		int min=1;
+		Random random = new Random();
+
+		int s = random.nextInt(max)%(max-min+1) + min;
+		return s;
+	}
 
 }
