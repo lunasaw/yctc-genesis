@@ -11,10 +11,42 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="attendState"    column="attend_state"    />
         <result property="createTime"    column="create_time"    />
         <result property="modifyTime"    column="modify_time"    />
+        <association property="lesson"    column="lesson" javaType="Lesson" resultMap="LessonResult" />
+    </resultMap>
+
+    <resultMap type="Lesson" id="LessonResult">
+        <result property="id"    column="id"    />
+        <result property="courseId"    column="course_id"    />
+        <result property="number"    column="number"    />
+        <result property="classroomId"    column="classroom_id"    />
+        <result property="begin"    column="begin"    />
+        <result property="end"    column="end"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="modifyTime"    column="modify_time"    />
+<!--        <association property="classroom"    column="classroom" javaType="Classroom" resultMap="ClassroomResult" />-->
+        <association property="course"    column="course" javaType="Course" resultMap="CourseResult" />
+
+    </resultMap>
+
+    <resultMap type="Course" id="CourseResult">
+        <result property="id"    column="id"    />
+        <result property="number"    column="cnumber"    />
+        <result property="name"    column="name"    />
+        <result property="lessonSum"    column="lesson_sum"    />
+        <result property="year"    column="year"    />
+        <result property="term"    column="term"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="classesId"    column="classes_id"    />
+        <!--        <association property="dept"    column="dept_id" javaType="Dept" resultMap="deptResult" />-->
     </resultMap>
 
     <sql id="selectAttendanceVo">
-        select id, user_id, lesson_id, attend_state, create_time, modify_time from sys_attendance
+        select t.id, t.user_id, t.lesson_id, t.attend_state, t.create_time, t.modify_time,
+             l.course_id, l.number, l.classroom_id, l.begin, l.end,
+             c.number as cnumber, c.name , c.lesson_sum, c.year, c.term, c.dept_id, c.classes_id
+         from sys_attendance t
+             left join sys_lesson l on l.id = t.lesson_id
+             left join sys_course c on c.id = l.course_id
     </sql>
 
     <select id="selectAttendanceList" parameterType="Attendance" resultMap="AttendanceResult">
@@ -29,7 +61,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <select id="selectAttendanceById" parameterType="Long" resultMap="AttendanceResult">
         <include refid="selectAttendanceVo"/>
-        where id = #{id}
+        where t.id = #{id}
     </select>
         
     <insert id="insertAttendance" parameterType="Attendance" useGeneratedKeys="true" keyProperty="id">

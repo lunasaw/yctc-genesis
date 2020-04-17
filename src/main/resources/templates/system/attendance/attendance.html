@@ -61,6 +61,7 @@
         var editFlag = [[${@permission.hasPermi('system:attendance:edit')}]];
         var removeFlag = [[${@permission.hasPermi('system:attendance:remove')}]];
         var prefix = ctx + "system/attendance";
+        var datas = [[${@dict.getType('sys_normal_disable')}]];
 
         $(function() {
             var options = {
@@ -86,10 +87,26 @@
                     field: 'lessonId', 
                     title: '课时编号'
                 },
-                {
-                    field: 'attendState', 
-                    title: '出勤情况'
-                },
+                    {
+                        field: 'lesson.course.name',
+                        title: '课程'
+                    },
+                    {
+                        field: 'lesson.begin',
+                        title: '开课时间'
+                    },
+                    {
+                        field: 'attendState',
+                        title: '出勤情况',
+                        align: 'center',
+                        formatter: function(value, row, index) {
+                            if (value == '0') {
+                                return '<span class="badge badge-primary">正常</span>';
+                            } else if (value == '1') {
+                                return '<span class="badge badge-danger">缺勤</span>';
+                            }
+                        }
+                    },
                 {
                     field: 'modifyTime', 
                     title: '修改时间'
