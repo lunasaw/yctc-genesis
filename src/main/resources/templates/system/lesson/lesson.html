@@ -99,9 +99,17 @@
                     title: '课时'
                 },
                 {
-                    field: 'classroomId', 
-                    title: '教室'
+                    field: 'classroom.buildingFloor.building',
+                    title: '楼号'
                 },
+                    {
+                        field: 'classroom.buildingFloor.floor',
+                        title: '楼层号'
+                    },
+                    {
+                        field: 'classroom.number',
+                        title: '教室号'
+                    },
                 {
                     field: 'begin', 
                     title: '上课时间'

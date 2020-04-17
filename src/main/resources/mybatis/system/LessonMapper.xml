@@ -13,17 +13,38 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="end"    column="end"    />
         <result property="createTime"    column="create_time"    />
         <result property="modifyTime"    column="modify_time"    />
+        <association property="classroom"    column="classroom" javaType="Classroom" resultMap="ClassroomResult" />
+    </resultMap>
+
+    <resultMap type="Classroom" id="ClassroomResult">
+        <result property="buildingFloorId"    column="building_floor_id"    />
+        <result property="number"    column="qnumber"    />
+        <result property="equipmentId"    column="equipment_id"    />
+        <association property="buildingFloor"    column="building_floor_id" javaType="BuildingFloor" resultMap="BuildingFloorResult" />
+    </resultMap>
+
+    <resultMap type="BuildingFloor" id="BuildingFloorResult">
+        <result property="id"    column="id"    />
+        <result property="building"    column="building"    />
+        <result property="floor"    column="floor"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="modifyTime"    column="modify_time"    />
     </resultMap>
 
     <sql id="selectLessonVo">
-        select id, course_id, number, classroom_id, begin, end, create_time, modify_time from sys_lesson
+        select l.id, l.course_id, l.number, l.classroom_id, l.begin, l.end, l.create_time, l.modify_time,
+            q.building_floor_id, q.number as qnumber, q.equipment_id,
+            b.building, b.floor
+        from sys_lesson l
+            left join sys_classroom q on q.id = l.classroom_id
+            left join sys_building_floor b on q.building_floor_id = b.id
     </sql>
 
     <select id="selectLessonList" parameterType="Lesson" resultMap="LessonResult">
         <include refid="selectLessonVo"/>
         <where>  
             <if test="courseId != null "> and course_id = #{courseId}</if>
-            <if test="number != null "> and number = #{number}</if>
+            <if test="number != null "> and l.number = #{number}</if>
             <if test="classroomId != null "> and classroom_id = #{classroomId}</if>
             <if test="begin != null "> and begin = #{begin}</if>
             <if test="end != null "> and end = #{end}</if>
@@ -33,7 +54,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <select id="selectLessonById" parameterType="Long" resultMap="LessonResult">
         <include refid="selectLessonVo"/>
-        where id = #{id}
+        where l.id = #{id}
     </select>
         
     <insert id="insertLesson" parameterType="Lesson" useGeneratedKeys="true" keyProperty="id">

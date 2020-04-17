@@ -28,7 +28,7 @@ public class Classroom extends BaseEntity
     private Long buildingFloorId;
 
     /** 楼层号 */
-    @Excel(name = "楼层号")
+    @Excel(name = "教室号")
     private String number;
 
     /** 设备id */

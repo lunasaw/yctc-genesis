@@ -2,6 +2,8 @@ package edu.yctc.project.system.lesson.domain;
 
 import edu.yctc.framework.aspectj.lang.annotation.Excel;
 import edu.yctc.framework.web.domain.BaseEntity;
+import edu.yctc.project.system.classroom.domain.Classroom;
+import edu.yctc.project.system.equipment.domain.Equipment;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -44,7 +46,21 @@ public class Lesson extends BaseEntity
     @Excel(name = "修改时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date modifyTime;
 
-    public void setId(Long id) 
+    private Classroom classroom;
+
+	public Classroom getClassroom() {
+		if (classroom == null)
+		{
+			classroom = new Classroom();
+		}
+		return classroom;
+	}
+
+	public void setClassroom(Classroom classroom) {
+		this.classroom = classroom;
+	}
+
+	public void setId(Long id)
     {
         this.id = id;
     }
