@@ -62,19 +62,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="term"    column="term"    />
         <result property="deptId"    column="dept_id"    />
         <result property="classesId"    column="classes_id"    />
+                <association property="classes"    column="classes" javaType="Classes" resultMap="ClassesResult" />
+    </resultMap>
+
+    <resultMap type="Classes" id="ClassesResult">
+        <result property="id"    column="id"    />
+        <result property="academyId"    column="academy_id"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="number"    column="qnumber"    />
         <!--        <association property="dept"    column="dept_id" javaType="Dept" resultMap="deptResult" />-->
+        <!--        <association property="academy"    column="academy_id" javaType="Academy" resultMap="academyResult" />-->
     </resultMap>
 
     <sql id="selectClassScoreVo">
         select s.id, s.user_id, s.lesson_id, s.score, s.create_time, s.modify_time ,
             l.course_id, l.number, l.classroom_id, l.begin, l.end,
             c.number as cnumber, c.name , c.lesson_sum, c.year, c.term, c.dept_id, c.classes_id,
-            u.dept_id as depte_uid, u.login_name, u.user_name, u.user_type, u.email, u.avatar, u.phonenumber, u.sex, u.password, u.salt, u.status, u.del_flag, u.login_ip, u.login_date, u.remark
-
+            u.dept_id as depte_uid, u.login_name, u.user_name, u.user_type, u.email, u.avatar, u.phonenumber, u.sex, u.password, u.salt, u.status, u.del_flag, u.login_ip, u.login_date, u.remark,
+            q.number as qnumber
         from sys_class_score s
              left join sys_lesson l on l.id = s.lesson_id
              left join sys_course c on c.id = l.course_id
              left join sys_user u on u.user_id = s.user_id
+             left join sys_classes q on c.classes_id = q.id
     </sql>
 
     <select id="selectClassScoreList" parameterType="ClassScore" resultMap="ClassScoreResult">

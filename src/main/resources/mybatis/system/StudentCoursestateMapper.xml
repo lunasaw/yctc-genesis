@@ -66,7 +66,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <sql id="selectStudentCoursestateVo">
         select s.id, s.user_id, s.lesson_id, s.state, s.scan_start_time, s.scan_end_time, s.face_token, s.create_time, s.modify_time,
         l.course_id, l.number, l.classroom_id, l.begin, l.end,
-        c.number as cnumber, c.name , c.lesson_sum, c.year, c.term, c.dept_id, c.classes_id,
+        c.number as cnumber, c.name, c.lesson_sum, c.year,  c.term, c.dept_id, c.classes_id,
         i.academy_id, i.class_id, i.number as inumber, i.name as iname, i.type, i.sex, i.id_card_number, i.phone, i.mail, i.picture, i.face_token as iface_token
          from sys_student_courseState s
             left join sys_lesson l on s.lesson_id = l.id
@@ -77,7 +77,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectStudentCoursestateList" parameterType="StudentCoursestate" resultMap="StudentCoursestateResult">
         <include refid="selectStudentCoursestateVo"/>
         <where>  
-            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="userId != null "> and s.user_id = #{userId}</if>
             <if test="lessonId != null "> and lesson_id = #{lessonId}</if>
             <if test="state != null "> and state = #{state}</if>
             <if test="scanStartTime != null "> and scan_start_time = #{scanStartTime}</if>
