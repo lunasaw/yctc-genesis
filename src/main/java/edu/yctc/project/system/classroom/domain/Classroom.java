@@ -3,6 +3,7 @@ package edu.yctc.project.system.classroom.domain;
 import edu.yctc.framework.aspectj.lang.annotation.Excel;
 import edu.yctc.framework.web.domain.BaseEntity;
 import edu.yctc.project.system.academy.domain.Academy;
+import edu.yctc.project.system.equipment.domain.Equipment;
 import edu.yctc.project.system.floor.domain.BuildingFloor;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
@@ -39,6 +40,20 @@ public class Classroom extends BaseEntity
     private Date modifyTime;
 
     private BuildingFloor buildingFloor;
+
+	private Equipment equipment;
+
+	public Equipment getEquipment() {
+		if (equipment == null)
+		{
+			equipment = new Equipment();
+		}
+		return equipment;
+	}
+
+	public void setEquipment(Equipment equipment) {
+		this.equipment = equipment;
+	}
 
 	public BuildingFloor getBuildingFloor() {
 		if (buildingFloor == null)
