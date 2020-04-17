@@ -49,7 +49,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select l.id, l.course_id, l.number, l.classroom_id, l.begin, l.end, l.create_time, l.modify_time,
             q.building_floor_id, q.number as qnumber, q.equipment_id,
             b.building, b.floor,
-            c.number as cnumber, c.name , c.lesson_sum, c.year, c.term, c.dept_id
+            c.number as cnumber, c.name , c.lesson_sum, c.year, c.term, c.dept_id, c.classes_id
         from sys_lesson l
             left join sys_classroom q on q.id = l.classroom_id
             left join sys_building_floor b on q.building_floor_id = b.id

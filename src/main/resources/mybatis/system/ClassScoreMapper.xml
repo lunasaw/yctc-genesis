@@ -11,10 +11,43 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="score"    column="score"    />
         <result property="createTime"    column="create_time"    />
         <result property="modifyTime"    column="modify_time"    />
+        <association property="lesson"    column="lesson" javaType="Lesson" resultMap="LessonResult" />
+<!--        <association property="lesson"    column="lesson" javaType="Lesson" resultMap="LessonResult" />-->
+
+    </resultMap>
+
+    <resultMap type="Lesson" id="LessonResult">
+        <result property="id"    column="id"    />
+        <result property="courseId"    column="course_id"    />
+        <result property="number"    column="number"    />
+        <result property="classroomId"    column="classroom_id"    />
+        <result property="begin"    column="begin"    />
+        <result property="end"    column="end"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="modifyTime"    column="modify_time"    />
+<!--        <association property="classroom"    column="classroom" javaType="Classroom" resultMap="ClassroomResult" />-->
+        <association property="course"    column="course" javaType="Course" resultMap="CourseResult" />
+    </resultMap>
+
+    <resultMap type="Course" id="CourseResult">
+        <result property="id"    column="id"    />
+        <result property="number"    column="cnumber"    />
+        <result property="name"    column="name"    />
+        <result property="lessonSum"    column="lesson_sum"    />
+        <result property="year"    column="year"    />
+        <result property="term"    column="term"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="classesId"    column="classes_id"    />
+        <!--        <association property="dept"    column="dept_id" javaType="Dept" resultMap="deptResult" />-->
     </resultMap>
 
     <sql id="selectClassScoreVo">
-        select id, user_id, lesson_id, score, create_time, modify_time from sys_class_score
+        select s.id, s.user_id, s.lesson_id, s.score, s.create_time, s.modify_time ,
+            l.course_id, l.number, l.classroom_id, l.begin, l.end,
+            c.number as cnumber, c.name , c.lesson_sum, c.year, c.term, c.dept_id, c.classes_id
+        from sys_class_score s
+             left join sys_lesson l on l.id = s.lesson_id
+             left join sys_course c on c.id = l.course_id
     </sql>
 
     <select id="selectClassScoreList" parameterType="ClassScore" resultMap="ClassScoreResult">
@@ -29,7 +62,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <select id="selectClassScoreById" parameterType="Long" resultMap="ClassScoreResult">
         <include refid="selectClassScoreVo"/>
-        where id = #{id}
+        where s.id = #{id}
     </select>
         
     <insert id="insertClassScore" parameterType="ClassScore" useGeneratedKeys="true" keyProperty="id">

@@ -2,6 +2,8 @@ package edu.yctc.project.system.score.domain;
 
 import edu.yctc.framework.aspectj.lang.annotation.Excel;
 import edu.yctc.framework.web.domain.BaseEntity;
+import edu.yctc.project.system.course.domain.Course;
+import edu.yctc.project.system.lesson.domain.Lesson;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -32,7 +34,21 @@ public class ClassScore extends BaseEntity
     @Excel(name = "课程评分")
     private Double score;
 
-    /** 修改时间 */
+    private Lesson lesson;
+
+	public Lesson getLesson() {
+		if (lesson == null)
+		{
+			lesson = new Lesson();
+		}
+		return lesson;
+	}
+
+	public void setLesson(Lesson lesson) {
+		this.lesson = lesson;
+	}
+
+	/** 修改时间 */
     @Excel(name = "修改时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date modifyTime;
 
