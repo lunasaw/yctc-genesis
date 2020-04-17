@@ -61,7 +61,7 @@
         var editFlag = [[${@permission.hasPermi('system:state:edit')}]];
         var removeFlag = [[${@permission.hasPermi('system:state:remove')}]];
         var prefix = ctx + "system/state";
-
+        var datas = [[${@dict.getType('sys_normal_disable')}]];
         $(function() {
             var options = {
                 url: prefix + "/list",
@@ -86,10 +86,14 @@
                     field: 'lessonId', 
                     title: '课时编号'
                 },
-                {
-                    field: 'state', 
-                    title: '教室状态'
-                },
+                    {
+                        field: 'state',
+                        title: '教室状态',
+                        align: 'center',
+                        formatter: function(value, row, index) {
+                            return $.table.selectDictLabel(datas, value);
+                        }
+                    },
                 {
                     field: 'modifyTime', 
                     title: '修改时间'
