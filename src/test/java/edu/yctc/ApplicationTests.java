@@ -2,11 +2,14 @@ package edu.yctc;
 
 import edu.yctc.project.system.attendance.domain.Attendance;
 import edu.yctc.project.system.attendance.mapper.AttendanceMapper;
+import edu.yctc.project.system.classroom.domain.Classroom;
 import edu.yctc.project.system.classroom.mapper.ClassroomMapper;
 import edu.yctc.project.system.course.domain.Course;
 import edu.yctc.project.system.course.mapper.CourseMapper;
 import edu.yctc.project.system.courseState.domain.StudentCoursestate;
 import edu.yctc.project.system.courseState.mapper.StudentCoursestateMapper;
+import edu.yctc.project.system.equipment.domain.Equipment;
+import edu.yctc.project.system.equipment.mapper.EquipmentMapper;
 import edu.yctc.project.system.infost.domain.Infost;
 import edu.yctc.project.system.infost.mapper.InfostMapper;
 import edu.yctc.project.system.lesson.domain.Lesson;
@@ -274,6 +277,30 @@ public class ApplicationTests {
 
 		int s = random.nextInt(max)%(max-min+1) + min;
 		return s;
+	}
+
+	@Resource
+	EquipmentMapper equipmentMapper;
+
+	@Test
+	public void fTest() {
+		List<Classroom> classrooms = classroomMapper.selectClassroomList(new Classroom());
+		Date date = new Date();
+		for (int i = 0; i < classrooms.size(); i++) {
+			Classroom classroom = classrooms.get(i);
+			Equipment equipment=new Equipment();
+			equipment.setId(Long.parseLong(classroom.getEquipmentId()));
+			int size = equipmentMapper.selectEquipmentList(equipment).size();
+			System.out.println(size);
+
+				equipment.setVideo("http://123.206.53.234/yctc/test1.mp4");
+				equipment.setNumber("1");
+				equipment.setName("海康威视1-"+Long.parseLong(classroom.getEquipmentId()));
+				equipment.setCreateTime(date);
+				equipment.setModifyTime(date);
+				equipmentMapper.insertEquipment(equipment);
+
+		}
 	}
 
 }

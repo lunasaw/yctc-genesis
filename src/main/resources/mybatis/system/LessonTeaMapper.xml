@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.yctc.project.system.tea.mapper.LessonTeaMapper">
+    
+    <resultMap type="LessonTea" id="LessonTeaResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="lessonId"    column="lesson_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="modifyTime"    column="modify_time"    />
+    </resultMap>
+
+    <sql id="selectLessonTeaVo">
+        select id, user_id, lesson_id, create_time, modify_time from sys_lesson_tea
+    </sql>
+
+    <select id="selectLessonTeaList" parameterType="LessonTea" resultMap="LessonTeaResult">
+        <include refid="selectLessonTeaVo"/>
+        <where>  
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="lessonId != null "> and lesson_id = #{lessonId}</if>
+            <if test="modifyTime != null "> and modify_time = #{modifyTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectLessonTeaById" parameterType="Long" resultMap="LessonTeaResult">
+        <include refid="selectLessonTeaVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertLessonTea" parameterType="LessonTea" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_lesson_tea
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">user_id,</if>
+            <if test="lessonId != null ">lesson_id,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="modifyTime != null ">modify_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">#{userId},</if>
+            <if test="lessonId != null ">#{lessonId},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="modifyTime != null ">#{modifyTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateLessonTea" parameterType="LessonTea">
+        update sys_lesson_tea
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null ">user_id = #{userId},</if>
+            <if test="lessonId != null ">lesson_id = #{lessonId},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="modifyTime != null ">modify_time = #{modifyTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteLessonTeaById" parameterType="Long">
+        delete from sys_lesson_tea where id = #{id}
+    </delete>
+
+    <delete id="deleteLessonTeaByIds" parameterType="String">
+        delete from sys_lesson_tea where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
