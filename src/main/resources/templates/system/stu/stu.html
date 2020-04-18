@@ -78,10 +78,60 @@
                     field: 'userId', 
                     title: '用户编号'
                 },
+	                {
+                        field: 'stuname',
+                        title: '学生姓名',
+                        sortable: true
+                    },
                 {
                     field: 'courseId', 
-                    title: '课程编号'
+                    title: '课程编号',
+                    visible: false
                 },
+                    {
+                        field: 'lessonTea.lesson.course.name',
+                        title: '课程名称',
+                        sortable: true
+                    },
+                    {
+                        field: 'infost.name',
+                        title: '授课教师',
+                        sortable: true
+                    },
+                    {
+                        field: 'lessonTea.lesson.begin',
+                        title: '开课时间',
+                        sortable: true
+                    },
+                    {
+                        field: 'lessonTea.lesson.course.dept.deptName',
+                        title: '开课专业',
+                        sortable: true
+                    },
+                    {
+                        field: 'infost.classes.number',
+                        title: '开课班级',
+                        sortable: true
+                    },
+                    {
+                        field: 'lessonTea.lesson.course.year',
+                        title: '学年度',
+                        sortable: true
+                    },
+                    {
+                        field: 'lessonTea.lesson.course.term',
+                        title: '学期',
+                        align: 'center',
+                        sortable: true,
+                        formatter: function(value, row, index) {
+                            if (value == '0') {
+                                return '<span class="badge badge-primary">上期</span>';
+                            } else if (value == '1') {
+                                return '<span class="badge badge-success">下期</span>';
+                            }
+                        }
+                    },
+
                 {
                     field: 'modifyTime', 
                     title: '修改时间'

@@ -93,15 +93,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectLessonTeaList" parameterType="LessonTea" resultMap="LessonTeaResult">
         <include refid="selectLessonTeaVo"/>
         <where>  
-            <if test="userId != null "> and user_id = #{userId}</if>
-            <if test="lessonId != null "> and lesson_id = #{lessonId}</if>
+            <if test="userId != null "> and e.user_id = #{userId}</if>
+            <if test="lessonId != null "> and e.lesson_id = #{lessonId}</if>
             <if test="modifyTime != null "> and modify_time = #{modifyTime}</if>
         </where>
     </select>
     
     <select id="selectLessonTeaById" parameterType="Long" resultMap="LessonTeaResult">
         <include refid="selectLessonTeaVo"/>
-        where id = #{id}
+        where e.id = #{id}
     </select>
         
     <insert id="insertLessonTea" parameterType="LessonTea" useGeneratedKeys="true" keyProperty="id">
