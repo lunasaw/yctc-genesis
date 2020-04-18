@@ -18,6 +18,10 @@ import edu.yctc.project.system.score.domain.ClassScore;
 import edu.yctc.project.system.score.mapper.ClassScoreMapper;
 import edu.yctc.project.system.state.domain.ClassroomState;
 import edu.yctc.project.system.state.mapper.ClassroomStateMapper;
+import edu.yctc.project.system.stu.domain.CourseStu;
+import edu.yctc.project.system.stu.mapper.CourseStuMapper;
+import edu.yctc.project.system.tea.domain.LessonTea;
+import edu.yctc.project.system.tea.mapper.LessonTeaMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -303,4 +307,96 @@ public class ApplicationTests {
 		}
 	}
 
+	@Test
+	public void gTest() {
+
+		Infost infost = new Infost();
+		infost.setType(1L);
+		infost.setId(1L);
+		List<Infost> infosts = infostMapper.selectInfostList(infost);
+		Infost infost2 = infosts.get(0);
+		Infost infost1=new Infost();
+		Course course=new Course();
+		course.setClassesId("1");
+		List<Course> courses = courseMapper.selectCourseList(course);
+		Date date = new Date();
+		for (int i = 0; i < courses.size(); i++) {
+			infost.setAcademyId(1L);
+			infost1.setType(1L);
+			infost1.setIdCardNumber(infost2.getIdCardNumber()+i+1);
+			Long i1 = Long.parseLong(infost2.getPhone());
+			infost1.setPhone(String.valueOf(i1+i));
+			infost1.setPicture(infost2.getPicture());
+			infost1.setFaceToken(infost2.getFaceToken());
+			infost1.setMail("10006"+i+"@qq.com");
+			infost1.setCreateTime(date);
+			infost1.setModifyTime(date);
+			infostMapper.insertInfost(infost1);
+		}
+	}
+
+	@Resource
+	CourseStuMapper courseStuMapper;
+	@Test
+	public void hTest() {
+		Infost infost = new Infost();
+		infost.setType(0L);
+		infost.setClassId(3L);
+		List<Infost> infosts = infostMapper.selectInfostList(infost);
+		// System.out.println(infosts);
+		Course course = new Course();
+		course.setClassesId("3");
+		List<Course> courses = courseMapper.selectCourseList(course);
+		Lesson lesson=new Lesson();
+		Random random = new Random();
+		Date date = new Date();
+		CourseStu courseStu=new CourseStu();
+		for (int i = 0; i < infosts.size(); i++) {
+			for (int i1 = 0; i1 < courses.size(); i1++) {
+				Long id = courses.get(i1).getId();
+				Long userId = infosts.get(i).getUserId();
+				courseStu.setUserId(userId);
+				courseStu.setCourseId(id);
+				courseStu.setCreateTime(date);
+				courseStu.setModifyTime(date);
+				courseStuMapper.insertCourseStu(courseStu);
+			}
+
+		}
+
+	}
+
+	@Resource
+	LessonTeaMapper lessonTeaMapper;
+	@Test
+	public void iTest() {
+		Infost infost = new Infost();
+		infost.setType(1L);
+//		infost.setClassId(3L);
+		List<Infost> infosts = infostMapper.selectInfostList(infost);
+		// System.out.println(infosts);
+		Course course = new Course();
+//		course.setClassesId("3");
+		course.setName("UML统一建模语言");
+		List<Course> courses = courseMapper.selectCourseList(course);
+
+		Lesson lesson=new Lesson();
+		Random random = new Random();
+		Date date = new Date();
+		LessonTea lessonTea=new LessonTea();
+
+		for (int i1 = 0; i1 < courses.size(); i1++) {
+				Long id = courses.get(i1).getId();
+			lesson.setCourseId(id);
+			List<Lesson> lessons1 = lessonMapper.selectLessonList(lesson);
+
+			lessonTea.setLessonId(lessons1.get(0).getId());
+			lessonTea.setUserId(44L);
+			lessonTea.setCreateTime(date);
+			lessonTea.setModifyTime(date);
+			lessonTeaMapper.insertLessonTea(lessonTea);
+			}
+
+
+	}
 }

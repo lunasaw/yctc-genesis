@@ -79,9 +79,33 @@
                     title: '老师编号'
                 },
                 {
-                    field: 'lessonId', 
-                    title: '授课课时编号'
+                    field: 'lessonId',
+                    title: '授课课时编号',
+                    visible: false
                 },
+                    {
+                        field: 'infost.number',
+                        title: '工号'
+                    },
+                    {
+                        field: 'infost.name',
+                        title: '授课教师姓名'
+                    },
+                    {
+                        field : 'infost.picture',
+                        title: '授课教师头像',
+                        formatter: function(value, row, index) {
+                            return $.table.imageView(value);
+                        }
+                    },
+                    {
+                        field: 'lesson.course.name',
+                        title: '课程名'
+                    },
+                    {
+                        field: 'lesson.begin',
+                        title: '开课时间'
+                    },
                 {
                     field: 'modifyTime', 
                     title: '修改时间'
