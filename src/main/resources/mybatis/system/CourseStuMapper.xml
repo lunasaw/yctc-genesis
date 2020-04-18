@@ -15,6 +15,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 <association property="lessonTea"    column="lessonTea" javaType="LessonTea" resultMap="LessonTeaResult" />
     </resultMap>
 
+<!--    <resultMap type="Infost" id="InfostResult">-->
+<!--        <result property="id"    column="id"    />-->
+<!--        <result property="userId"    column="user_id"    />-->
+<!--        <result property="academyId"    column="academy_id"    />-->
+<!--        <result property="classId"    column="class_id"    />-->
+<!--        <result property="number"    column="number"    />-->
+<!--        <result property="name"    column="name"    />-->
+<!--        <result property="type"    column="type"    />-->
+<!--        <result property="sex"    column="sex"    />-->
+<!--        <result property="idCardNumber"    column="id_card_number"    />-->
+<!--        <result property="phone"    column="phone"    />-->
+<!--        <result property="mail"    column="mail"    />-->
+<!--        <result property="picture"    column="picture"    />-->
+<!--        <result property="faceToken"    column="face_token"    />-->
+<!--        <result property="createTime"    column="create_time"    />-->
+<!--        <result property="modifyTime"    column="modify_time"    />-->
+<!--&lt;!&ndash;        <association property="classes"    column="classes" javaType="Classes" resultMap="ClassesResult" />&ndash;&gt;-->
+<!--    </resultMap>-->
+
     <resultMap type="LessonTea" id="LessonTeaResult">
         <result property="id"    column="id"    />
         <result property="userId"    column="user_id"    />
@@ -22,7 +41,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createTime"    column="create_time"    />
         <result property="modifyTime"    column="modify_time"    />
         <association property="lesson"    column="lesson" javaType="Lesson" resultMap="LessonResult" />
-        <association property="infost"    column="infost" javaType="Infost" resultMap="TeaInfostResult" />
+        <association property="infost"    column="infost" javaType="Infost" resultMap="InfostResult" />
     </resultMap>
 
 
@@ -68,7 +87,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="modifyTime"    column="modify_time"    />
     </resultMap>
 
-    <resultMap type="Infost" id="TeaInfostResult">
+    <resultMap type="Infost" id="InfostResult">
         <result property="id"    column="id"    />
         <result property="userId"    column="user_id"    />
         <result property="academyId"    column="academy_id"    />
@@ -115,6 +134,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <association property="academy"    column="academy_id" javaType="Academy" resultMap="academyResult" />
     </resultMap>
 
+    <resultMap type="Academy" id="academyResult">
+        <result property="id"    column="id"    />
+        <result property="academy"    column="academy"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="modifyTime"    column="modify_time"    />
+    </resultMap>
+
+    <resultMap type="Dept" id="deptResult">
+        <id     property="deptId"     column="dept_id"     />
+        <result property="parentId"   column="parent_id"   />
+        <result property="ancestors"  column="ancestors"   />
+        <result property="deptName"   column="dept_name"   />
+        <result property="orderNum"   column="order_num"   />
+        <result property="leader"     column="leader"      />
+        <result property="phone"      column="phone"       />
+        <result property="email"      column="email"       />
+        <result property="status"     column="status"      />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="parentName" column="parent_name" />
+        <result property="createBy"   column="create_by"   />
+        <result property="createTime" column="create_time" />
+        <result property="updateBy"   column="update_by"   />
+        <result property="updateTime" column="update_time" />
+    </resultMap>
+
     <sql id="selectCourseStuVo">
             select t.id, t.user_id, t.course_id , t.create_time, t.modify_time ,
              l.course_id as lcourseId, l.number, l.classroom_id, l.begin, l.end,
@@ -133,10 +177,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 left join sys_course c on c.id = l.course_id
                 left join sys_lesson_tea e on l.id = e.lesson_id
                 left join sys_infost i on e.user_id = i.id
-
                 left join sys_infost s on t.user_id = s.id
-
-
                 left join sys_classes u on c.classes_id = u.id
                 left join sys_dept d on u.dept_id = d.dept_id
                 left join sys_academy a on a.id = u.academy_id

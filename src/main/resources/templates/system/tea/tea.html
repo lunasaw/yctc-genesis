@@ -66,6 +66,7 @@
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
                 modalName: "老师授课信息",
+                sortOrder: "desc",
                 columns: [{
                     checkbox: true
                 },
@@ -90,7 +91,8 @@
                     },
                     {
                         field: 'infost.name',
-                        title: '授课教师姓名'
+                        title: '授课教师姓名',
+                        sortable: true
                     },
                     {
                         field : 'infost.picture',
@@ -106,7 +108,8 @@
                     },
                     {
                         field: 'lesson.begin',
-                        title: '开课时间'
+                        title: '开课时间',
+                        sortable: true
                     },
                 {
                     field: 'modifyTime', 
