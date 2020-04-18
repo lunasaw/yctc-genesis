@@ -12,7 +12,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createTime"    column="create_time"    />
         <result property="modifyTime"    column="modify_time"    />
         <association property="lesson"    column="lesson" javaType="Lesson" resultMap="LessonResult" />
-        <association property="user"    column="user" javaType="User" resultMap="UserResult" />
+<!--        <association property="user"    column="user" javaType="User" resultMap="UserResult" />-->
+        <association property="infost"    column="infost" javaType="Infost" resultMap="InfostResult" />
     </resultMap>
 
     <resultMap type="Lesson" id="LessonResult">
@@ -27,6 +28,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!--        <association property="classroom"    column="classroom" javaType="Classroom" resultMap="ClassroomResult" />-->
         <association property="course"    column="course" javaType="Course" resultMap="CourseResult" />
     </resultMap>
+
+    <resultMap type="Infost" id="InfostResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="academyId"    column="academy_id"    />
+        <result property="classId"    column="class_id"    />
+        <result property="number"    column="inumber"    />
+        <result property="name"    column="iname"    />
+        <result property="type"    column="type"    />
+        <result property="sex"    column="sex"    />
+        <result property="idCardNumber"    column="id_card_number"    />
+        <result property="phone"    column="phone"    />
+        <result property="mail"    column="mail"    />
+        <result property="picture"    column="picture"    />
+        <result property="faceToken"    column="iface_token"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="modifyTime"    column="modify_time"    />
+        <!--        <association property="classes"    column="classes" javaType="Classes" resultMap="ClassesResult" />-->
+    </resultMap>
+
 
     <resultMap type="User" id="UserResult">
         <id     property="userId"       column="user_id"      />
@@ -78,13 +99,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select s.id, s.user_id, s.lesson_id, s.score, s.create_time, s.modify_time ,
             l.course_id, l.number, l.classroom_id, l.begin, l.end,
             c.number as cnumber, c.name , c.lesson_sum, c.year, c.term, c.dept_id, c.classes_id,
-            u.dept_id as depte_uid, u.login_name, u.user_name, u.user_type, u.email, u.avatar, u.phonenumber, u.sex, u.password, u.salt, u.status, u.del_flag, u.login_ip, u.login_date, u.remark,
-            q.number as qnumber
+            q.number as qnumber,
+            i.academy_id, i.class_id, i.number as inumber, i.name as iname, i.type, i.sex, i.id_card_number, i.phone, i.mail, i.picture, i.face_token as iface_token
         from sys_class_score s
              left join sys_lesson l on l.id = s.lesson_id
              left join sys_course c on c.id = l.course_id
-             left join sys_user u on u.user_id = s.user_id
+--              left join sys_user u on u.user_id = s.user_id
              left join sys_classes q on c.classes_id = q.id
+              left join sys_infost i on s.user_id = i.user_id
     </sql>
 
     <select id="selectClassScoreList" parameterType="ClassScore" resultMap="ClassScoreResult">

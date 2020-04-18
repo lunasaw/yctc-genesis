@@ -3,6 +3,7 @@ package edu.yctc.project.system.score.domain;
 import edu.yctc.framework.aspectj.lang.annotation.Excel;
 import edu.yctc.framework.web.domain.BaseEntity;
 import edu.yctc.project.system.course.domain.Course;
+import edu.yctc.project.system.infost.domain.Infost;
 import edu.yctc.project.system.lesson.domain.Lesson;
 import edu.yctc.project.system.user.domain.User;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -38,6 +39,16 @@ public class ClassScore extends BaseEntity
     private Lesson lesson;
 
     private User user;
+
+	private Infost infost;
+
+	public Infost getInfost() {
+		if (infost == null)
+		{
+			infost = new Infost();
+		}
+		return infost;
+	}
 
 	public User getUser() {
 		if (user == null)
