@@ -77,8 +77,11 @@
                     title: '图片编号'
                 },
                     {
-                        field: 'knowledgePicture.picture',
-                        title: '图片'
+                        field : 'knowledgePicture.picture',
+                        title: '知识点图片',
+                        formatter: function(value, row, index) {
+                            return $.table.imageView(value);
+                        }
                     },
                 {
                     field: 'intflag', 

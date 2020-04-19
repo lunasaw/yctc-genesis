@@ -16,6 +16,52 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="modifyTime"    column="modify_time"    />
         <association property="user"    column="user" javaType="User" resultMap="UserResult" />
         <association property="knowledge"    column="knowledge" javaType="Knowledge" resultMap="KnowledgeResult" />
+        <association property="infost"    column="infost" javaType="Infost" resultMap="InfostResult" />
+        <association property="lesson"    column="lesson" javaType="Lesson" resultMap="LessonResult" />
+    </resultMap>
+
+    <resultMap type="Lesson" id="LessonResult">
+        <result property="id"    column="id"    />
+        <result property="courseId"    column="course_id"    />
+        <result property="number"    column="number"    />
+        <result property="classroomId"    column="classroom_id"    />
+        <result property="begin"    column="begin"    />
+        <result property="end"    column="end"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="modifyTime"    column="modify_time"    />
+<!--        <association property="classroom"    column="classroom" javaType="Classroom" resultMap="ClassroomResult" />-->
+        <association property="course"    column="course" javaType="Course" resultMap="CourseResult" />
+    </resultMap>
+
+    <resultMap type="Infost" id="InfostResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="academyId"    column="academy_id"    />
+        <result property="classId"    column="class_id"    />
+        <result property="number"    column="lnumber"    />
+        <result property="name"    column="name"    />
+        <result property="type"    column="type"    />
+        <result property="sex"    column="sex"    />
+        <result property="idCardNumber"    column="id_card_number"    />
+        <result property="phone"    column="phone"    />
+        <result property="mail"    column="mail"    />
+        <result property="picture"    column="picture"    />
+        <result property="faceToken"    column="face_token"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="modifyTime"    column="modify_time"    />
+<!--        <association property="classes"    column="classes" javaType="Classes" resultMap="ClassesResult" />-->
+    </resultMap>
+
+    <resultMap type="Course" id="CourseResult">
+        <result property="id"    column="id"    />
+        <result property="number"    column="cnumber"    />
+        <result property="name"    column="cname"    />
+        <result property="lessonSum"    column="lesson_sum"    />
+        <result property="year"    column="year"    />
+        <result property="term"    column="term"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="classesId"    column="classes_id"    />
+        <!--        <association property="dept"    column="dept_id" javaType="Dept" resultMap="deptResult" />-->
     </resultMap>
 
     <resultMap type="User" id="UserResult">
@@ -52,10 +98,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <sql id="selectKnowledgeStudentStateVo">
         select kss.id, kss.user_id, kss.lesson_id, kss.state, kss.scan_start_time, kss.scan_end_time, kss.knowledge_id, kss.create_time, kss.modify_time,
         u.user_name,
-        k.content
+        k.content,
+        i.academy_id, i.class_id, i.number, i.name, i.type, i.sex, i.id_card_number, i.phone, i.mail, i.picture, i.face_token,
+        l.course_id, l.number as lnumber, l.classroom_id, l.begin, l.end,
+        c.number as cnumber, c.name as cname, c.lesson_sum, c.year, c.term, c.dept_id, c.classes_id
+
         from sys_knowledge_student_state kss
         left join sys_user u on u.user_id = kss.user_id
+        left join sys_infost i on i.id = kss.user_id
+        left join sys_lesson l on l.id = kss.lesson_id
         left join sys_knowledge k on k.id = kss.knowledge_id
+        left join sys_course c on c.id = l.course_id
     </sql>
 
     <select id="selectKnowledgeStudentStateList" parameterType="KnowledgeStudentState" resultMap="KnowledgeStudentStateResult">

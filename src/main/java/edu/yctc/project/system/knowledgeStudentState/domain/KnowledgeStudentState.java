@@ -2,6 +2,7 @@ package edu.yctc.project.system.knowledgeStudentState.domain;
 
 import edu.yctc.framework.aspectj.lang.annotation.Excel;
 import edu.yctc.framework.web.domain.BaseEntity;
+import edu.yctc.project.system.infost.domain.Infost;
 import edu.yctc.project.system.knowledge.domain.Knowledge;
 import edu.yctc.project.system.lesson.domain.Lesson;
 import edu.yctc.project.system.user.domain.User;
@@ -57,7 +58,20 @@ public class KnowledgeStudentState extends BaseEntity
 
     private Knowledge knowledge;
 
-    public User getUser() {
+    private Infost infost;
+
+	public Infost getInfost() {
+		if (infost == null) {
+			infost = new Infost();
+		}
+		return infost;
+	}
+
+	public void setInfost(Infost infost) {
+		this.infost = infost;
+	}
+
+	public User getUser() {
         if (user == null) {
             user = new User();
         }

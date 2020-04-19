@@ -68,17 +68,21 @@
                     title: '编号',
                     visible: false
                 },
-                {
-                    field: 'picture', 
-                    title: '识别到的照片'
-                },
+                    {
+                        field : 'picture',
+                        title: '知识点图片',
+                        formatter: function(value, row, index) {
+                            return $.table.imageView(value);
+                        }
+                    },
                 {
                     field: 'knowledgeid', 
                     title: '知识点编号'
                 },
                     {
                         field: 'knowledge.content',
-                        title: '知识点内容'
+                        title: '知识点内容',
+                        sortable: true
                     },
                 {
                     title: '操作',
