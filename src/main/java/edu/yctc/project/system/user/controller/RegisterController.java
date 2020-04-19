@@ -36,7 +36,7 @@ public class RegisterController extends BaseController
     @ResponseBody
     public AjaxResult ajaxRegister(User user)
     {
-	    System.out.println(user);
+//	    System.out.println(user);
         if (!("true".equals(configService.selectConfigByKey("sys.account.registerUser"))))
         {
             return error("当前系统没有开启注册功能！");
