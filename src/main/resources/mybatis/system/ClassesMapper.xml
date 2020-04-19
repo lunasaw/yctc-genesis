@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.yctc.project.system.classes.mapper.ClassesMapper">
+    
+    <resultMap type="Classes" id="ClassesResult">
+        <result property="id"    column="id"    />
+        <result property="academyId"    column="academy_id"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="number"    column="number"    />
+        <association property="dept"    column="dept_id" javaType="Dept" resultMap="deptResult" />
+        <association property="academy"    column="academy_id" javaType="Academy" resultMap="academyResult" />
+    </resultMap>
+
+    <resultMap id="deptResult" type="Dept">
+        <id     property="deptId"   column="dept_id"     />
+        <result property="parentId" column="parent_id"   />
+        <result property="deptName" column="dept_name"   />
+        <result property="orderNum" column="order_num"   />
+        <result property="leader"   column="leader"   />
+        <result property="status"   column="dept_status" />
+    </resultMap>
+
+    <resultMap type="Academy" id="academyResult">
+        <id     property="id"    column="id"    />
+        <result property="academy"    column="academy"    />
+        <result property="modifyTime"    column="modify_time"    />
+    </resultMap>
+
+
+    <sql id="selectClassesVo">
+        select u.id, u.academy_id, u.dept_id, u.number ,
+            d.dept_id, d.parent_id, d.dept_name, d.order_num, d.leader, d.status as dept_status,
+            a.id, a.academy, a.create_time, a.modify_time
+        from sys_classes u
+            left join sys_dept d on u.dept_id = d.dept_id
+            left join sys_academy a on a.id = u.academy_id
+    </sql>
+
+    <select id="selectClassesList" parameterType="Classes" resultMap="ClassesResult">
+        <include refid="selectClassesVo"/>
+        <where>  
+            <if test="academyId != null ">
+                AND  (u.academy_id = #{academyId} OR u.academy_id IN ( SELECT t.id FROM sys_academy t WHERE FIND_IN_SET (#{academyId},ancestors) ))
+             </if>
+            <if test="deptId != null and deptId != 0">
+                AND (u.dept_id = #{deptId} OR u.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE FIND_IN_SET (#{deptId},ancestors) ))
+            </if>
+            <if test="number != null  and number != ''"> and number = #{number}</if>
+        </where>
+
+    </select>
+    
+    <select id="selectClassesById" parameterType="Long" resultMap="ClassesResult">
+        <include refid="selectClassesVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertClasses" parameterType="Classes" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_classes
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="academyId != null ">academy_id,</if>
+            <if test="deptId != null ">dept_id,</if>
+            <if test="number != null  and number != ''">number,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="academyId != null ">#{academyId},</if>
+            <if test="deptId != null ">#{deptId},</if>
+            <if test="number != null  and number != ''">#{number},</if>
+         </trim>
+    </insert>
+
+    <update id="updateClasses" parameterType="Classes">
+        update sys_classes
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="academyId != null ">academy_id = #{academyId},</if>
+            <if test="deptId != null ">dept_id = #{deptId},</if>
+            <if test="number != null  and number != ''">number = #{number},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteClassesById" parameterType="Long">
+        delete from sys_classes where id = #{id}
+    </delete>
+
+    <delete id="deleteClassesByIds" parameterType="String">
+        delete from sys_classes where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

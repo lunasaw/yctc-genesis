@@ -11,11 +11,11 @@
                     <div class="select-list">
                         <ul>
                             <li>
-                                <label>楼层号id：</label>
+                                <label>楼层id：</label>
                                 <input type="text" name="buildingFloorId"/>
                             </li>
                             <li>
-                                <label>楼层号：</label>
+                                <label>教室号: </label>
                                 <input type="text" name="number"/>
                             </li>
                             <li>
@@ -75,20 +75,27 @@
                 },
                 {
                     field: 'id', 
-                    title: '教室id',
+                    title: '教室编号',
                     visible: false
                 },
                 {
-                    field: 'buildingFloorId', 
-                    title: '楼层号id'
+                    field: 'buildingFloor.building',
+                    title: '楼层编号'
+                },
+                {
+	                field: 'buildingFloor.floor',
+                    title: '楼层号',
+                    sortable: true
                 },
                 {
                     field: 'number', 
-                    title: '楼层号'
+                    title: '教室号',
+                    sortable: true
                 },
                 {
-                    field: 'equipmentId', 
-                    title: '设备id'
+                    field: 'equipment.name',
+                    title: '设备编号',
+                    sortable: true
                 },
                 {
                     field: 'modifyTime', 

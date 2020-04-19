@@ -2,6 +2,9 @@ package edu.yctc.project.system.classroom.domain;
 
 import edu.yctc.framework.aspectj.lang.annotation.Excel;
 import edu.yctc.framework.web.domain.BaseEntity;
+import edu.yctc.project.system.academy.domain.Academy;
+import edu.yctc.project.system.equipment.domain.Equipment;
+import edu.yctc.project.system.floor.domain.BuildingFloor;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
@@ -25,7 +28,7 @@ public class Classroom extends BaseEntity
     private Long buildingFloorId;
 
     /** 楼层号 */
-    @Excel(name = "楼层号")
+    @Excel(name = "教室号")
     private String number;
 
     /** 设备id */
@@ -36,7 +39,35 @@ public class Classroom extends BaseEntity
     @Excel(name = "修改时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date modifyTime;
 
-    public void setId(Long id) 
+    private BuildingFloor buildingFloor;
+
+	private Equipment equipment;
+
+	public Equipment getEquipment() {
+		if (equipment == null)
+		{
+			equipment = new Equipment();
+		}
+		return equipment;
+	}
+
+	public void setEquipment(Equipment equipment) {
+		this.equipment = equipment;
+	}
+
+	public BuildingFloor getBuildingFloor() {
+		if (buildingFloor == null)
+		{
+			buildingFloor = new BuildingFloor();
+		}
+		return buildingFloor;
+	}
+
+	public void setBuildingFloor(BuildingFloor buildingFloor) {
+		this.buildingFloor = buildingFloor;
+	}
+
+	public void setId(Long id)
     {
         this.id = id;
     }

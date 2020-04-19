@@ -11,17 +11,42 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="equipmentId"    column="equipment_id"    />
         <result property="createTime"    column="create_time"    />
         <result property="modifyTime"    column="modify_time"    />
+        <association property="buildingFloor"    column="building_floor_id" javaType="BuildingFloor" resultMap="BuildingFloorResult" />
+        <association property="equipment"    column="equipment_id" javaType="Equipment" resultMap="EquipmentResult" />
+
+    </resultMap>
+
+    <resultMap type="BuildingFloor" id="BuildingFloorResult">
+        <result property="id"    column="id"    />
+        <result property="building"    column="building"    />
+        <result property="floor"    column="floor"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="modifyTime"    column="modify_time"    />
+    </resultMap>
+
+    <resultMap type="Equipment" id="EquipmentResult">
+        <result property="id"    column="id"    />
+        <result property="number"    column="number"    />
+        <result property="name"    column="name"    />
+        <result property="video"    column="video"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="modifyTime"    column="modify_time"    />
     </resultMap>
 
     <sql id="selectClassroomVo">
-        select id, building_floor_id, number, equipment_id, create_time, modify_time from sys_classroom
+        select c.id, c.building_floor_id, c.number, c.equipment_id, c.create_time, c.modify_time,
+        b.id, b.building, b.floor, b.create_time, b.modify_time,
+        e.id, e.number, e.name, e.video, e.create_time,e.modify_time
+        from sys_classroom c
+            left join sys_building_floor b on c.building_floor_id = b.id
+             left join sys_equipment e on c.equipment_id = e.id
     </sql>
 
     <select id="selectClassroomList" parameterType="Classroom" resultMap="ClassroomResult">
         <include refid="selectClassroomVo"/>
         <where>  
             <if test="buildingFloorId != null "> and building_floor_id = #{buildingFloorId}</if>
-            <if test="number != null  and number != ''"> and number = #{number}</if>
+            <if test="number != null  and number != ''"> and c.number = #{number}</if>
             <if test="equipmentId != null  and equipmentId != ''"> and equipment_id = #{equipmentId}</if>
             <if test="modifyTime != null "> and modify_time = #{modifyTime}</if>
         </where>
@@ -29,7 +54,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <select id="selectClassroomById" parameterType="Long" resultMap="ClassroomResult">
         <include refid="selectClassroomVo"/>
-        where id = #{id}
+        where c.id = #{id}
     </select>
         
     <insert id="insertClassroom" parameterType="Classroom" useGeneratedKeys="true" keyProperty="id">
@@ -67,7 +92,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteClassroomByIds" parameterType="String">
-        delete from sys_classroom where id in 
+        delete from sys_classroom where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
