@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.yctc.project.system.knowledgePicture.mapper.KnowledgePictureMapper">
+    
+    <resultMap type="KnowledgePicture" id="KnowledgePictureResult">
+        <result property="id"    column="id"    />
+        <result property="picture"    column="picture"    />
+        <result property="knowledgeid"    column="knowledgeid"    />
+        <association property="knowledge"    column="knowledge" javaType="Knowledge" resultMap="KnowledgeResult" />
+    </resultMap>
+
+    <resultMap type="Knowledge" id="KnowledgeResult">
+        <result property="id"    column="id"    />
+        <result property="content"    column="content"    />
+        <result property="length"    column="length"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="modifyTime"    column="modify_time"    />
+    </resultMap>
+
+    <sql id="selectKnowledgePictureVo">
+        select kp.id, kp.picture, kp.knowledgeid,
+        k.content, k.length
+        from sys_knowledge_picture kp
+        left join sys_knowledge k on k.id = kp.knowledgeid
+    </sql>
+
+    <select id="selectKnowledgePictureList" parameterType="KnowledgePicture" resultMap="KnowledgePictureResult">
+        <include refid="selectKnowledgePictureVo"/>
+        <where>  
+            <if test="picture != null  and picture != ''"> and picture = #{picture}</if>
+            <if test="knowledgeid != null "> and knowledgeid = #{knowledgeid}</if>
+        </where>
+    </select>
+    
+    <select id="selectKnowledgePictureById" parameterType="Long" resultMap="KnowledgePictureResult">
+        <include refid="selectKnowledgePictureVo"/>
+        where kp.id = #{id}
+    </select>
+        
+    <insert id="insertKnowledgePicture" parameterType="KnowledgePicture" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_knowledge_picture
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="picture != null  and picture != ''">picture,</if>
+            <if test="knowledgeid != null ">knowledgeid,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="picture != null  and picture != ''">#{picture},</if>
+            <if test="knowledgeid != null ">#{knowledgeid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateKnowledgePicture" parameterType="KnowledgePicture">
+        update sys_knowledge_picture
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="picture != null  and picture != ''">picture = #{picture},</if>
+            <if test="knowledgeid != null ">knowledgeid = #{knowledgeid},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteKnowledgePictureById" parameterType="Long">
+        delete from sys_knowledge_picture where id = #{id}
+    </delete>
+
+    <delete id="deleteKnowledgePictureByIds" parameterType="String">
+        delete from sys_knowledge_picture where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

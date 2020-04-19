@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.yctc.project.system.checkpicture.mapper.CheckpictureMapper">
+    
+    <resultMap type="Checkpicture" id="CheckpictureResult">
+        <result property="id"    column="id"    />
+        <result property="pictureid"    column="pictureId"    />
+        <result property="intflag"    column="intflag"    />
+        <result property="knowledgeid"    column="knowledgeid"    />
+        <association property="knowledgePicture"    column="knowledgePicture" javaType="KnowledgePicture" resultMap="KnowledgePictureResult" />
+        <association property="knowledge"    column="knowledge" javaType="Knowledge" resultMap="KnowledgeResult" />
+    </resultMap>
+
+    <resultMap type="KnowledgePicture" id="KnowledgePictureResult">
+        <result property="id"    column="id"    />
+        <result property="picture"    column="picture"    />
+        <result property="knowledgeid"    column="knowledgeid"    />
+    </resultMap>
+
+    <resultMap type="Knowledge" id="KnowledgeResult">
+        <result property="id"    column="id"    />
+        <result property="content"    column="content"    />
+        <result property="length"    column="length"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="modifyTime"    column="modify_time"    />
+    </resultMap>
+
+    <sql id="selectCheckpictureVo">
+        select c.id, c.pictureId, c.intflag, c.knowledgeid,
+        k.content, k.length,
+        p.picture, p.knowledgeid
+        from sys_checkpicture c
+        left join sys_knowledge k on k.id = c.knowledgeid
+        left join sys_knowledge_picture p on p.id = c.pictureId
+    </sql>
+
+    <select id="selectCheckpictureList" parameterType="Checkpicture" resultMap="CheckpictureResult">
+        <include refid="selectCheckpictureVo"/>
+        <where>  
+            <if test="pictureid != null "> and pictureId = #{pictureid}</if>
+            <if test="intflag != null "> and intflag = #{intflag}</if>
+            <if test="knowledgeid != null "> and knowledgeid = #{knowledgeid}</if>
+        </where>
+    </select>
+    
+    <select id="selectCheckpictureById" parameterType="Integer" resultMap="CheckpictureResult">
+        <include refid="selectCheckpictureVo"/>
+        where c.id = #{id}
+    </select>
+        
+    <insert id="insertCheckpicture" parameterType="Checkpicture" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_checkpicture
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pictureid != null ">pictureId,</if>
+            <if test="intflag != null ">intflag,</if>
+            <if test="knowledgeid != null ">knowledgeid,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pictureid != null ">#{pictureid},</if>
+            <if test="intflag != null ">#{intflag},</if>
+            <if test="knowledgeid != null ">#{knowledgeid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCheckpicture" parameterType="Checkpicture">
+        update sys_checkpicture
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pictureid != null ">pictureId = #{pictureid},</if>
+            <if test="intflag != null ">intflag = #{intflag},</if>
+            <if test="knowledgeid != null ">knowledgeid = #{knowledgeid},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCheckpictureById" parameterType="Integer">
+        delete from sys_checkpicture where id = #{id}
+    </delete>
+
+    <delete id="deleteCheckpictureByIds" parameterType="String">
+        delete from sys_checkpicture where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
