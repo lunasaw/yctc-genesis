@@ -167,7 +167,7 @@ public class MyFaceApi {
      * @param attributes 需要用到的参数
      * @param faces 存放人脸的容器
      */
-    public static void myDetect(String imgPath, String attributes, List<Face> faces) {
+    public static List<Face> myDetect(String imgPath, String attributes, List<Face> faces) {
         Map<String, String> params = Maps.newHashMapWithExpectedSize(2);
         if (null != attributes) {
             params.put("return_attributes", attributes);
@@ -187,6 +187,7 @@ public class MyFaceApi {
             }
 
         });
+        return faces;
     }
 
     /**

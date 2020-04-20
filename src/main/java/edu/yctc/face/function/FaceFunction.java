@@ -55,32 +55,32 @@ public interface FaceFunction {
      * @return
      */
     public String ocrControl(String imgPath);
+
+    /**
+     * 功能：考勤 判断学生签到情况 把学生的签到情况记录到数据库sys_attendance表<br>
+     * 1）课程id--所有学生<br>
+     * 2）课程id-- 教室DO--equipmentId--视频地址<br>
+     * 3）从视频中抽取几张图片进行人脸识别<br>
+     * 4）把 签到的 且在先前得到的所有学生数组里面的学生 的考勤信息更新 即更新数据库sys_attendance表的attendState
+     *
+     * @param lessonId 课程id
+     */
+    public void checkByLessonId(Long lessonId, String image) throws IOException;
+
+    /**
+     * 功能：学生检测状态 判断学生的上课状态 把学生的状态记录到数据库中的sys_student_state表的state<br>
+     * 1）课程id--所有学生<br>
+     * 2）课程id-- 教室DO--equipmentId--视频地址<br>
+     * 3）从视频中抽取几张图片进行抠图（把图片中的背景去掉 把图片中的人单独截图出来）<br>
+     * 4）把截出来的图片用python模型进行状态检测<br>
+     * 5）更新数据库对应学生的对应时间段的听课状态
+     *
+     * @param lessonId 课程Id
+     */
+    public void checkStatusByLessonId(String lessonId);
 //
 //    /**
-//     * 功能：考勤 判断学生签到情况 把学生的签到情况记录到数据库tb_attendance表<br>
-//     * 1）课程id--所有学生<br>
-//     * 2）课程id-- 教室DO--equipmentId--视频地址<br>
-//     * 3）从视频中抽取几张图片进行人脸识别<br>
-//     * 4）把 签到的 且在先前得到的所有学生数组里面的学生 的考勤信息更新 即更新数据库tb_attendance表的attendState
-//     *
-//     * @param lessonId 课程id
-//     */
-//    public void checkByLessonId(String lessonId);
-//
-//    /**
-//     * 功能：学生检测状态 判断学生的上课状态 把学生的状态记录到数据库中的tb_student_state表的state<br>
-//     * 1）课程id--所有学生<br>
-//     * 2）课程id-- 教室DO--equipmentId--视频地址<br>
-//     * 3）从视频中抽取几张图片进行抠图（把图片中的背景去掉 把图片中的人单独截图出来）<br>
-//     * 4）把截出来的图片用python模型进行状态检测<br>
-//     * 5）更新数据库对应学生的对应时间段的听课状态
-//     *
-//     * @param lessonId 课程Id
-//     */
-//    public void checkStatusByLessonId(String lessonId);
-//
-//    /**
-//     * 功能：学生检测状态 判断学生的上课状态 把学生的状态记录到数据库中的tb_knowledge_student_state表的state<br>
+//     * 功能：学生检测状态 判断学生的上课状态 把学生的状态记录到数据库中的sys_knowledge_student_state表的state<br>
 //     * 1）课程id--所有学生<br>
 //     * 2）课程id-- 教室DO--equipmentId--视频地址<br>
 //     * 3）从视频中抽取几张图片进行抠图（把图片中的背景去掉 把图片中的人单独截图出来）<br>

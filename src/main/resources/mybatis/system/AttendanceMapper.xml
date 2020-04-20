@@ -158,7 +158,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="lessonId != null ">#{lessonId},</if>
             <if test="attendState != null ">#{attendState},</if>
             <if test="createTime != null ">#{createTime},</if>
-            <if test="modifyTime != null ">#{modifyTime},</if>
+            <if test="modifyTime != null ">now(),</if>
          </trim>
     </insert>
 

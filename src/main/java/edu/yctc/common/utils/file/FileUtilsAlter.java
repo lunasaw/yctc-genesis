@@ -56,10 +56,6 @@ public class FileUtilsAlter {
     public static void downloadHttpUrl(String url, String dir, String fileName) throws IOException {
 
         URL urlPath = new URL(url);
-        File file = new File(dir);
-        if (!file.exists()) {
-            file.mkdirs();
-        }
         FileUtils.copyURLToFile(urlPath, new File(dir + fileName));
 
     }

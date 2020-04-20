@@ -58,4 +58,15 @@ public interface IClassScoreService
      * @return 结果
      */
     public int deleteClassScoreById(Long id);
+
+
+	/**
+	 * 计算本堂课所有学生的课堂评分
+	 *
+	 * @param lessonId
+	 * @return
+	 */
+	public boolean calculateScoresByLessonId(long lessonId);
+
+
 }

@@ -18,7 +18,6 @@ import java.util.regex.Pattern;
 
 import javax.net.ssl.SSLContext;
 
-
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -272,32 +271,47 @@ public class HttpUtilsLuna {
         }
     }
 
-	/**
-	 * 判断字符串是否为URL
-	 * @param urls 需要判断的String类型url
-	 * @return true:是URL；false:不是URL
-	 */
-	public static boolean isHttpUrl(String urls) {
-		boolean isurl = false;
-		String regex = "(((https|http)?://)?([a-z0-9]+[.])|(www.))"
-				+ "\\w+[.|\\/]([a-z0-9]{0,})?[[.]([a-z0-9]{0,})]+((/[\\S&&[^,;\u4E00-\u9FA5]]+)+)?([.][a-z0-9]{0,}+|/?)";//设置正则表达式
+    /**
+     * 判断字符串是否为URL
+     * 
+     * @param urls 需要判断的String类型url
+     * @return true:是URL；false:不是URL
+     */
+    public static boolean isHttpUrl(String urls) {
+        boolean isurl = false;
+        String regex = "(((https|http)?://)?([a-z0-9]+[.])|(www.))"
+            + "\\w+[.|\\/]([a-z0-9]{0,})?[[.]([a-z0-9]{0,})]+((/[\\S&&[^,;\u4E00-\u9FA5]]+)+)?([.][a-z0-9]{0,}+|/?)";// 设置正则表达式
 
-		Pattern pat = Pattern.compile(regex.trim());//对比
-		Matcher mat = pat.matcher(urls.trim());
-		isurl = mat.matches();//判断是否匹配
-		if (isurl) {
-			isurl = true;
+        Pattern pat = Pattern.compile(regex.trim());
+        // 对比
+        Matcher mat = pat.matcher(urls.trim());
+        isurl = mat.matches();
+        // 判断是否匹配
+        if (isurl) {
+            isurl = true;
+        }
+        return isurl;
+    }
+
+	public static boolean isNetUrl(String url) {
+		boolean reault = false;
+		if (url != null) {
+			if (url.toLowerCase().startsWith("http") || url.toLowerCase().startsWith("rtsp") || url.toLowerCase().startsWith("mms")) {
+				reault = true;
+			}
 		}
-		return isurl;
+		return reault;
 	}
+
 
 	public static JSONObject getResponse(HttpResponse httpResponse) throws IOException {
-		BufferedReader reader = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent(), "UTF-8"));
-		StringBuilder builder = new StringBuilder();
-		for (String line = null; (line = reader.readLine()) != null;) {
-			builder.append(line).append("\n");
-		}
-		JSONObject jsonObject = new JSONObject(builder.toString());
-		return jsonObject;
-	}
+        BufferedReader reader =
+            new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent(), "UTF-8"));
+        StringBuilder builder = new StringBuilder();
+        for (String line = null; (line = reader.readLine()) != null;) {
+            builder.append(line).append("\n");
+        }
+        JSONObject jsonObject = new JSONObject(builder.toString());
+        return jsonObject;
+    }
 }

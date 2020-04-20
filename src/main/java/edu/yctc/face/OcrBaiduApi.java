@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.google.common.collect.ImmutableMap;
 import edu.yctc.common.constant.BaiduApiContent;
 import edu.yctc.common.utils.file.Base64Utils;
+import edu.yctc.common.utils.file.FileUtils;
 import edu.yctc.common.utils.file.FileUtilsAlter;
 import edu.yctc.common.utils.http.HttpUtilsLuna;
 import jdk.nashorn.internal.runtime.linker.LinkerCallSite;
@@ -24,8 +25,11 @@ public class OcrBaiduApi {
     public static List<String> baiDuOcr(String img) throws IOException {
         String path = ResourceUtils.getURL("classpath:static/").getPath();
         if (HttpUtilsLuna.isHttpUrl(img)) {
-            FileUtilsAlter.downloadHttpUrl(img, path, "tmp.jpg");
-        }
+		    if (FileUtilsAlter.isDirExists(path+"tmp.jpg")){
+			    FileUtils.deleteFile(path+"tmp.jpg");
+		    }
+		    FileUtilsAlter.downloadHttpUrl(img, path, "tmp.jpg");
+	    }
         String s = Base64Utils.GetImageStr(path + "tmp.jpg");
         HttpResponse httpResponse = HttpUtilsLuna.doPost(BaiduApiContent.HOST, BaiduApiContent.OCR,
             ImmutableMap.of("Content-Type", "application/x-www-form-urlencoded"), null,

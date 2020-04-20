@@ -1,7 +1,10 @@
 package edu.yctc.project.system.classroom.mapper;
 
+import edu.yctc.face.function.FaceFunction;
+import edu.yctc.face.function.impl.FaceFunctionImpl;
 import edu.yctc.project.system.infost.domain.Infost;
 import edu.yctc.project.system.infost.mapper.InfostMapper;
+import edu.yctc.project.system.infost.service.IInfostService;
 import edu.yctc.project.system.lesson.mapper.LessonMapper;
 import edu.yctc.project.system.score.domain.ClassScore;
 import edu.yctc.project.system.score.mapper.ClassScoreMapper;
@@ -13,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -42,5 +46,16 @@ public class ClassDAOTest {
 		System.out.println(infosts);
 	}
 
+
+	@Resource
+	IInfostService infostService;
+
+	@Test
+	public void bTest() throws IOException {
+
+		FaceFunction faceFunction = new FaceFunctionImpl();
+		faceFunction.checkByLessonId(583L, "http://iszychen.club:8087/iszychen/img/genesis/lesson/img/2.jpg");
+
+	}
 
 }

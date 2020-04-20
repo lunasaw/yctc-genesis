@@ -1,12 +1,8 @@
 package edu.yctc.project.system.classroom.mapper;
 
-import com.alibaba.fastjson.JSON;
-import com.google.common.collect.ImmutableMap;
-import edu.yctc.common.constant.BaiduApiContent;
-import edu.yctc.common.utils.file.Base64Utils;
+
+import edu.yctc.common.utils.file.FileUtils;
 import edu.yctc.common.utils.file.FileUtilsAlter;
-import edu.yctc.common.utils.http.HttpUtils;
-import edu.yctc.common.utils.http.HttpUtilsLuna;
 import edu.yctc.face.OcrBaiduApi;
 import edu.yctc.face.function.FaceFunction;
 import edu.yctc.face.function.impl.FaceFunctionImpl;
@@ -20,27 +16,20 @@ import edu.yctc.project.system.knowledge.mapper.KnowledgeMapper;
 import edu.yctc.project.system.knowledgeStudentState.domain.KnowledgeStudentState;
 import edu.yctc.project.system.knowledgeStudentState.mapper.KnowledgeStudentStateMapper;
 import edu.yctc.project.system.lesson.domain.Lesson;
+
 import edu.yctc.project.system.lesson.mapper.LessonMapper;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.util.ResourceUtils;
+
 
 import javax.annotation.Resource;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -59,7 +48,7 @@ public class KnowledgeTest {
     KnowledgeStudentStateMapper knowledgeStudentStateMapper;
 
     @Resource
-    LessonMapper                lessonMapper;
+    LessonMapper lessonMapper;
 
     @Resource
     CourseMapper                courseMapper;
@@ -130,15 +119,17 @@ public class KnowledgeTest {
 
     @Test
     public void bTest() throws IOException {
-    	FaceFunction faceFunction=new FaceFunctionImpl();
-	    boolean knowledge = faceFunction.checkKnowledge("亲子关系及其对儿童品德发展的影响", "http://iszychen.club:8087/iszychen/img/genesis/583/010.jpg");
-	    System.out.println(knowledge);
+        FaceFunction faceFunction = new FaceFunctionImpl();
+        boolean knowledge = faceFunction.checkKnowledge("亲子关系及其对儿童品德发展的影响",
+            "http://iszychen.club:8087/iszychen/img/genesis/583/010.jpg");
+        System.out.println(knowledge);
     }
 
     @Test
     public void cTest() throws IOException {
-	    List<String> list = OcrBaiduApi.baiDuOcr("http://iszychen.club:8087/iszychen/img/genesis/583/010.jpg");
-	    System.out.println(list);
+        List<String> list = OcrBaiduApi.baiDuOcr("http://iszychen.club:8087/iszychen/img/genesis/583/011.jpg");
+        System.out.println(list);
+
 
     }
 
