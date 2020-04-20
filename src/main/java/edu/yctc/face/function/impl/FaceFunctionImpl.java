@@ -2,32 +2,34 @@ package edu.yctc.face.function.impl;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import com.google.common.collect.ImmutableMap;
+import edu.yctc.common.utils.file.Base64Utils;
+import edu.yctc.common.utils.file.FileUtilsAlter;
+import edu.yctc.common.utils.http.HttpUtils;
+import edu.yctc.common.utils.http.HttpUtilsLuna;
+import edu.yctc.face.OcrBaiduApi;
 import edu.yctc.face.function.FaceFunction;
-import edu.yctc.face.util.Face;
-import edu.yctc.face.util.MyFaceApi;
-import edu.yctc.face.util.SpringContextUtils;
-import edu.yctc.face.util.WaitForDate;
+import edu.yctc.face.util.*;
 import edu.yctc.project.system.academy.domain.Academy;
 import edu.yctc.project.system.academy.service.IAcademyService;
 import edu.yctc.project.system.academy.service.impl.AcademyServiceImpl;
 import edu.yctc.project.system.infost.domain.Infost;
 import edu.yctc.project.system.infost.service.IInfostService;
 import edu.yctc.project.system.infost.service.impl.InfostServiceImpl;
+import edu.yctc.project.system.knowledge.service.IKnowledgeService;
+import edu.yctc.project.system.knowledge.service.impl.KnowledgeServiceImpl;
 import edu.yctc.project.system.user.service.UserServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import org.springframework.util.ResourceUtils;
 
 
 /**
@@ -50,6 +52,9 @@ public class FaceFunctionImpl implements FaceFunction {
 	private IInfostService infostService = (InfostServiceImpl) SpringContextUtils.getBeanByClass(InfostServiceImpl.class);
 	/** 学院 */
 	private IAcademyService academyService = (AcademyServiceImpl) SpringContextUtils.getBeanByClass(AcademyServiceImpl.class);
+	/** 知识点 */
+	private IKnowledgeService knowledgeService = (KnowledgeServiceImpl) SpringContextUtils.getBeanByClass(KnowledgeServiceImpl.class);
+
 
 	@Override
 	public void alterFaceToken(Infost infost) {
@@ -77,7 +82,7 @@ public class FaceFunctionImpl implements FaceFunction {
 		infostService.updateInfost(infost);
 
 	}
-}
+
 //
 //    /** 日志 */
 //    private final static Logger LOG = LoggerFactory.getLogger("serviceLogger");
@@ -138,10 +143,10 @@ public class FaceFunctionImpl implements FaceFunction {
 //        CameraControl.execCommand("C:\\src\\sxt\\sxt.exe", command);
 //    }
 //
-//    @Override
-//    public String ocrControl(String imgPath) {
-//        return OcrContorl.ocrRecognise(imgPath);
-//    }
+    @Override
+    public String ocrControl(String imgPath) {
+        return OcrContorl.ocrRecognise(imgPath);
+    }
 //
 //    @Override
 //    public void checkByLessonId(String lessonId) {
@@ -642,19 +647,20 @@ public class FaceFunctionImpl implements FaceFunction {
 //        return bodyRectangles.size();
 //    }
 //
-//    @Override
-//    public boolean checkKnowledge(long lessonId, String knowledge) {
-//        // 参数检验
-//        if (lessonId <= 0 || StringUtils.isBlank(knowledge)) {
-//            LOG.error("check knowledge fail, parameter invalid, lessonId={}, knowledge={}", lessonId, knowledge);
-//            return false;
-//        }
-//        // TODO 使用摄像头拍摄到的截图
-//        String image = "src\\img\\picture.jpg";
-//        // OCR检测图片中的文字
-//        String toMatch = ocrControl(image);
-//        // 判断图片中是否存在知识点
-//        return knowledgeService.checkKnowledge(knowledge, toMatch).getModule();
-//    }
-//
-//}
+
+    @Override
+    public boolean checkKnowledge(String knowledge, String image) throws IOException {
+        // 参数检验
+        if (StringUtils.isBlank(knowledge)) {
+            LOG.error("check knowledge fail, parameter invalid, knowledge={}", knowledge);
+            return false;
+        }
+        // TODO 使用摄像头拍摄到的截图
+
+	    // OCR检测图片中的文字
+	    List<String> list = OcrBaiduApi.baiDuOcr(image);
+	    // 判断图片中是否存在知识点
+        return knowledgeService.checkKnowledge(knowledge, list.toString());
+    }
+
+}

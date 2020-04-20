@@ -21,7 +21,7 @@ public class ImageUtil {
      * @param imageFile 文件路径
      * @param imageFormat 文件扩展名
      * @return
-    */
+     */
     public static File createImage(File imageFile, String imageFormat) {
         File tempFile = null;
         try {

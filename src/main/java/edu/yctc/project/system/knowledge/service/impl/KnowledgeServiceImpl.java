@@ -1,7 +1,12 @@
 package edu.yctc.project.system.knowledge.service.impl;
 
 import java.util.List;
+import java.util.regex.Pattern;
+
 import edu.yctc.common.utils.DateUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import edu.yctc.project.system.knowledge.mapper.KnowledgeMapper;
@@ -18,7 +23,9 @@ import edu.yctc.common.utils.text.Convert;
 @Service
 public class KnowledgeServiceImpl implements IKnowledgeService 
 {
-    @Autowired
+	private final static Logger LOG = LoggerFactory.getLogger(KnowledgeServiceImpl.class);
+
+	@Autowired
     private KnowledgeMapper knowledgeMapper;
 
     /**
@@ -93,4 +100,31 @@ public class KnowledgeServiceImpl implements IKnowledgeService
     {
         return knowledgeMapper.deleteKnowledgeById(id);
     }
+
+
+	/** 匹配中文正则表达式 */
+	private final static String PATTERN = "[\\u4e00-\\u9fa5]+";
+
+	@Override
+	public boolean checkKnowledge(String knowledge, String toMatch) {
+		if (StringUtils.isBlank(knowledge) || StringUtils.isBlank(toMatch)) {
+			LOG.error("check knowledge fail, parameter invalid, knowledge={}, toMatch={}", knowledge, toMatch);
+			return false;
+		}
+		Pattern pattern = Pattern.compile(PATTERN);
+		// OCR识别出的文字用换行符分隔
+		String[] split = toMatch.split("\n");
+		for (String str : split) {
+			if (pattern.matcher(str).find()) {
+				// 匹配到中文
+				// 判断是否是知识点
+				if (str.replaceAll(" ", "").contains(knowledge.replaceAll(" ", ""))) {
+					LOG.info("check knowledge success, knowledge={}, toMatch={}", knowledge, toMatch);
+					return true;
+				}
+			}
+		}
+		LOG.error("check knowledge fail, no such knowledge, knowledge={}, toMatch={}", knowledge, toMatch);
+		return false;
+	}
 }

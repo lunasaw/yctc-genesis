@@ -2,6 +2,9 @@ package edu.yctc.face.function;
 
 import edu.yctc.project.system.infost.domain.Infost;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 /**
  * 人脸识别相关功能接口
  * 
@@ -45,13 +48,13 @@ public interface FaceFunction {
 //     */
 //    public void cameraControl(String command);
 //
-//    /**
-//     * 识别图片中的文字
-//     *
-//     * @param imgPath 图片路径(jpg格式)
-//     * @return
-//     */
-//    public String ocrControl(String imgPath);
+    /**
+     * 识别图片中的文字
+     *
+     * @param imgPath 图片路径(jpg格式)
+     * @return
+     */
+    public String ocrControl(String imgPath);
 //
 //    /**
 //     * 功能：考勤 判断学生签到情况 把学生的签到情况记录到数据库tb_attendance表<br>
@@ -89,18 +92,17 @@ public interface FaceFunction {
 //     */
 //    public void checkStatusByLessonId(String lessonId, long knowledge);
 //
-//    /**
-//     * 功能：检测此时上课所放的PPT是否存在该知识点 <br>
-//     * 1）得到视频拍摄PPT图片 <br>
-//     * 2）OCR检测图片中的文字 <br>
-//     * 3）检测图片中是否包含知识点 <br>
-//     * 4）如果包含知识点，返回true <br>
-//     * 5）如果不包含知识点，返回false <br>
-//     *
-//     * @param lessonId
-//     * @param knowledge
-//     * @return
-//     */
-//    public boolean checkKnowledge(long lessonId, String knowledge);
+    /**
+     * 功能：检测此时上课所放的PPT是否存在该知识点 <br>
+     * 1）得到视频拍摄PPT图片 <br>
+     * 2）OCR检测图片中的文字 <br>
+     * 3）检测图片中是否包含知识点 <br>
+     * 4）如果包含知识点，返回true <br>
+     * 5）如果不包含知识点，返回false <br>
+     *
+     * @param knowledge
+     * @return
+     */
+    public boolean checkKnowledge(String knowledge, String image) throws IOException;
 
 }

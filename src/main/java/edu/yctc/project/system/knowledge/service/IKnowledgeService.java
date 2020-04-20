@@ -1,6 +1,8 @@
 package edu.yctc.project.system.knowledge.service;
 
 import java.util.List;
+
+import edu.yctc.common.exception.base.BaseException;
 import edu.yctc.project.system.knowledge.domain.Knowledge;
 
 /**
@@ -58,4 +60,13 @@ public interface IKnowledgeService
      * @return 结果
      */
     public int deleteKnowledgeById(Long id);
+
+	/**
+	 * 判断待匹配字符串中是否存在知识点
+	 *
+	 * @param knowledge
+	 * @param toMatch
+	 * @return
+	 */
+	public boolean checkKnowledge(String knowledge, String toMatch);
 }
