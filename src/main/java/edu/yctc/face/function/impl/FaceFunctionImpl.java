@@ -41,6 +41,8 @@ import edu.yctc.project.system.infost.service.impl.InfostServiceImpl;
 import edu.yctc.project.system.knowledge.service.IKnowledgeService;
 import edu.yctc.project.system.knowledge.service.impl.KnowledgeServiceImpl;
 import edu.yctc.project.system.knowledgeStudentState.domain.KnowledgeStudentState;
+import edu.yctc.project.system.knowledgeStudentState.service.IKnowledgeStudentStateService;
+import edu.yctc.project.system.knowledgeStudentState.service.impl.KnowledgeStudentStateServiceImpl;
 import edu.yctc.project.system.lesson.domain.Lesson;
 import edu.yctc.project.system.lesson.service.ILessonService;
 import edu.yctc.project.system.lesson.service.impl.LessonServiceImpl;
@@ -63,44 +65,48 @@ import org.springframework.util.ResourceUtils;
 public class FaceFunctionImpl implements FaceFunction {
 
     /** 日志 */
-    private final static Logger        log                        = LoggerFactory.getLogger(FaceFunctionImpl.class);
+    private final static Logger           log                          =
+        LoggerFactory.getLogger(FaceFunctionImpl.class);
 
     /** 循环次数 */
-    private int                        cycleIndex                 = 1;
+    private int                           cycleIndex                   = 1;
 
-    final static String                pathexe                    = "D:\\ffmpeg\\ffmpeg\\bin\\ffmpeg.exe";
+    final static String                   pathexe                      = "D:\\ffmpeg\\ffmpeg\\bin\\ffmpeg.exe";
 
     /** service层接口 */
     /** 用户档案 */
-    private IInfostService             infostService              =
+    private IInfostService                infostService                =
         (InfostServiceImpl)SpringContextUtils.getBeanByClass(InfostServiceImpl.class);
     /** 学院 */
-    private IAcademyService            academyService             =
+    private IAcademyService               academyService               =
         (AcademyServiceImpl)SpringContextUtils.getBeanByClass(AcademyServiceImpl.class);
     /** 知识点 */
-    private IKnowledgeService          knowledgeService           =
+    private IKnowledgeService             knowledgeService             =
         (KnowledgeServiceImpl)SpringContextUtils.getBeanByClass(KnowledgeServiceImpl.class);
     /** 课时间 */
-    private ILessonService             lessonService              =
+    private ILessonService                lessonService                =
         (LessonServiceImpl)SpringContextUtils.getBeanByClass(LessonServiceImpl.class);
     /** 课程-学生 */
-    private ICourseStuService          courseStuService           =
+    private ICourseStuService             courseStuService             =
         (CourseStuServiceImpl)SpringContextUtils.getBeanByClass(CourseStuServiceImpl.class);
     /** 教室 */
-    private IClassroomService          classroomService           =
+    private IClassroomService             classroomService             =
         (ClassroomServiceImpl)SpringContextUtils.getBeanByClass(ClassroomServiceImpl.class);
     /** 设备 */
-    private IEquipmentService          equipmentService           =
+    private IEquipmentService             equipmentService             =
         (EquipmentServiceImpl)SpringContextUtils.getBeanByClass(EquipmentServiceImpl.class);
     /** 状态 */
-    private IAttendanceService         attendanceService          =
+    private IAttendanceService            attendanceService            =
         (AttendanceServiceImpl)SpringContextUtils.getBeanByClass(AttendanceServiceImpl.class);
     /** 课程评分 */
-    private IClassScoreService         scoreService               =
+    private IClassScoreService            scoreService                 =
         (ClassScoreServiceImpl)SpringContextUtils.getBeanByClass(ClassScoreServiceImpl.class);
     /** 学生状态 */
-    private IStudentCoursestateService iStudentCoursestateService =
+    private IStudentCoursestateService    iStudentCoursestateService   =
         (StudentCoursestateServiceImpl)SpringContextUtils.getBeanByClass(StudentCoursestateServiceImpl.class);
+    /** 知识点状态 */
+    private IKnowledgeStudentStateService knowledgeStudentStateService =
+        (KnowledgeStudentStateServiceImpl)SpringContextUtils.getBeanByClass(KnowledgeStudentStateServiceImpl.class);
 
     @Override
     public void alterFaceToken(Infost infost) {
@@ -129,39 +135,39 @@ public class FaceFunctionImpl implements FaceFunction {
 
     }
 
-    // @Override
-    // public void dealMedia(String videoPath, String savePath, String startTime, String endTime, String totalTime,
-    // String frame, String resolutionRatio) {
-    // /** 设置相关参数参数 */
-    // DealMedia.setTotalTime(totalTime);
-    // DealMedia.setFrame(frame);
-    // DealMedia.setResolutionRatio(resolutionRatio);
-    // DealMedia.setStartTime(startTime);
-    // DealMedia.setEndTime(endTime);
-    // /** 视频解析成图片 */
-    // DealMedia.decode(videoPath, "src\\img", pathexe);
-    //
-    // /** 处理图片 */
-    // try {
-    // List<String> fileNames = new ArrayList<>();
-    // GetFoldFileNames.getFileName(fileNames, "src\\img");
-    // for (String temp : fileNames) {
-    // System.out.println("src\\img\\" + temp);
-    // DealImage.paint("src\\img\\" + temp);
-    // }
-    // } catch (Exception e) {
-    // log.error("img is not exist!, exception={}", e);
-    // }
-    //
-    // /** 图片合成视频 */
-    // DealMedia.coding("src\\img", savePath, pathexe);
-    // }
-    //
-    // @Override
-    // public void cameraControl(String command) {
-    // CameraControl.execCommand("C:\\src\\sxt\\sxt.exe", command);
-    // }
-    //
+    @Override
+    public void dealMedia(String videoPath, String savePath, String startTime, String endTime, String totalTime,
+        String frame, String resolutionRatio) {
+        /** 设置相关参数参数 */
+        DealMedia.setTotalTime(totalTime);
+        DealMedia.setFrame(frame);
+        DealMedia.setResolutionRatio(resolutionRatio);
+        DealMedia.setStartTime(startTime);
+        DealMedia.setEndTime(endTime);
+        /** 视频解析成图片 */
+        DealMedia.decode(videoPath, "src\\img", pathexe);
+
+        /** 处理图片 */
+        try {
+            List<String> fileNames = new ArrayList<>();
+            GetFoldFileNames.getFileName(fileNames, "src\\img");
+            for (String temp : fileNames) {
+                System.out.println("src\\img\\" + temp);
+                DealImage.paint("src\\img\\" + temp);
+            }
+        } catch (Exception e) {
+            log.error("img is not exist!, exception={}", e);
+        }
+
+        /** 图片合成视频 */
+        DealMedia.coding("src\\img", savePath, pathexe);
+    }
+
+    @Override
+    public void cameraControl(String command) {
+        CameraControl.execCommand("C:\\src\\sxt\\sxt.exe", command);
+    }
+
     @Override
     public String ocrControl(String imgPath) {
         return OcrContorl.ocrRecognise(imgPath);
@@ -285,7 +291,7 @@ public class FaceFunctionImpl implements FaceFunction {
     }
 
     @Override
-    public void checkStatusByLessonId(String lessonId) {
+    public void checkStatusByLessonId(String lessonId) throws IOException {
         /** 得到所有学生 */
         Lesson lesson = lessonService.selectLessonById(Long.parseLong(lessonId));
         CourseStu courseStu = new CourseStu();
@@ -327,17 +333,24 @@ public class FaceFunctionImpl implements FaceFunction {
         /**
          * dealMedia("C:\\src\\mp4\\1.mp4", "C:\\src\\mp4\\test.mp4", "00:00", "00:10", "10", "10", null);
          */
+	    String path = ResourceUtils.getURL("classpath:static/").getPath();
 
         for (int i = 1; i <= cycleIndex; ++i) {
             // TODO 图片改回来
-            String imgPath = "D:\\ffmpeg\\img\\001.jpg";
-
+            String imgPath = "http://iszychen.club:8087/iszychen/img/genesis/lesson/img/1.jpg";
+	        File file=new File(path+"tmp.jpg");
+	        if (file.exists()) {
+		        FileUtils.deleteFile(path + "tmp.jpg");
+	        }
+	        if (HttpUtilsLuna.isNetUrl(imgPath)) {
+		        FileUtilsAlter.downloadHttpUrl(imgPath, path, "tmp.jpg");
+	        }
             /** 把图片中的背景去掉 */
-            removeTheBackground(imgPath);
+            removeTheBackground(path + "tmp.jpg");
             /** 转换png图片格式为jpg */
-            formatConversion(imgPath);
+            formatConversion(path + "tmp.jpg");
             /** 把图片中的人单独截图出来 */
-            peopleNumber = cutPicture(imgPath);
+            peopleNumber = cutPicture(path + "tmp.jpg");
 
             /** 用来和数据库里面每个人的face_token对比 */
             /** 搜索faceset中最像的face_token */
@@ -346,11 +359,19 @@ public class FaceFunctionImpl implements FaceFunction {
             List<Float> thresholds = new ArrayList<>();
 
             for (int j = 0; j < peopleNumber; ++j) {
+            	String ps="http://iszychen.club:8087/iszychen/img/genesis/lesson/"+lessonId+"/img/"+j+".jpg";
                 faces.clear();
                 searthFaceToken.clear();
                 thresholds.clear();
+	            String s=path+"tmp.jpg";
+	            if (file.exists()) {
+		            FileUtils.deleteFile(path + "tmp.jpg");
+	            }
+	            if (HttpUtilsLuna.isNetUrl(ps)) {
+		            FileUtilsAlter.downloadHttpUrl(ps, path, "tmp.jpg");
+	            }
 
-                MyFaceApi.myDetect("D:\\ffmpeg\\img\\" + j + ".jpg", null, faces);
+                MyFaceApi.myDetect("tmp.jpg", null, faces);
 
                 /** 等待人脸检测完成 */
                 WaitForDate.waitForDate(faces);
@@ -380,27 +401,27 @@ public class FaceFunctionImpl implements FaceFunction {
                         if (temp.getId().equals(list.get(0).getId())) {
                             flag = true;
                         }
-                    }
 
-                    /** 在所有学生里面 */
-                    if (flag) {
-                        /** 用python模型进行状态检测 */
-                        int state = Model.dealPicture("D:\\ffmpeg\\img\\" + j + ".jpg");
-                        StudentCoursestate studentStateDO = new StudentCoursestate();
-                        studentStateDO.setUserId(list1.get(0).getId());
-                        studentStateDO.setLessonId(Long.parseLong(lessonId));
-                        studentStateDO.setState(Long.valueOf(state));
-                        studentStateDO.setFaceToken(searthFaceToken.get(0));
-                        studentCoursestates.add(studentStateDO);
+                        /** 在所有学生里面 */
+                        if (flag) {
+                            /** 用python模型进行状态检测 */
+                            int state = Model.dealPicture("D:\\ffmpeg\\img\\" + j + ".jpg");
+                            StudentCoursestate studentStateDO = new StudentCoursestate();
+                            studentStateDO.setUserId(list1.get(0).getId());
+                            studentStateDO.setLessonId(Long.parseLong(lessonId));
+                            studentStateDO.setState(Long.valueOf(state));
+                            studentStateDO.setFaceToken(searthFaceToken.get(0));
+                            studentCoursestates.add(studentStateDO);
 
-                        // 发短信提醒
-                        // if (state != StudentState.LISTENING) {
-                        // messageService.sendSms(userDO.getModule().getPhone(),
-                        // ConstantHolder.STATE_SMS_TITLE + userDO.getModule().getName()
-                        // + ConstantHolder.STATE_SMS_CONTENT);
-                        // }
-                    } else {
-                        log.error("课程中不存在此人 info={}", list1.get(0).getName());
+                            // 发短信提醒
+                            // if (state != StudentState.LISTENING) {
+                            // messageService.sendSms(userDO.getModule().getPhone(),
+                            // ConstantHolder.STATE_SMS_TITLE + userDO.getModule().getName()
+                            // + ConstantHolder.STATE_SMS_CONTENT);
+                            // }
+                        } else {
+                            log.error("课程中不存在此人 info={}", list1.get(0).getName());
+                        }
                     }
                 }
                 thresholds.clear();
@@ -416,120 +437,145 @@ public class FaceFunctionImpl implements FaceFunction {
         // 计算课堂评分
         scoreService.calculateScoresByLessonId(Long.parseLong(lessonId));
     }
-    //
-    // @Override
-    // public void checkStatusByLessonId(String lessonId, long knowledge) {
-    // /** 得到所有学生 */
-    // ResultDO<List<UserDO>> userDOsResultDO = lessonService.getAllStudentsAtLesson(Long.parseLong(lessonId));
-    // if (!userDOsResultDO.isSuccess()) {
-    // log.error("There are no students in the course, lessonId={}", lessonId);
-    // return;
-    // }
-    // List<UserDO> userDOs = userDOsResultDO.getModule();
-    //
-    // /** 得到视频地址 */
-    // ResultDO<ClassroomDO> classroomResultDO = detailsService.getClassroomDOByLessonId(Long.parseLong(lessonId));
-    // if (!classroomResultDO.isSuccess()) {
-    // log.error("Camera information acquisition failed, lessonId={}", lessonId);
-    // return;
-    // }
-    // // long equipmentId = classroomResultDO.getModule().getEquipmentId();
-    // // TODO 添加通过设备id找到视频播放地址
-    //
-    // /** 照片中的人数 */
-    // int peopleNumber = 0;
-    // /** 存放图片中的人脸 */
-    // List<Face> faces = new ArrayList<>();
-    // /** 存放需要添加的KnowledgeStudentStateDO */
-    // ArrayList<KnowledgeStudentStateDO> knowledgeStudentStateDOs = new ArrayList<>();
-    //
-    // // TODO 换成视频URL
-    // /**
-    // * dealMedia("C:\\src\\mp4\\1.mp4", "C:\\src\\mp4\\test.mp4", "00:00", "00:10", "10", "10", null);
-    // */
-    //
-    // for (int i = 1; i <= cycleIndex; ++i) {
-    // // TODO 图片改回来
-    // String imgPath = "D:\\ffmpeg\\img\\001.jpg";
-    //
-    // /** 把图片中的背景去掉 */
-    // removeTheBackground(imgPath);
-    // /** 转换png图片格式为jpg */
-    // formatConversion(imgPath);
-    // /** 把图片中的人单独截图出来 */
-    // peopleNumber = cutPicture(imgPath);
-    //
-    // /** 用来和数据库里面每个人的face_token对比 */
-    // /** 搜索faceset中最像的face_token */
-    // List<String> searthFaceToken = new ArrayList<>();
-    // /** 置信值和阈值 */
-    // List<Float> thresholds = new ArrayList<>();
-    //
-    // for (int j = 0; j < peopleNumber; ++j) {
-    // faces.clear();
-    // searthFaceToken.clear();
-    // thresholds.clear();
-    //
-    // MyFaceApi.myDetect("D:\\ffmpeg\\img\\" + j + ".jpg", null, faces);
-    //
-    // /** 等待人脸检测完成 */
-    // WaitForDate.waitForDate(faces);
-    //
-    // ResultDO<String> academyResult = userService.getAcademyByUserDO(userDOs.get(0));
-    // if (academyResult.getModule() != null) {
-    // MyFaceApi.mySearch(faces.get(0).getFaceToken(), academyResult.getModule(), thresholds,
-    // searthFaceToken);
-    // } else {
-    // log.error("Colleges don't exist!, userDO={}", userDOs.get(0));
-    // }
-    //
-    // /** 等待人脸搜索完成 */
-    // WaitForDate.waitForDate(searthFaceToken);
-    //
-    // if (thresholds.get(0) > thresholds.get(3)) {
-    // boolean flag = false;
-    // ResultDO<UserDO> userDO = userService.getUserDOByFaceToken(searthFaceToken.get(0));
-    //
-    // if (userDO.getModule() == null) {
-    // continue;
-    // }
-    //
-    // for (UserDO temp : userDOs) {
-    // if (temp.getId() == userDO.getModule().getId()) {
-    // flag = true;
-    // }
-    // }
-    //
-    // /** 在所有学生里面 */
-    // if (flag) {
-    // /** 用python模型进行状态检测 */
-    // int state = Model.dealPicture("D:\\ffmpeg\\img\\" + j + ".jpg");
-    // KnowledgeStudentStateDO knowledgeStudentStateDO = new KnowledgeStudentStateDO();
-    // knowledgeStudentStateDO.setUserId(userDO.getModule().getId());
-    // knowledgeStudentStateDO.setLessonId(Long.parseLong(lessonId));
-    // knowledgeStudentStateDO.setState(state);
-    // knowledgeStudentStateDO.setKnowledgeId(knowledge);
-    // knowledgeStudentStateDOs.add(knowledgeStudentStateDO);
-    // // 发短信提醒
-    // // if (state != StudentState.LISTENING) {
-    // // messageService.sendSms(userDO.getModule().getPhone(),
-    // // ConstantHolder.STATE_SMS_TITLE + userDO.getModule().getName()
-    // // + ConstantHolder.STATE_SMS_CONTENT);
-    // // }
-    // } else {
-    // log.error("课程中不存在此人 userDO={}", userDO.toString());
-    // }
-    // }
-    // thresholds.clear();
-    // }
-    // }
-    //
-    // /** 去重添加到数据库 */
-    // List<KnowledgeStudentStateDO> newLists = removeRepetitiveKnowledgeStudentStateDO(knowledgeStudentStateDOs);
-    // for (KnowledgeStudentStateDO knowledgeStudentStateDO : newLists) {
-    // knowledgeService.insertKnowledgeAndStudentStateDO(knowledgeStudentStateDO);
-    // }
-    // }
+
+    @Override
+    public void checkStatusByLessonId(String lessonId, long knowledge) throws IOException {
+        /** 得到所有学生 */
+        Lesson lesson = lessonService.selectLessonById(Long.parseLong(lessonId));
+        CourseStu courseStu = new CourseStu();
+        courseStu.setCourseId(lesson.getCourseId());
+        /** 课时查所对应课程 查选修该课程的学生 */
+        List<CourseStu> courseStus = courseStuService.selectCourseStuList(courseStu);
+        List<Infost> list = new ArrayList<>();
+        for (int i = 0; i < courseStus.size(); i++) {
+            Infost infost = infostService.selectInfostById(courseStus.get(i).getUserId());
+            list.add(infost);
+        }
+        if (list.size() == 0) {
+            log.error("There are no students in the course, lessonId={}", lessonId);
+            return;
+        }
+        for (int i = 0; i < list.size(); i++) {
+            log.info("课程人员:" + list.get(i).getName());
+        }
+
+        /** 得到视频地址 */
+        Classroom classroom = classroomService.selectClassroomById(lesson.getClassroomId());
+        Equipment equipment = equipmentService.selectEquipmentById(Long.valueOf(classroom.getEquipmentId()));
+        if (equipment == null) {
+            log.error("Camera information acquisition failed, lessonId={}", lessonId);
+            return;
+        }
+        log.info("视频地址:" + equipment.getVideo());
+        // TODO 添加通过设备id找到视频播放地址 暂为本地地址
+        String video = equipment.getVideo();
+
+        /** 照片中的人数 */
+        int peopleNumber = 0;
+        /** 存放图片中的人脸 */
+        List<Face> faces = new ArrayList<>();
+        /** 存放需要添加的KnowledgeStudentStateDO */
+        ArrayList<KnowledgeStudentState> knowledgeStudentStateDOs = new ArrayList<>();
+
+        // TODO 换成视频URL
+        /**
+         * dealMedia("C:\\src\\mp4\\1.mp4", "C:\\src\\mp4\\test.mp4", "00:00", "00:10", "10", "10", null);
+         */
+	    String path = ResourceUtils.getURL("classpath:static/").getPath();
+
+        for (int i = 1; i <= cycleIndex; ++i) {
+            // TODO 图片改回来
+            String imgPath = "D:\\ffmpeg\\img\\001.jpg";
+
+	        File file=new File(path+"tmp.jpg");
+
+            /** 把图片中的背景去掉 */
+            removeTheBackground(imgPath);
+            /** 转换png图片格式为jpg */
+            formatConversion(imgPath);
+            /** 把图片中的人单独截图出来 */
+            peopleNumber = cutPicture(imgPath);
+
+            /** 用来和数据库里面每个人的face_token对比 */
+            /** 搜索faceset中最像的face_token */
+            List<String> searthFaceToken = new ArrayList<>();
+            /** 置信值和阈值 */
+            List<Float> thresholds = new ArrayList<>();
+
+            for (int j = 0; j < peopleNumber; ++j) {
+                faces.clear();
+                searthFaceToken.clear();
+                thresholds.clear();
+	            String ps="http://iszychen.club:8087/iszychen/img/genesis/lesson/"+lessonId+"/img/"+j+".jpg";
+
+	            if (file.exists()) {
+		            FileUtils.deleteFile(path + "tmp.jpg");
+	            }
+	            if (HttpUtilsLuna.isNetUrl(ps)) {
+		            FileUtilsAlter.downloadHttpUrl(ps, path, "tmp.jpg");
+	            }
+                MyFaceApi.myDetect(path+"tmp.jpg", null, faces);
+
+                /** 等待人脸检测完成 */
+                WaitForDate.waitForDate(faces);
+
+                Academy academy = academyService.selectAcademyById(list.get(0).getAcademyId());
+                if (academy != null) {
+                    MyFaceApi.mySearch(faces.get(0).getFaceToken(), academy.getAcademy(), thresholds,
+                        searthFaceToken);
+                } else {
+                    log.error("Colleges don't exist!, infost={}", list.get(0).getName());
+                }
+
+                /** 等待人脸搜索完成 */
+                WaitForDate.waitForDate(searthFaceToken);
+
+                if (thresholds.get(0) > thresholds.get(3)) {
+                    boolean flag = false;
+                    Infost infost = new Infost();
+                    infost.setFaceToken(searthFaceToken.get(0));
+                    List<Infost> list1 = infostService.selectInfostList(infost);
+
+                    if (list1.size() == 0) {
+                        continue;
+                    }
+
+                    for (Infost temp : list) {
+                        if (temp.getId().equals(list.get(0).getId())) {
+                            flag = true;
+                        }
+
+                        /** 在所有学生里面 */
+                        if (flag) {
+                            /** 用python模型进行状态检测 */
+                            int state = Model.dealPicture("D:\\ffmpeg\\img\\" + j + ".jpg");
+                            KnowledgeStudentState knowledgeStudentStateDO = new KnowledgeStudentState();
+                            knowledgeStudentStateDO.setUserId(list1.get(0).getUserId());
+                            knowledgeStudentStateDO.setLessonId(Long.parseLong(lessonId));
+                            knowledgeStudentStateDO.setState(state);
+                            knowledgeStudentStateDO.setKnowledgeId(knowledge);
+                            knowledgeStudentStateDOs.add(knowledgeStudentStateDO);
+                            // 发短信提醒
+                            // if (state != StudentState.LISTENING) {
+                            // messageService.sendSms(userDO.getModule().getPhone(),
+                            // ConstantHolder.STATE_SMS_TITLE + userDO.getModule().getName()
+                            // + ConstantHolder.STATE_SMS_CONTENT);
+                            // }
+                        } else {
+                            log.error("课程中不存在此人 infost={}", list1.get(0).getName());
+                        }
+                    }
+                }
+                thresholds.clear();
+            }
+        }
+
+        /** 去重添加到数据库 */
+        List<KnowledgeStudentState> newLists = removeRepetitiveKnowledgeStudentStateDO(knowledgeStudentStateDOs);
+        for (KnowledgeStudentState knowledgeStudentStateDO : newLists) {
+            knowledgeStudentStateService.insertKnowledgeStudentState(knowledgeStudentStateDO);
+        }
+    }
 
     /**
      * 去除重复的AttendanceDO
@@ -579,32 +625,33 @@ public class FaceFunctionImpl implements FaceFunction {
         return newLists;
     }
 
-    // /**
-    // * 去除重复的StudentStateDO
-    // *
-    //// * @param studentStateDOs StudentStateDO列表
-    // * @return 去重后的StudentStateDO列表
-    // */
-    // private List<KnowledgeStudentStateDO>
-    // removeRepetitiveKnowledgeStudentStateDO(List<KnowledgeStudentStateDO> knowledgeStudentStateDOs) {
-    // List<KnowledgeStudentStateDO> newLists = new ArrayList<>();
-    // boolean flag = true;
-    // for (KnowledgeStudentStateDO knowledgeStudentStateDO : knowledgeStudentStateDOs) {
-    // for (KnowledgeStudentStateDO tempKnowledgeStudentStateDO : newLists) {
-    // if (tempKnowledgeStudentStateDO.getUserId() == knowledgeStudentStateDO.getUserId()) {
-    // flag = false;
-    // }
-    // }
-    //
-    // if (flag) {
-    // newLists.add(knowledgeStudentStateDO);
-    // }
-    //
-    // flag = true;
-    // }
-    // return newLists;
-    // }
-    //
+    /**
+     * 去除重复的StudentStateDO
+     *
+     * // * @param studentStateDOs StudentStateDO列表
+     * 
+     * @return 去重后的StudentStateDO列表
+     */
+    private List<KnowledgeStudentState>
+        removeRepetitiveKnowledgeStudentStateDO(List<KnowledgeStudentState> knowledgeStudentStateDOs) {
+        List<KnowledgeStudentState> newLists = new ArrayList<>();
+        boolean flag = true;
+        for (KnowledgeStudentState knowledgeStudentStateDO : knowledgeStudentStateDOs) {
+            for (KnowledgeStudentState tempKnowledgeStudentStateDO : newLists) {
+                if (tempKnowledgeStudentStateDO.getUserId().equals(knowledgeStudentStateDO.getUserId())) {
+                    flag = false;
+                }
+            }
+
+            if (flag) {
+                newLists.add(knowledgeStudentStateDO);
+            }
+
+            flag = true;
+        }
+        return newLists;
+    }
+
     /**
      * 去除图片中的背景 图片大小不变 返回的是png格式
      *
@@ -667,7 +714,7 @@ public class FaceFunctionImpl implements FaceFunction {
      * @param imgPath 图片所在文件夹
      * @return 图片中有多少人
      */
-    private int cutPicture(String imgPath) {
+    private int cutPicture(String imgPath) throws FileNotFoundException {
 
         /** 存放人体位置 */
         List<BodyRectangle> bodyRectangles = new ArrayList<>();
@@ -683,13 +730,13 @@ public class FaceFunctionImpl implements FaceFunction {
                 e.printStackTrace();
             }
         }
-
+	    String path = ResourceUtils.getURL("classpath:static/").getPath();
         try {
             for (int i = 0; i < bodyRectangles.size(); ++i) {
                 /** 保存图片 */
                 PicCut.cut(bodyRectangles.get(i).getLeft(), bodyRectangles.get(i).getTop(),
                     bodyRectangles.get(i).getWidth(), bodyRectangles.get(i).getHeight(), imgPath,
-                    "src\\img\\" + i + ".jpg");
+		                path + i + ".jpg");
             }
         } catch (IOException e) {
             log.error("IO error, exception={}, img={}", e, imgPath);

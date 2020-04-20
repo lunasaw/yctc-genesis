@@ -80,9 +80,7 @@ public class KnowledgeTest {
             String format = df.format(begin);
             int minutes = begin.getMinutes();
 
-            int month = begin.getMonth();
             int hours = begin.getHours();
-            int day = begin.getDay();
             String s = 2019 + "-" + 3 + "-" + 11 + " " + hours + ":" + minutes + (j - 27) * 8 + ":" + "00";
 
             date = df.parse(s);
@@ -129,8 +127,12 @@ public class KnowledgeTest {
     public void cTest() throws IOException {
         List<String> list = OcrBaiduApi.baiDuOcr("http://iszychen.club:8087/iszychen/img/genesis/583/011.jpg");
         System.out.println(list);
-
-
     }
+
+	@Test
+	public void eTest() throws IOException {
+		FaceFunction faceFunction = new FaceFunctionImpl();
+		faceFunction.checkStatusByLessonId("583");
+	}
 
 }
