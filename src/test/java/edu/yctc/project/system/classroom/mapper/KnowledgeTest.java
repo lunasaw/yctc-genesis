@@ -1,13 +1,10 @@
 package edu.yctc.project.system.classroom.mapper;
 
 
-import edu.yctc.common.utils.file.FileUtils;
-import edu.yctc.common.utils.file.FileUtilsAlter;
+
 import edu.yctc.face.OcrBaiduApi;
 import edu.yctc.face.function.FaceFunction;
 import edu.yctc.face.function.impl.FaceFunctionImpl;
-import edu.yctc.framework.aspectj.lang.annotation.Log;
-import edu.yctc.project.system.course.domain.Course;
 import edu.yctc.project.system.course.mapper.CourseMapper;
 import edu.yctc.project.system.infost.domain.Infost;
 import edu.yctc.project.system.infost.mapper.InfostMapper;
