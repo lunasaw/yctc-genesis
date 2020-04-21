@@ -65,7 +65,7 @@
         $(function() {
             var options = {
                 url: prefix + "/list",
-                createUrl: prefix + "/add",
+                createUrl: "/system/apply/add",
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
@@ -89,6 +89,10 @@
                     {
                         field: 'lesson.begin',
                         title: '开课时间'
+                    },
+                    {
+                        field: 'lesson.edn',
+                        title: '结束时间'
                     },
                 {
                     field: 'lessonId', 

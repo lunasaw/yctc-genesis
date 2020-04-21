@@ -18,7 +18,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectBuildingFloorList" parameterType="BuildingFloor" resultMap="BuildingFloorResult">
         <include refid="selectBuildingFloorVo"/>
-        <where>  
+        <where>
+            <if test="floor != null  and floor != ''"> and floor = #{floor}</if>
             <if test="building != null  and building != ''"> and building = #{building}</if>
             <if test="modifyTime != null "> and modify_time = #{modifyTime}</if>
         </where>

@@ -26,7 +26,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <resultMap type="Equipment" id="EquipmentResult">
         <result property="id"    column="id"    />
-        <result property="number"    column="number"    />
+        <result property="number"    column="enumber"    />
         <result property="name"    column="name"    />
         <result property="video"    column="video"    />
         <result property="createTime"    column="create_time"    />
@@ -36,7 +36,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <sql id="selectClassroomVo">
         select c.id, c.building_floor_id, c.number, c.equipment_id, c.create_time, c.modify_time,
         b.id, b.building, b.floor, b.create_time, b.modify_time,
-        e.id, e.number, e.name, e.video, e.create_time,e.modify_time
+        e.id, e.number as enumber, e.name, e.video, e.create_time,e.modify_time
         from sys_classroom c
             left join sys_building_floor b on c.building_floor_id = b.id
              left join sys_equipment e on c.equipment_id = e.id
@@ -45,7 +45,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectClassroomList" parameterType="Classroom" resultMap="ClassroomResult">
         <include refid="selectClassroomVo"/>
         <where>  
-            <if test="buildingFloorId != null "> and building_floor_id = #{buildingFloorId}</if>
+            <if test="buildingFloorId != null "> and c.building_floor_id = #{buildingFloorId}</if>
             <if test="number != null  and number != ''"> and c.number = #{number}</if>
             <if test="equipmentId != null  and equipmentId != ''"> and equipment_id = #{equipmentId}</if>
             <if test="modifyTime != null "> and modify_time = #{modifyTime}</if>

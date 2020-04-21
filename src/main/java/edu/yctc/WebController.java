@@ -20,7 +20,7 @@ public class WebController {
 		return "main";
 	}
 
-	@GetMapping("signin")
+	@GetMapping("system")
 	public String signin(ModelMap map) {
 
 		return "sign-in";

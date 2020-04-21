@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
-    <th:block th:include="include :: header('教室占用情况列表')" />
+    <th:block th:include="include :: header('教室申请列表')" />
 </head>
 <body class="gray-bg">
      <div class="container-div">
@@ -11,22 +11,16 @@
                     <div class="select-list">
                         <ul>
                             <li>
-                                <label>教室编号：</label>
+                                <label>用户编号：</label>
+                                <input type="text" name="userId"/>
+                            </li>
+                            <li>
+                                <label>申请教室编号：</label>
                                 <input type="text" name="classroomId"/>
                             </li>
                             <li>
-                                <label>课时编号：</label>
+                                <label>申请课时：</label>
                                 <input type="text" name="lessonId"/>
-                            </li>
-                            <li>
-                                <label>教室状态：</label>
-                                <input type="text" name="state"/>
-                            </li>
-                            <li class="select-time">
-                                <label>修改时间：</label>
-                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginModifyTime]"/>
-                                <span>-</span>
-                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endModifyTime]"/>
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
@@ -38,16 +32,16 @@
             </div>
 
             <div class="btn-group-sm" id="toolbar" role="group">
-                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:state:add">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:applyClassroom:add">
                     <i class="fa fa-plus"></i> 添加
                 </a>
-                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:state:edit">
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:applyClassroom:edit">
                     <i class="fa fa-edit"></i> 修改
                 </a>
-                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:state:remove">
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:applyClassroom:remove">
                     <i class="fa fa-remove"></i> 删除
                 </a>
-                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:state:export">
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:applyClassroom:export">
                     <i class="fa fa-download"></i> 导出
                 </a>
             </div>
@@ -58,10 +52,10 @@
     </div>
     <th:block th:include="include :: footer" />
     <script th:inline="javascript">
-        var editFlag = [[${@permission.hasPermi('system:state:edit')}]];
-        var removeFlag = [[${@permission.hasPermi('system:state:remove')}]];
-        var prefix = ctx + "system/state";
-        var datas = [[${@dict.getType('sys_classroom_state')}]];
+        var editFlag = [[${@permission.hasPermi('system:applyClassroom:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:applyClassroom:remove')}]];
+        var prefix = ctx + "system/applyClassroom";
+
         $(function() {
             var options = {
                 url: prefix + "/list",
@@ -69,7 +63,7 @@
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
-                modalName: "教室占用情况",
+                modalName: "教室申请",
                 columns: [{
                     checkbox: true
                 },
@@ -79,34 +73,17 @@
                     visible: false
                 },
                 {
-                    field: 'classroomId', 
-                    title: '教室编号'
+                    field: 'userId', 
+                    title: '用户编号'
                 },
-                    {
-                        field: 'lesson.course.name',
-                        title: '课程名称'
-                    },
-                    {
-                        field: 'lesson.begin',
-                        title: '开课时间'
-                    },
+                {
+                    field: 'classroomId', 
+                    title: '申请教室编号'
+                },
                 {
                     field: 'lessonId', 
-                    title: '课时编号'
+                    title: '申请课时'
                 },
-                    {
-                        field: 'state',
-                        title: '教室状态',
-                        align: 'center',
-                        formatter: function(value, row, index) {
-                            return $.table.selectDictLabel(datas, value);
-                        }
-                    },
-
-                    {
-                        field: 'modifyTime',
-                        title: '修改时间'
-                    },
                 {
                     title: '操作',
                     align: 'center',

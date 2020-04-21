@@ -29,7 +29,7 @@
 	        <div class="form-group">
 		        <label class="col-sm-3 control-label">教室状态：</label>
 		        <div class="col-sm-8">
-			        <div class="radio-box" th:each="dict : ${@dict.getType('sys_normal_disable')}">
+			        <div class="radio-box" th:each="dict : ${@dict.getType('sys_classroom_state')}">
 				        <input type="radio" th:id="${dict.dictCode}" name="state" th:value="${dict.dictValue}" th:field="*{state}">
 				        <label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
 			        </div>

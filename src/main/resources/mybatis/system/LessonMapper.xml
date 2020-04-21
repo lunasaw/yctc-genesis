@@ -81,8 +81,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="classroomId != null ">classroom_id,</if>
             <if test="begin != null ">begin,</if>
             <if test="end != null ">end,</if>
-            <if test="createTime != null ">create_time,</if>
-            <if test="modifyTime != null ">modify_time,</if>
+            create_time,
+            modify_time,
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="courseId != null ">#{courseId},</if>
@@ -90,8 +90,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="classroomId != null ">#{classroomId},</if>
             <if test="begin != null ">#{begin},</if>
             <if test="end != null ">#{end},</if>
-            <if test="createTime != null ">#{createTime},</if>
-            <if test="modifyTime != null ">#{modifyTime},</if>
+            now(),
+            now(),
          </trim>
     </insert>
 
@@ -103,8 +103,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="classroomId != null ">classroom_id = #{classroomId},</if>
             <if test="begin != null ">begin = #{begin},</if>
             <if test="end != null ">end = #{end},</if>
-            <if test="createTime != null ">create_time = #{createTime},</if>
-            <if test="modifyTime != null ">modify_time = #{modifyTime},</if>
+            modify_time = now() ,
         </trim>
         where id = #{id}
     </update>
