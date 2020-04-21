@@ -1,4 +1,4 @@
-package edu.yctc.applyClassroom;
+package edu.yctc.project.applyClassroom;
 
 import edu.yctc.framework.aspectj.lang.annotation.Excel;
 import edu.yctc.framework.web.domain.BaseEntity;

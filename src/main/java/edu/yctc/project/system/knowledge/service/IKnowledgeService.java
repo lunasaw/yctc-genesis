@@ -1,15 +1,13 @@
 package edu.yctc.project.system.knowledge.service;
 
 import java.util.List;
-
-import edu.yctc.common.exception.base.BaseException;
 import edu.yctc.project.system.knowledge.domain.Knowledge;
 
 /**
  * 知识点概览Service接口
  * 
  * @author yctc
- * @date 2020-04-16
+ * @date 2020-04-21
  */
 public interface IKnowledgeService 
 {
@@ -60,6 +58,7 @@ public interface IKnowledgeService
      * @return 结果
      */
     public int deleteKnowledgeById(Long id);
+
 
 	/**
 	 * 判断待匹配字符串中是否存在知识点

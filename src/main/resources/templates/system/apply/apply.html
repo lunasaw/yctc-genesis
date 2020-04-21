@@ -38,8 +38,8 @@
             </div>
 
             <div class="btn-group-sm" id="toolbar" role="group">
-                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:state:add">
-                    <i class="fa fa-plus"></i> 添加
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:tea:add">
+                    <i class="fa fa-plus"></i> 教室申请
                 </a>
                 <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:state:edit">
                     <i class="fa fa-edit"></i> 修改
@@ -88,10 +88,11 @@
                     },
                     {
                         field: 'lesson.begin',
-                        title: '开课时间'
+                        title: '开课时间',
+                        sortable: true
                     },
                     {
-                        field: 'lesson.edn',
+                        field: 'lesson.end',
                         title: '结束时间'
                     },
                 {
@@ -102,6 +103,7 @@
                         field: 'state',
                         title: '教室状态',
                         align: 'center',
+                        sortable: true,
                         formatter: function(value, row, index) {
                             return $.table.selectDictLabel(datas, value);
                         }
@@ -114,6 +116,7 @@
                 {
                     title: '操作',
                     align: 'center',
+                    visible: false,
                     formatter: function(value, row, index) {
                         var actions = [];
                         actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');

@@ -7,7 +7,7 @@ import edu.yctc.project.system.knowledge.domain.Knowledge;
  * 知识点概览Mapper接口
  * 
  * @author yctc
- * @date 2020-04-16
+ * @date 2020-04-21
  */
 public interface KnowledgeMapper 
 {

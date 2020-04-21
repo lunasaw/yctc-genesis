@@ -18,12 +18,12 @@ import edu.yctc.common.utils.text.Convert;
  * 知识点概览Service业务层处理
  * 
  * @author yctc
- * @date 2020-04-16
+ * @date 2020-04-21
  */
 @Service
 public class KnowledgeServiceImpl implements IKnowledgeService 
 {
-	private final static Logger LOG = LoggerFactory.getLogger(KnowledgeServiceImpl.class);
+	private final static Logger log = LoggerFactory.getLogger(KnowledgeServiceImpl.class);
 
 	@Autowired
     private KnowledgeMapper knowledgeMapper;
@@ -102,13 +102,14 @@ public class KnowledgeServiceImpl implements IKnowledgeService
     }
 
 
+
 	/** 匹配中文正则表达式 */
 	private final static String PATTERN = "[\\u4e00-\\u9fa5]+";
 
 	@Override
 	public boolean checkKnowledge(String knowledge, String toMatch) {
 		if (StringUtils.isBlank(knowledge) || StringUtils.isBlank(toMatch)) {
-			LOG.error("check knowledge fail, parameter invalid, knowledge={}, toMatch={}", knowledge, toMatch);
+			log.error("check knowledge fail, parameter invalid, knowledge={}, toMatch={}", knowledge, toMatch);
 			return false;
 		}
 		Pattern pattern = Pattern.compile(PATTERN);
@@ -119,12 +120,12 @@ public class KnowledgeServiceImpl implements IKnowledgeService
 				// 匹配到中文
 				// 判断是否是知识点
 				if (str.replaceAll(" ", "").contains(knowledge.replaceAll(" ", ""))) {
-					LOG.info("check knowledge success, knowledge={}, toMatch={}", knowledge, toMatch);
+					log.info("check knowledge success, knowledge={}, toMatch={}", knowledge, toMatch);
 					return true;
 				}
 			}
 		}
-		LOG.error("check knowledge fail, no such knowledge, knowledge={}, toMatch={}", knowledge, toMatch);
+		log.error("check knowledge fail, no such knowledge, knowledge={}, toMatch={}", knowledge, toMatch);
 		return false;
 	}
 }

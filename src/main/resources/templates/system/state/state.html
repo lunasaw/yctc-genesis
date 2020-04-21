@@ -18,10 +18,10 @@
                                 <label>课时编号：</label>
                                 <input type="text" name="lessonId"/>
                             </li>
-                            <li>
-                                <label>教室状态：</label>
-                                <input type="text" name="state"/>
-                            </li>
+	                        <li>
+		                        <label>教室状态：</label>
+		                        <input type="text" name="state"/>
+	                        </li>
                             <li class="select-time">
                                 <label>修改时间：</label>
                                 <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginModifyTime]"/>
@@ -84,11 +84,17 @@
                 },
                     {
                         field: 'lesson.course.name',
-                        title: '课程名称'
+                        title: '课程名称',
+                        sortable: true
                     },
                     {
                         field: 'lesson.begin',
-                        title: '开课时间'
+                        title: '开课时间',
+                        sortable: true
+                    },
+                    {
+                        field: 'lesson.end',
+                        title: '结束时间'
                     },
                 {
                     field: 'lessonId', 

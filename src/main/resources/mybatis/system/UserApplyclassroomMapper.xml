@@ -36,7 +36,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="userId != null ">user_id,</if>
             <if test="classroomId != null ">classroom_id,</if>
             <if test="lessonId != null ">lesson_id,</if>
-            <if test="createTime != null ">create_time,</if>
+            create_time,
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="userId != null ">#{userId},</if>

@@ -55,7 +55,7 @@
         var editFlag = [[${@permission.hasPermi('system:checkpicture:edit')}]];
         var removeFlag = [[${@permission.hasPermi('system:checkpicture:remove')}]];
         var prefix = ctx + "system/checkpicture";
-
+        var datas = [[${@dict.getType('sys_knowledge_check')}]];
         $(function() {
             var options = {
                 url: prefix + "/list",
@@ -80,13 +80,17 @@
                         field : 'knowledgePicture.picture',
                         title: '知识点图片',
                         formatter: function(value, row, index) {
-                            return $.table.imageView(value);
+                            return $.table.imageView(value,400,500);
                         }
                     },
-                {
-                    field: 'intflag', 
-                    title: '状态标记'
-                },
+                    {
+                        field: 'intflag',
+                        title: '状态标记',
+                        align: 'center',
+                        formatter: function(value, row, index) {
+                            return $.table.selectDictLabel(datas, value);
+                        }
+                    },
                 {
                     field: 'knowledgeid', 
                     title: '知识点编号'

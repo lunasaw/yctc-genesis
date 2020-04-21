@@ -1,7 +1,6 @@
-package edu.yctc.applyClassroom;
+package edu.yctc.project.applyClassroom;
 
 import edu.yctc.common.utils.security.ShiroUtils;
-import edu.yctc.common.utils.spring.SpringUtils;
 import edu.yctc.project.system.applyClassroom.domain.UserApplyclassroom;
 import edu.yctc.project.system.applyClassroom.mapper.UserApplyclassroomMapper;
 import edu.yctc.project.system.classroom.domain.Classroom;

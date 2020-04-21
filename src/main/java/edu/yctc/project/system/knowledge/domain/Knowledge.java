@@ -11,7 +11,7 @@ import java.util.Date;
  * 知识点概览对象 sys_knowledge
  * 
  * @author yctc
- * @date 2020-04-16
+ * @date 2020-04-21
  */
 public class Knowledge extends BaseEntity
 {
@@ -27,6 +27,10 @@ public class Knowledge extends BaseEntity
     /** 预计时长 */
     @Excel(name = "预计时长")
     private Double length;
+
+    /** 课时 */
+    @Excel(name = "课时")
+    private Long lessonId;
 
     /** 修改时间 */
     @Excel(name = "修改时间", width = 30, dateFormat = "yyyy-MM-dd")
@@ -59,6 +63,15 @@ public class Knowledge extends BaseEntity
     {
         return length;
     }
+    public void setLessonId(Long lessonId) 
+    {
+        this.lessonId = lessonId;
+    }
+
+    public Long getLessonId() 
+    {
+        return lessonId;
+    }
     public void setModifyTime(Date modifyTime) 
     {
         this.modifyTime = modifyTime;
@@ -75,6 +88,7 @@ public class Knowledge extends BaseEntity
             .append("id", getId())
             .append("content", getContent())
             .append("length", getLength())
+            .append("lessonId", getLessonId())
             .append("createTime", getCreateTime())
             .append("modifyTime", getModifyTime())
             .toString();

@@ -1,10 +1,9 @@
-package edu.yctc.applyClassroom;
+package edu.yctc.project.applyClassroom;
 
 import edu.yctc.framework.aspectj.lang.annotation.Log;
 import edu.yctc.framework.aspectj.lang.enums.BusinessType;
 import edu.yctc.framework.web.controller.BaseController;
 import edu.yctc.framework.web.domain.AjaxResult;
-import edu.yctc.project.system.state.domain.ClassroomState;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +28,7 @@ public class ApplyClassroomController extends BaseController {
 
 	private String prefix = "system/apply";
 
-	@RequiresPermissions("system:state:view")
+	@RequiresPermissions("system:tea:view")
 	@GetMapping()
 	public String apply()
 	{
@@ -46,7 +45,7 @@ public class ApplyClassroomController extends BaseController {
 	/**
 	 * 新增保存教室占用情况
 	 */
-	@RequiresPermissions("system:state:add")
+	@RequiresPermissions("system:tea:add")
 	@Log(title = "教室申请", businessType = BusinessType.INSERT)
 	@PostMapping("/add")
 	@ResponseBody

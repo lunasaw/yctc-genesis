@@ -18,6 +18,10 @@
                                 <label>预计时长：</label>
                                 <input type="text" name="length"/>
                             </li>
+                            <li>
+                                <label>课时：</label>
+                                <input type="text" name="lessonId"/>
+                            </li>
                             <li class="select-time">
                                 <label>修改时间：</label>
                                 <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginModifyTime]"/>
@@ -81,6 +85,10 @@
                 {
                     field: 'length', 
                     title: '预计时长'
+                },
+                {
+                    field: 'lessonId', 
+                    title: '课时'
                 },
                 {
                     field: 'modifyTime', 

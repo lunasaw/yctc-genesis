@@ -23,7 +23,7 @@ import edu.yctc.framework.web.page.TableDataInfo;
  * 知识点概览Controller
  * 
  * @author yctc
- * @date 2020-04-16
+ * @date 2020-04-21
  */
 @Controller
 @RequestMapping("/system/knowledge")

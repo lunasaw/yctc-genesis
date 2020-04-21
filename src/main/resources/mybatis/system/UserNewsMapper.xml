@@ -58,10 +58,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectUserNewsList" parameterType="UserNews" resultMap="UserNewsResult">
         <include refid="selectUserNewsVo"/>
         <where>  
-            <if test="userId != null "> and user_id = #{userId}</if>
-            <if test="newsId != null "> and news_id = #{newsId}</if>
-            <if test="state != null "> and state = #{state}</if>
-            <if test="modifyTime != null "> and modify_time = #{modifyTime}</if>
+            <if test="userId != null "> and un.user_id = #{userId}</if>
+            <if test="newsId != null "> and un.news_id = #{newsId}</if>
+            <if test="state != null "> and un.state = #{state}</if>
+            <if test="modifyTime != null "> and un.modify_time = #{modifyTime}</if>
         </where>
     </select>
     
