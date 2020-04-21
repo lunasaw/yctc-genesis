@@ -132,4 +132,5 @@ public class KnowledgeTest {
 		faceFunction.checkStatusByLessonId("583");
 	}
 
+
 }

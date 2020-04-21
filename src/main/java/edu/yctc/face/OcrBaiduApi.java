@@ -12,6 +12,8 @@ import org.apache.http.HttpResponse;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.util.ResourceUtils;
+
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,12 +26,19 @@ public class OcrBaiduApi {
 
     public static List<String> baiDuOcr(String img) throws IOException {
         String path = ResourceUtils.getURL("classpath:static/").getPath();
-        if (HttpUtilsLuna.isHttpUrl(img)) {
-		    if (FileUtilsAlter.isDirExists(path+"tmp.jpg")){
-			    FileUtils.deleteFile(path+"tmp.jpg");
-		    }
-		    FileUtilsAlter.downloadHttpUrl(img, path, "tmp.jpg");
-	    }
+
+        File file = new File(path + "tmp.jpg");
+        if (file.exists()) {
+            FileUtils.deleteFile(path + "tmp.jpg");
+        }
+        if (HttpUtilsLuna.isNetUrl(img)) {
+	        try {
+		        FileUtilsAlter.downloadHttpUrl(img, path, "tmp.jpg");
+	        } catch (IOException e) {
+	        	return new ArrayList<>();
+	        }
+        }
+
         String s = Base64Utils.GetImageStr(path + "tmp.jpg");
         HttpResponse httpResponse = HttpUtilsLuna.doPost(BaiduApiContent.HOST, BaiduApiContent.OCR,
             ImmutableMap.of("Content-Type", "application/x-www-form-urlencoded"), null,
