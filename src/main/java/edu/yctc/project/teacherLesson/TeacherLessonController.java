@@ -29,22 +29,18 @@ import edu.yctc.project.system.tea.service.ILessonTeaService;
  */
 @Controller
 @RequestMapping("/system/teacher")
-public class TeacherLessonController extends BaseController
-{
-    private String prefix = "system/teacherLesson";
-
-	private String prefixScore = "system/score";
-
-	@Autowired
-	private IClassScoreService classScoreService;
+public class TeacherLessonController extends BaseController {
+    private String             prefix      = "system/teacherLesson";
 
     @Autowired
-    private ILessonTeaService lessonTeaService;
+    private IClassScoreService classScoreService;
+
+    @Autowired
+    private ILessonTeaService  lessonTeaService;
 
     @RequiresPermissions("system:teacher:view")
     @GetMapping()
-    public String tea()
-    {
+    public String tea() {
         return prefix + "/tea";
     }
 
@@ -54,12 +50,11 @@ public class TeacherLessonController extends BaseController
     @RequiresPermissions("system:teacher:list")
     @PostMapping("/list")
     @ResponseBody
-    public TableDataInfo list(LessonTea lessonTea)
-    {
-	    Long userId = ShiroUtils.getUserId();
-	    lessonTea.setUserId(userId);
-	    System.out.println(userId);
-	    startPage();
+    public TableDataInfo list(LessonTea lessonTea) {
+        Long userId = ShiroUtils.getUserId();
+        lessonTea.setUserId(userId);
+        System.out.println(userId);
+        startPage();
         List<LessonTea> list = lessonTeaService.selectLessonTeaList(lessonTea);
         return getDataTable(list);
     }
@@ -71,109 +66,99 @@ public class TeacherLessonController extends BaseController
     @Log(title = "老师授课信息", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     @ResponseBody
-    public AjaxResult export(LessonTea lessonTea)
-    {
+    public AjaxResult export(LessonTea lessonTea) {
         List<LessonTea> list = lessonTeaService.selectLessonTeaList(lessonTea);
         ExcelUtil<LessonTea> util = new ExcelUtil<LessonTea>(LessonTea.class);
         return util.exportExcel(list, "tea");
     }
 
+    @RequiresPermissions("system:teacher:view")
+    @GetMapping("/score")
+    public String score() {
+        return prefix + "/score";
+    }
 
-	@RequiresPermissions("system:teacher:view")
-	@GetMapping("/score")
-	public String score()
-	{
-		return prefix + "/score";
-	}
+    /**
+     * 查询学生上课评分汇总列表
+     */
+    @RequiresPermissions("system:teacher:list")
+    @PostMapping("/scorelist")
+    @ResponseBody
+    public TableDataInfo list(ClassScore classScore) {
+        Long userId = ShiroUtils.getUserId();
+        LessonTea lessonTea = new LessonTea();
+        lessonTea.setUserId(userId);
+        List<LessonTea> lessonTeas = lessonTeaService.selectLessonTeaList(lessonTea);
+        if (lessonTeas.size() == 0) {
+            return new TableDataInfo();
+        }
+        classScore.setLessonId(lessonTeas.get(0).getLessonId());
+        startPage();
+        List<ClassScore> list = classScoreService.selectClassScoreList(classScore);
+        return getDataTable(list);
+    }
 
-	/**
-	 * 查询学生上课评分汇总列表
-	 */
-	@RequiresPermissions("system:teacher:list")
-	@PostMapping("/scorelist")
-	@ResponseBody
-	public TableDataInfo list(ClassScore classScore)
-	{
-		Long userId = ShiroUtils.getUserId();
-		LessonTea lessonTea = new LessonTea();
-		lessonTea.setUserId(userId);
-		List<LessonTea> lessonTeas = lessonTeaService.selectLessonTeaList(lessonTea);
-		if (lessonTeas.size()==0){
-			return new TableDataInfo();
-		}
-		classScore.setLessonId(lessonTeas.get(0).getLessonId());
-		startPage();
-		List<ClassScore> list = classScoreService.selectClassScoreList(classScore);
-		return getDataTable(list);
-	}
+    /**
+     * 导出学生上课评分汇总列表
+     */
+    @RequiresPermissions("system:teacher:export")
+    @Log(title = "学生上课评分汇总", businessType = BusinessType.EXPORT)
+    @PostMapping("/scoreexport")
+    @ResponseBody
+    public AjaxResult export(ClassScore classScore) {
+        List<ClassScore> list = classScoreService.selectClassScoreList(classScore);
+        ExcelUtil<ClassScore> util = new ExcelUtil<ClassScore>(ClassScore.class);
+        return util.exportExcel(list, "score");
+    }
 
-	/**
-	 * 导出学生上课评分汇总列表
-	 */
-	@RequiresPermissions("system:teacher:export")
-	@Log(title = "学生上课评分汇总", businessType = BusinessType.EXPORT)
-	@PostMapping("/scoreexport")
-	@ResponseBody
-	public AjaxResult export(ClassScore classScore)
-	{
-		List<ClassScore> list = classScoreService.selectClassScoreList(classScore);
-		ExcelUtil<ClassScore> util = new ExcelUtil<ClassScore>(ClassScore.class);
-		return util.exportExcel(list, "score");
-	}
+    /**
+     * 新增学生上课评分汇总
+     */
+    @GetMapping("/scoreadd")
+    public String add() {
+        return prefix + "/scoreadd";
+    }
 
-	/**
-	 * 新增学生上课评分汇总
-	 */
-	@GetMapping("/scoreadd")
-	public String add()
-	{
-		return prefix + "/scoreadd";
-	}
+    /**
+     * 新增保存学生上课评分汇总
+     */
+    @RequiresPermissions("system:teacher:add")
+    @Log(title = "学生上课评分汇总", businessType = BusinessType.INSERT)
+    @PostMapping("/scoreadd")
+    @ResponseBody
+    public AjaxResult addSave(ClassScore classScore) {
+        return toAjax(classScoreService.insertClassScore(classScore));
+    }
 
-	/**
-	 * 新增保存学生上课评分汇总
-	 */
-	@RequiresPermissions("system:teacher:add")
-	@Log(title = "学生上课评分汇总", businessType = BusinessType.INSERT)
-	@PostMapping("/scoreadd")
-	@ResponseBody
-	public AjaxResult addSave(ClassScore classScore)
-	{
-		return toAjax(classScoreService.insertClassScore(classScore));
-	}
+    /**
+     * 修改学生上课评分汇总
+     */
+    @GetMapping("/scoreedit/{id}")
+    public String edit(@PathVariable("id") Long id, ModelMap mmap) {
+        ClassScore classScore = classScoreService.selectClassScoreById(id);
+        mmap.put("classScore", classScore);
+        return prefix + "/scoreedit";
+    }
 
-	/**
-	 * 修改学生上课评分汇总
-	 */
-	@GetMapping("/scoreedit/{id}")
-	public String edit(@PathVariable("id") Long id, ModelMap mmap)
-	{
-		ClassScore classScore = classScoreService.selectClassScoreById(id);
-		mmap.put("classScore", classScore);
-		return prefix + "/scoreedit";
-	}
+    /**
+     * 修改保存学生上课评分汇总
+     */
+    @RequiresPermissions("system:teacher:edit")
+    @Log(title = "学生上课评分汇总", businessType = BusinessType.UPDATE)
+    @PostMapping("/socreedit")
+    @ResponseBody
+    public AjaxResult editSave(ClassScore classScore) {
+        return toAjax(classScoreService.updateClassScore(classScore));
+    }
 
-	/**
-	 * 修改保存学生上课评分汇总
-	 */
-	@RequiresPermissions("system:teacher:edit")
-	@Log(title = "学生上课评分汇总", businessType = BusinessType.UPDATE)
-	@PostMapping("/socreedit")
-	@ResponseBody
-	public AjaxResult editSave(ClassScore classScore)
-	{
-		return toAjax(classScoreService.updateClassScore(classScore));
-	}
-
-	/**
-	 * 删除学生上课评分汇总
-	 */
-	@RequiresPermissions("system:teacher:remove")
-	@Log(title = "学生上课评分汇总", businessType = BusinessType.DELETE)
-	@PostMapping( "/scoreremove")
-	@ResponseBody
-	public AjaxResult remove(String ids)
-	{
-		return toAjax(classScoreService.deleteClassScoreByIds(ids));
-	}
+    /**
+     * 删除学生上课评分汇总
+     */
+    @RequiresPermissions("system:teacher:remove")
+    @Log(title = "学生上课评分汇总", businessType = BusinessType.DELETE)
+    @PostMapping("/scoreremove")
+    @ResponseBody
+    public AjaxResult remove(String ids) {
+        return toAjax(classScoreService.deleteClassScoreByIds(ids));
+    }
 }

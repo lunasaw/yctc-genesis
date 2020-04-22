@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
-    <th:block th:include="include :: header('教室占用情况列表')" />
+    <th:block th:include="include :: header('学生考勤点名汇总列表')" />
 </head>
 <body class="gray-bg">
      <div class="container-div">
@@ -11,16 +11,16 @@
                     <div class="select-list">
                         <ul>
                             <li>
-                                <label>教室编号：</label>
-                                <input type="text" name="classroomId"/>
+                                <label>用户编号：</label>
+                                <input type="text" name="userId"/>
                             </li>
                             <li>
                                 <label>课时编号：</label>
                                 <input type="text" name="lessonId"/>
                             </li>
                             <li>
-                                <label>教室状态：</label>
-                                <input type="text" name="state"/>
+                                <label>出勤情况：</label>
+                                <input type="text" name="attendState"/>
                             </li>
                             <li class="select-time">
                                 <label>修改时间：</label>
@@ -38,8 +38,17 @@
             </div>
 
             <div class="btn-group-sm" id="toolbar" role="group">
-                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:tea:add">
-                    <i class="fa fa-plus"></i> 教室申请
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:teacher:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:teacher:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:teacher:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:teacher:export">
+                    <i class="fa fa-download"></i> 导出
                 </a>
             </div>
             <div class="col-sm-12 select-table table-striped">
@@ -49,19 +58,20 @@
     </div>
     <th:block th:include="include :: footer" />
     <script th:inline="javascript">
-        var editFlag = [[${@permission.hasPermi('system:state:edit')}]];
-        var removeFlag = [[${@permission.hasPermi('system:state:remove')}]];
-        var prefix = ctx + "system/apply";
-        var datas = [[${@dict.getType('sys_classroom_state')}]];
-        console.log(prefix);
+        var editFlag = [[${@permission.hasPermi('system:teacher:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:teacher:remove')}]];
+        var prefix = ctx + "system/teacherAttendance";
+        var datas = [[${@dict.getType('sys_normal_disable')}]];
+
         $(function() {
             var options = {
                 url: prefix + "/list",
-                createUrl: "/yctc-genesis/system/apply/add",
+                createUrl: prefix + "/add",
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
-                modalName: "教室占用情况",
+                modalName: "学生考勤点名汇总",
+                sortOrder: "desc",
                 columns: [{
                     checkbox: true
                 },
@@ -71,44 +81,56 @@
                     visible: false
                 },
                 {
-                    field: 'classroomId', 
-                    title: '教室编号'
+                    field: 'userId', 
+                    title: '用户编号',
+                    visible: false
                 },
                     {
-                        field: 'lesson.course.name',
-                        title: '课程名称'
+                        field: 'infost.number',
+                        title: '学号'
                     },
                     {
-                        field: 'lesson.begin',
-                        title: '开课时间',
+                        field: 'infost.name',
+                        title: '姓名',
                         sortable: true
                     },
                     {
-                        field: 'lesson.end',
-                        title: '结束时间'
+                        field: 'lesson.course.classes.number',
+                        title: '班级',
+                        sortable: true
                     },
                 {
                     field: 'lessonId', 
                     title: '课时编号'
                 },
                     {
-                        field: 'state',
-                        title: '教室状态',
+                        field: 'lesson.course.name',
+                        title: '课程'
+                    },
+                    {
+                        field: 'lesson.begin',
+                        title: '开课时间'
+                    },
+                    {
+                        field: 'attendState',
+                        title: '出勤情况',
                         align: 'center',
                         sortable: true,
                         formatter: function(value, row, index) {
-                            return $.table.selectDictLabel(datas, value);
+                            if (value == '0') {
+                                return '<span class="badge badge-primary">正常</span>';
+                            } else if (value == '1') {
+                                return '<span class="badge badge-danger">缺勤</span>';
+                            }
                         }
                     },
-
-                    {
-                        field: 'modifyTime',
-                        title: '修改时间'
-                    },
+                {
+                    field: 'modifyTime', 
+                    title: '修改时间'
+                },
                 {
                     title: '操作',
                     align: 'center',
-                    visible: false,
                     formatter: function(value, row, index) {
                         var actions = [];
                         actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
@@ -116,9 +138,7 @@
                         return actions.join('');
                     }
                 }]
-
             };
-
             $.table.init(options);
         });
     </script>
