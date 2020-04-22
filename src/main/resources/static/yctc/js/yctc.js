@@ -1019,6 +1019,7 @@ var table = {
             			return;
             		}
                     var url = table.options.updateUrl.replace("{id}", row[table.options.uniqueId]);
+
                     $.modal.open("修改" + table.options.modalName, url);
             	} else {
             	    $.modal.open("修改" + table.options.modalName, $.operate.editUrl(id));

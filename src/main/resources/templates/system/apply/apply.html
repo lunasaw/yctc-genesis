@@ -41,15 +41,6 @@
                 <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:tea:add">
                     <i class="fa fa-plus"></i> 教室申请
                 </a>
-                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:state:edit">
-                    <i class="fa fa-edit"></i> 修改
-                </a>
-                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:state:remove">
-                    <i class="fa fa-remove"></i> 删除
-                </a>
-                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:state:export">
-                    <i class="fa fa-download"></i> 导出
-                </a>
             </div>
             <div class="col-sm-12 select-table table-striped">
                 <table id="bootstrap-table"></table>
@@ -62,10 +53,11 @@
         var removeFlag = [[${@permission.hasPermi('system:state:remove')}]];
         var prefix = ctx + "system/state";
         var datas = [[${@dict.getType('sys_classroom_state')}]];
+        console.log(prefix);
         $(function() {
             var options = {
                 url: prefix + "/list",
-                createUrl: "/system/apply/add",
+                createUrl: "/yctc-genesis/system/apply/add",
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
@@ -124,7 +116,9 @@
                         return actions.join('');
                     }
                 }]
+
             };
+
             $.table.init(options);
         });
     </script>

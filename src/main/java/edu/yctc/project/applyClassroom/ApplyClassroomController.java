@@ -35,7 +35,7 @@ public class ApplyClassroomController extends BaseController {
 		return prefix + "/apply";
 	}
 
-	@RequiresPermissions("system:tea:view")
+	@RequiresPermissions("system:tea:add")
 	@GetMapping("/add")
 	public String add()
 	{
