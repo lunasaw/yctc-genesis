@@ -130,15 +130,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="userId != null ">user_id,</if>
             <if test="lessonId != null ">lesson_id,</if>
             <if test="score != null ">score,</if>
-            <if test="createTime != null ">create_time,</if>
-            <if test="modifyTime != null ">modify_time,</if>
+            create_time,
+            modify_time,
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="userId != null ">#{userId},</if>
             <if test="lessonId != null ">#{lessonId},</if>
             <if test="score != null ">#{score},</if>
-            <if test="createTime != null ">#{createTime},</if>
-            <if test="modifyTime != null ">#{modifyTime},</if>
+           now(),
+           now(),
          </trim>
     </insert>
 
@@ -148,8 +148,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="userId != null ">user_id = #{userId},</if>
             <if test="lessonId != null ">lesson_id = #{lessonId},</if>
             <if test="score != null ">score = #{score},</if>
-            <if test="createTime != null ">create_time = #{createTime},</if>
-            <if test="modifyTime != null ">modify_time = #{modifyTime},</if>
+            modify_time = now(),
         </trim>
         where id = #{id}
     </update>

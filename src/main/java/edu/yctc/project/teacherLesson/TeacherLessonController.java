@@ -1,5 +1,6 @@
 package edu.yctc.project.teacherLesson;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.yctc.common.utils.security.ShiroUtils;
@@ -53,7 +54,6 @@ public class TeacherLessonController extends BaseController {
     public TableDataInfo list(LessonTea lessonTea) {
         Long userId = ShiroUtils.getUserId();
         lessonTea.setUserId(userId);
-        System.out.println(userId);
         startPage();
         List<LessonTea> list = lessonTeaService.selectLessonTeaList(lessonTea);
         return getDataTable(list);
@@ -79,7 +79,7 @@ public class TeacherLessonController extends BaseController {
     }
 
     /**
-     * 查询学生上课评分汇总列表
+     * 查询学生上课评分
      */
     @RequiresPermissions("system:teacher:list")
     @PostMapping("/scorelist")
@@ -92,9 +92,19 @@ public class TeacherLessonController extends BaseController {
         if (lessonTeas.size() == 0) {
             return new TableDataInfo();
         }
-        classScore.setLessonId(lessonTeas.get(0).getLessonId());
-        startPage();
-        List<ClassScore> list = classScoreService.selectClassScoreList(classScore);
+	    List<ClassScore> classScores=null;
+	    List<ClassScore> list = new ArrayList<>();
+	    for (int i = 0; i < lessonTeas.size(); i++) {
+		    classScore.setLessonId(lessonTeas.get(i).getLessonId());
+		    startPage();
+		    System.out.println(classScore);
+		    classScores = classScoreService.selectClassScoreList(classScore);
+		    list.addAll(classScores);
+	    }
+
+
+	    startPage();
+
         return getDataTable(list);
     }
 

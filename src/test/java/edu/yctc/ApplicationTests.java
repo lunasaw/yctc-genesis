@@ -188,18 +188,15 @@ public class ApplicationTests {
 			    if (classesId.equals("3")) {
 				    lesson.setCourseId(courses.get(i1).getId());
 				    List<Lesson> lessons1 = lessonMapper.selectLessonList(lesson);
-
 				    Long id = lessons1.get(0).getId();
 				    classScore.setLessonId(id);
 				    classScore.setScore(Double.valueOf(new Random().nextInt(50) + 50));
 				    classScore.setModifyTime(date);
 				    classScore.setCreateTime(date);
 				    classScoreMapper.insertClassScore((classScore));
-
 			    }
 
 		    }
-
 	    }
         Date date1 = new Date();
         System.out.println(date1);
