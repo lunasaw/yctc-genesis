@@ -90,21 +90,16 @@ public class TeacherLessonController extends BaseController {
         lessonTea.setUserId(userId);
         List<LessonTea> lessonTeas = lessonTeaService.selectLessonTeaList(lessonTea);
         if (lessonTeas.size() == 0) {
-            return new TableDataInfo();
+            return getDataTable(new ArrayList<ClassScore>());
         }
 	    List<ClassScore> classScores=null;
 	    List<ClassScore> list = new ArrayList<>();
 	    for (int i = 0; i < lessonTeas.size(); i++) {
 		    classScore.setLessonId(lessonTeas.get(i).getLessonId());
 		    startPage();
-		    System.out.println(classScore);
 		    classScores = classScoreService.selectClassScoreList(classScore);
 		    list.addAll(classScores);
 	    }
-
-
-	    startPage();
-
         return getDataTable(list);
     }
 

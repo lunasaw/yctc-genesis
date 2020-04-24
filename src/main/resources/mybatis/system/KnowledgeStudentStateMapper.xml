@@ -114,13 +114,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectKnowledgeStudentStateList" parameterType="KnowledgeStudentState" resultMap="KnowledgeStudentStateResult">
         <include refid="selectKnowledgeStudentStateVo"/>
         <where>  
-            <if test="userId != null "> and user_id = #{userId}</if>
-            <if test="lessonId != null "> and lesson_id = #{lessonId}</if>
-            <if test="state != null "> and state = #{state}</if>
-            <if test="scanStartTime != null "> and scan_start_time = #{scanStartTime}</if>
-            <if test="scanEndTime != null "> and scan_end_time = #{scanEndTime}</if>
-            <if test="knowledgeId != null "> and knowledge_id = #{knowledgeId}</if>
-            <if test="modifyTime != null "> and modify_time = #{modifyTime}</if>
+            <if test="userId != null "> and kss.user_id = #{userId}</if>
+            <if test="lessonId != null "> and kss.lesson_id = #{lessonId}</if>
+            <if test="state != null "> and kss.state = #{state}</if>
+            <if test="scanStartTime != null "> and kss.scan_start_time = #{scanStartTime}</if>
+            <if test="scanEndTime != null "> and kss.scan_end_time = #{scanEndTime}</if>
+            <if test="knowledgeId != null "> and kss.knowledge_id = #{knowledgeId}</if>
+            <if test="modifyTime != null "> and kss.modify_time = #{modifyTime}</if>
         </where>
     </select>
     
@@ -138,8 +138,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="scanStartTime != null ">scan_start_time,</if>
             <if test="scanEndTime != null ">scan_end_time,</if>
             <if test="knowledgeId != null ">knowledge_id,</if>
-            <if test="createTime != null ">create_time,</if>
-            <if test="modifyTime != null ">modify_time,</if>
+            create_time,
+            modify_time,
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="userId != null ">#{userId},</if>
@@ -148,8 +148,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="scanStartTime != null ">#{scanStartTime},</if>
             <if test="scanEndTime != null ">#{scanEndTime},</if>
             <if test="knowledgeId != null ">#{knowledgeId},</if>
-            <if test="createTime != null ">#{createTime},</if>
-            <if test="modifyTime != null ">#{modifyTime},</if>
+           now(),
+           now(),
          </trim>
     </insert>
 
@@ -162,8 +162,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="scanStartTime != null ">scan_start_time = #{scanStartTime},</if>
             <if test="scanEndTime != null ">scan_end_time = #{scanEndTime},</if>
             <if test="knowledgeId != null ">knowledge_id = #{knowledgeId},</if>
-            <if test="createTime != null ">create_time = #{createTime},</if>
-            <if test="modifyTime != null ">modify_time = #{modifyTime},</if>
+
+           modify_time = now(),
         </trim>
         where id = #{id}
     </update>

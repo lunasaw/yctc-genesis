@@ -46,6 +46,8 @@ public class KnowledgeStudentStateController extends BaseController
     @ResponseBody
     public TableDataInfo list(KnowledgeStudentState knowledgeStudentState)
     {
+
+
         startPage();
         List<KnowledgeStudentState> list = knowledgeStudentStateService.selectKnowledgeStudentStateList(knowledgeStudentState);
         return getDataTable(list);

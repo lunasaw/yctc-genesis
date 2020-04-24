@@ -31,85 +31,83 @@ import java.util.Map;
 @RequestMapping("/system/teacher")
 public class TeacherLessonScoreController extends BaseController {
 
-	private String prefix = "system/lessonScore";
+    private String             prefix = "system/lessonScore";
 
-	@Autowired
-	private IClassScoreService classScoreService;
+    @Autowired
+    private IClassScoreService classScoreService;
 
-	@Autowired
-	private ILessonTeaService lessonTeaService;
+    @Autowired
+    private ILessonTeaService  lessonTeaService;
 
-	@Resource
-	private ILessonService lessonService;
+    @Resource
+    private ILessonService     lessonService;
 
-	@RequiresPermissions("system:teacher:view")
-	@GetMapping("lessonScore")
-	public String score()
-	{
-		return prefix + "/score";
-	}
+    @RequiresPermissions("system:teacher:view")
+    @GetMapping("lessonScore")
+    public String score() {
+        return prefix + "/score";
+    }
 
-	/**
-	 * 查询学生上课评分汇总列表
-	 */
-	@RequiresPermissions("system:teacher:list")
-	@PostMapping("/lessonScorelist")
-	@ResponseBody
-	public TableDataInfo list(ClassScore classScore)
-	{
-		Long userId = ShiroUtils.getUserId();
-		LessonTea lessonTea = new LessonTea();
-		lessonTea.setUserId(userId);
-		List<LessonTea> lessonTeas = lessonTeaService.selectLessonTeaList(lessonTea);
-		if (lessonTeas.size()==0){
-			return new TableDataInfo();
-		}
-		lessonTea.setUserId(userId);
-		List<ClassScore> list = new ArrayList<>();
-		Double lessonSocoreSum=0.0;
+    /**
+     * 查询教学评分
+     */
+    @RequiresPermissions("system:teacher:list")
+    @PostMapping("/lessonScorelist")
+    @ResponseBody
+    public TableDataInfo list(ClassScore classScore) {
+        Long userId = ShiroUtils.getUserId();
+        LessonTea lessonTea = new LessonTea();
+        lessonTea.setUserId(userId);
+        List<LessonTea> lessonTeas = lessonTeaService.selectLessonTeaList(lessonTea);
+        if (lessonTeas.size() == 0) {
+            return getDataTable(new ArrayList<ClassScore>());
+        }
+        lessonTea.setUserId(userId);
+        List<ClassScore> list = new ArrayList<>();
+        Double lessonSocoreSum = 0.0;
 
-		List<ClassScore> classScores =new ArrayList<>();
-		for (int i = 0; i < lessonTeas.size(); i++) {
-			classScore.setLessonId(lessonTeas.get(i).getLessonId());
-			classScores = classScoreService.selectClassScoreList(classScore);
-			for (int i1 = 0; i1 < classScores.size(); i1++) {
-				Double score = classScores.get(i1).getScore();
-				lessonSocoreSum = lessonSocoreSum+score;
-			}
-			lessonSocoreSum=lessonSocoreSum/classScores.size();
-			ClassScore classScore1=new ClassScore();
-			classScore1.setScore(lessonSocoreSum);
-			classScore1.setUserId(userId);
-			classScore1.setLessonId(lessonTeas.get(i).getLessonId());
-			list.add(classScore1);
-			lessonSocoreSum=0.0;
-		}
-		classScore=new ClassScore();
-		classScore.setUserId(userId);
-		List<ClassScore> classScores1 = classScoreService.selectClassScoreList(classScore);
+        List<ClassScore> classScores = new ArrayList<>();
+        for (int i = 0; i < lessonTeas.size(); i++) {
+            classScore.setLessonId(lessonTeas.get(i).getLessonId());
+            classScores = classScoreService.selectClassScoreList(classScore);
+            for (int i1 = 0; i1 < classScores.size(); i1++) {
+                Double score = classScores.get(i1).getScore();
+                lessonSocoreSum = lessonSocoreSum + score;
+            }
+            lessonSocoreSum = lessonSocoreSum / classScores.size();
+            ClassScore classScore1 = new ClassScore();
+            classScore1.setScore(lessonSocoreSum);
+            classScore1.setUserId(userId);
+            classScore1.setLessonId(lessonTeas.get(i).getLessonId());
+            list.add(classScore1);
+            lessonSocoreSum = 0.0;
+        }
+        classScore = new ClassScore();
+        classScore.setUserId(userId);
+        List<ClassScore> classScores1 = classScoreService.selectClassScoreList(classScore);
 
-		Map<Long,ClassScore> map=new HashMap<>();
-		for (int i = 0; i < classScores1.size(); i++) {
-			map.put(classScores1.get(i).getLessonId(),list.get(i));
-		}
+        Map<Long, ClassScore> map = new HashMap<>();
+        for (int i = 0; i < classScores1.size(); i++) {
+            map.put(classScores1.get(i).getLessonId(), list.get(i));
+        }
 
-		classScore=new ClassScore();
-		for (int i = 0; i < list.size(); i++) {
-			boolean b = map.containsKey(list.get(i).getLessonId());
-			classScore.setUserId(userId);
-			classScore.setLessonId(list.get(i).getLessonId());
-			classScore.setScore(list.get(i).getScore());
-			if (b){
-				classScoreService.updateClassScore(classScore);
-			}else{
-				classScoreService.insertClassScore(classScore);
-			}
-		}
+        classScore = new ClassScore();
+        for (int i = 0; i < list.size(); i++) {
+            boolean b = map.containsKey(list.get(i).getLessonId());
+            classScore.setUserId(userId);
+            classScore.setLessonId(list.get(i).getLessonId());
+            classScore.setScore(list.get(i).getScore());
+            if (b) {
+                classScoreService.updateClassScore(classScore);
+            } else {
+                classScoreService.insertClassScore(classScore);
+            }
+        }
 
-		classScore=new ClassScore();
-		classScore.setUserId(userId);
-		classScore.setLessonId(null);
-		List<ClassScore> classScores2 = classScoreService.selectClassScoreList(classScore);
-		return getDataTable(classScores2);
-	}
+        classScore = new ClassScore();
+        classScore.setUserId(userId);
+        classScore.setLessonId(null);
+        List<ClassScore> classScores2 = classScoreService.selectClassScoreList(classScore);
+        return getDataTable(classScores2);
+    }
 }
