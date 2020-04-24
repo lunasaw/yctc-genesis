@@ -237,7 +237,7 @@ public class ApplicationTests {
 	public void eTest() {
 		Infost infost = new Infost();
 		infost.setType(0L);
-		infost.setClassId(2L);
+		infost.setClassId(3L);
 		List<Infost> infosts = infostMapper.selectInfostList(infost);
 		// System.out.println(infosts);
 		StudentCoursestate studentCoursestate=new StudentCoursestate();
@@ -251,7 +251,7 @@ public class ApplicationTests {
 			studentCoursestate.setUserId(infost1.getUserId());
 			for (int i1 = 0; i1 < courses.size(); i1++) {
 				String classesId = courses.get(i1).getClassesId();
-				if (classesId.equals("2")) {
+				if (classesId.equals("3")) {
 					lesson.setCourseId(courses.get(i1).getId());
 					List<Lesson> lessons1 = lessonMapper.selectLessonList(lesson);
 
@@ -260,6 +260,7 @@ public class ApplicationTests {
 					studentCoursestate.setScanEndTime(lessons1.get(0).getEnd());
 					studentCoursestate.setLessonId(id);
 					studentCoursestate.setState(Long.valueOf(rmain()));
+					studentCoursestate.setFaceToken(infost1.getFaceToken());
 					studentCoursestate.setModifyTime(date);
 					studentCoursestate.setCreateTime(date);
 					setScore.insertStudentCoursestate((studentCoursestate));
@@ -277,6 +278,10 @@ public class ApplicationTests {
 		Random random = new Random();
 
 		int s = random.nextInt(max)%(max-min+1) + min;
+		if (Math.random()>0.3){
+			s=1;
+		}
+
 		return s;
 	}
 

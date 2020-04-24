@@ -27,7 +27,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/system/teacherKnowledgeState")
-public class TeacherKnowledgeState extends BaseController {
+public class TeacherKnowledgeStateController extends BaseController {
 
 	private String prefix = "system/teacherKnowledgeState";
 
