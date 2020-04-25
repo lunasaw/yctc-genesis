@@ -190,9 +190,9 @@ public class FaceFunctionImpl implements FaceFunction {
             log.error("There are no students in the course, lessonId={}", lessonId);
             return;
         }
-        for (int i = 0; i < list.size(); i++) {
-            log.info("课程人员:" + list.get(i).getName());
-        }
+        // for (int i = 0; i < list.size(); i++) {
+        // log.info("课程人员:" + list.get(i).getName());
+        // }
         /** 得到视频地址 */
         Classroom classroom = classroomService.selectClassroomById(lesson.getClassroomId());
         Equipment equipment = equipmentService.selectEquipmentById(Long.valueOf(classroom.getEquipmentId()));
@@ -259,7 +259,7 @@ public class FaceFunctionImpl implements FaceFunction {
                     }
 
                     for (Infost temp : list) {
-                        log.info(temp.getName() + "对比" + list1.get(0).getName());
+                        // log.info(temp.getName() + "对比" + list1.get(0).getName());
                         if (temp.getId().equals(list1.get(0).getId())) {
                             flag = true;
                             log.info("在场:" + temp.getName());
@@ -455,9 +455,9 @@ public class FaceFunctionImpl implements FaceFunction {
             log.error("There are no students in the course, lessonId={}", lessonId);
             return;
         }
-        for (int i = 0; i < list.size(); i++) {
-            log.info("课程人员:" + list.get(i).getName());
-        }
+        // for (int i = 0; i < list.size(); i++) {
+        // log.info("课程人员:" + list.get(i).getName());
+        // }
 
         /** 得到视频地址 */
         Classroom classroom = classroomService.selectClassroomById(lesson.getClassroomId());

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
-	<th:block th:include="include :: header('学生考勤点名汇总列表')"/>
+	<th:block th:include="include :: header('知识点概览列表')"/>
 </head>
 <body class="gray-bg">
 <div class="container-div">
@@ -11,16 +11,16 @@
 				<div class="select-list">
 					<ul>
 						<li>
-							<label>用户编号：</label>
-							<input type="text" name="userId"/>
+							<label>知识点描述：</label>
+							<input type="text" name="content"/>
 						</li>
 						<li>
-							<label>课时编号：</label>
+							<label>预计时长：</label>
+							<input type="text" name="length"/>
+						</li>
+						<li>
+							<label>课时：</label>
 							<input type="text" name="lessonId"/>
-						</li>
-						<li>
-							<label>出勤情况：</label>
-							<input type="text" name="attendState"/>
 						</li>
 						<li class="select-time">
 							<label>修改时间：</label>
@@ -42,18 +42,19 @@
 		</div>
 
 		<div class="btn-group-sm" id="toolbar" role="group">
-			<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:attendance:add">
+			<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:teacherKnowledge:add">
 				<i class="fa fa-plus"></i> 添加
 			</a>
 			<a class="btn btn-primary single disabled" onclick="$.operate.edit()"
-			   shiro:hasPermission="system:attendance:edit">
+			   shiro:hasPermission="system:teacherKnowledge:edit">
 				<i class="fa fa-edit"></i> 修改
 			</a>
 			<a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()"
-			   shiro:hasPermission="system:attendance:remove">
+			   shiro:hasPermission="system:teacherKnowledge:remove">
 				<i class="fa fa-remove"></i> 删除
 			</a>
-			<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:attendance:export">
+			<a class="btn btn-warning" onclick="$.table.exportExcel()"
+			   shiro:hasPermission="system:teacherKnowledge:export">
 				<i class="fa fa-download"></i> 导出
 			</a>
 		</div>
@@ -64,10 +65,9 @@
 </div>
 <th:block th:include="include :: footer"/>
 <script th:inline="javascript">
-    var editFlag = [[${@permission.hasPermi('system:attendance:edit')}]];
-    var removeFlag = [[${@permission.hasPermi('system:attendance:remove')}]];
-    var prefix = ctx + "system/attendance";
-    var datas = [[${@dict.getType('sys_normal_disable')}]];
+    var editFlag = [[${@permission.hasPermi('system:teacherKnowledge:edit')}]];
+    var removeFlag = [[${@permission.hasPermi('system:teacherKnowledge:remove')}]];
+    var prefix = ctx + "system/teacherKnowledge";
 
     $(function () {
         var options = {
@@ -76,8 +76,8 @@
             updateUrl: prefix + "/edit/{id}",
             removeUrl: prefix + "/remove",
             exportUrl: prefix + "/export",
-            modalName: "学生考勤点名汇总",
-            sortOrder: "desc",
+            modalName: "知识点概览",
+            sidePagination: "client",
             columns: [{
                 checkbox: true
             },
@@ -87,53 +87,24 @@
                     visible: false
                 },
                 {
-                    field: 'userId',
-                    title: '用户编号',
-                    visible: false
+                    field: 'content',
+                    title: '知识点描述'
                 },
                 {
-                    field: 'infost.number',
-                    title: '学号'
+                    field: 'length',
+                    title: '预计时长'
                 },
-                {
-                    field: 'infost.name',
-                    title: '姓名',
-                    sortable: true
-                },
-                {
-                    field: 'lesson.course.classes.number',
-                    title: '班级',
-                    sortable: true
-                },
-
                 {
                     field: 'lessonId',
                     title: '课时编号'
-                },
-                {
-                    field: 'lesson.course.name',
-                    title: '课程'
-                },
-                {
-                    field: 'lesson.begin',
-                    title: '开课时间'
                 },
                 {
                     field: 'lesson.number',
                     title: '第几次课时'
                 },
                 {
-                    field: 'attendState',
-                    title: '出勤情况',
-                    align: 'center',
-                    sortable: true,
-                    formatter: function (value, row, index) {
-                        if (value == '0') {
-                            return '<span class="badge badge-primary">正常</span>';
-                        } else if (value == '1') {
-                            return '<span class="badge badge-danger">缺勤</span>';
-                        }
-                    }
+                    field: 'lesson.course.name',
+                    title: '课程名称'
                 },
                 {
                     field: 'modifyTime',

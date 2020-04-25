@@ -48,6 +48,12 @@ public class ApplyService {
     @Resource
     UserApplyclassroomMapper    userApplyclassroomMapper;
 
+    /**
+     * 获取信息检查后新增课程改变教室状态
+     * 
+     * @param applyVO
+     * @return
+     */
     public int addApply(ApplyVO applyVO) {
         // 检查楼层
         BuildingFloor buildingFloor = new BuildingFloor();
@@ -95,6 +101,9 @@ public class ApplyService {
         lesson.setEnd(applyVO.getEnd());
         lesson.setCourseId(courses.get(0).getId());
         lesson.setClassroomId(classrooms.get(0).getId());
+
+        // TODO 这里也需要老师输入是第几次课时 后期通过该课时判断是本学期第几次课
+
         lesson.setNumber(2L);
         int i1 = lessonMapper.insertLesson(lesson);
         log.info(lesson.getId().toString() + "success");
@@ -115,6 +124,9 @@ public class ApplyService {
         return i;
     }
 
+    /**
+     * 定时任务删除已经释放的教室
+     */
     public void delRoomState() {
         Date date = new Date();
         List<ClassroomState> classroomStates = classroomStateMapper.selectClassroomStateList(new ClassroomState());

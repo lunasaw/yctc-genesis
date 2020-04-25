@@ -23,7 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap type="Lesson" id="LessonResult">
         <result property="id"    column="id"    />
         <result property="courseId"    column="course_id"    />
-        <result property="number"    column="number"    />
+        <result property="number" column="lnumber"/>
         <result property="classroomId"    column="classroom_id"    />
         <result property="begin"    column="begin"    />
         <result property="end"    column="end"    />
@@ -38,7 +38,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="userId"    column="user_id"    />
         <result property="academyId"    column="academy_id"    />
         <result property="classId"    column="class_id"    />
-        <result property="number"    column="lnumber"    />
+        <result property="number" column="number"/>
         <result property="name"    column="name"    />
         <result property="type"    column="type"    />
         <result property="sex"    column="sex"    />

@@ -31,15 +31,19 @@ public class OcrBaiduApi {
         if (file.exists()) {
             FileUtils.deleteFile(path + "tmp.jpg");
         }
+
+        String s = null;
         if (HttpUtilsLuna.isNetUrl(img)) {
 	        try {
 		        FileUtilsAlter.downloadHttpUrl(img, path, "tmp.jpg");
+                s = Base64Utils.GetImageStr(path + "tmp.jpg");
 	        } catch (IOException e) {
 	        	return new ArrayList<>();
 	        }
+        } else {
+            s = Base64Utils.GetImageStr(img);
         }
 
-        String s = Base64Utils.GetImageStr(path + "tmp.jpg");
         HttpResponse httpResponse = HttpUtilsLuna.doPost(BaiduApiContent.HOST, BaiduApiContent.OCR,
             ImmutableMap.of("Content-Type", "application/x-www-form-urlencoded"), null,
             ImmutableMap.of("access_token", BaiduApiContent.KEY, "image", s));

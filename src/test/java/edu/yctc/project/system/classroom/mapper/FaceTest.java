@@ -8,8 +8,10 @@ import edu.yctc.face.function.impl.FaceFunctionImpl;
 import edu.yctc.face.util.DealImage;
 import edu.yctc.project.system.infost.domain.Infost;
 import edu.yctc.project.system.infost.service.IInfostService;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.ResourceUtils;
@@ -23,8 +25,10 @@ import java.io.IOException;
  * @author Luna@win10
  * @date 2020/4/20 18:06
  */
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class FaceTest {
-
 
 
     @Test
@@ -54,4 +58,9 @@ public class FaceTest {
 		System.out.println(b);
 	}
 
+    @Test
+    public void aTest() {
+        FaceFunction faceFunction = new FaceFunctionImpl();
+        System.out.println(faceFunction);
+    }
 }
