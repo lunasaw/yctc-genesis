@@ -1,14 +1,30 @@
-# web-demo
-yctc.edu yctc.genesis
-基于若依的二次开发模板示例
+# yctc-genesis 
+![](https://img.shields.io/badge/yctc--genesis-4.2.0-brightgreen)
 
-# Contributor
+课堂教学仍是学校教育的主阵地，学生对知识点的掌握情况直接影响教师教学目标的调整和措施的采取。现有的教学模式，
+教师通过观察或课后测试的方式获取学生对课程知识点的掌握情况。观察的方式具有局限性，如教师只能观察某时间段视野范围内的学生情况
+；测试的方式需要苛刻的条件，如题目与知识点的对应情况，考试环境的安排。基于以上原因，我们设计了一款智助教学—智能知识点分析系统。
+该系统主要目的帮助教师了解学生在教学过程中对某一知识点的掌握情况，及时调整教学内容和教学方法。
+
+## Contributor
 - luna
 
 
-# 代码规范
-- 后端使用同一份代码格式化膜模板ali-code-style.xml，ecplise直接导入使用，idea使用Eclipse Code Formatter插件配置xml后使用。
-- 前端代码使用vs插件的Beautify格式化，缩进使用TAB
-- 后端代码非特殊情况准守P3C插件规范
-- 注释要尽可能完整明晰，提交的代码必须要先格式化
-- xml文件和前端一样，使用TAB缩进
+## 使用说明
+
++ 参见doc文档.doc
+
+
+## 更新日志
+
+### 4.2.0
+
++ 知识点设置、PPT知识点识别、知识点比对、知识点学情反馈。
+
++ 状态识别评分
+
++ 状态识别模型
+
+
+### 版权说明
+![](https://img.shields.io/badge/License-Apache%20License%202.0-yellowgreen)
