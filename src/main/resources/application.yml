@@ -10,13 +10,13 @@ yctc:
   demoEnabled: true
   # 文件路径 示例（ Windows配置D:/yctc/uploadPath，Linux配置 /home/yctc/uploadPath）
   profile: D:/yctc/uploadPath
-  # 获取ip地址开关
+  # 获取ip地址开关d
   addressEnabled: true
 
 # 开发环境配置
 server:
   # 服务器的HTTP端口，默认为80
-  port: 8081
+  port: 80
   servlet:
     # 应用的访问路径
     context-path: /yctc-genesis
