@@ -1,7 +1,7 @@
 # 项目相关配置
 yctc:
   # 名称
-  name: genesis
+  name: yctc-genesis
   # 版本
   version: 4.2.0
   # 版权年份
@@ -16,7 +16,7 @@ yctc:
 # 开发环境配置
 server:
   # 服务器的HTTP端口，默认为80
-  port: 80
+  port: 8081
   servlet:
     # 应用的访问路径
     context-path: /yctc-genesis

@@ -72,7 +72,6 @@ public class ApplyClassroomController extends BaseController {
 	@ResponseBody
 	public TableDataInfo list(ClassroomState classroomState)
 	{
-		startPage();
 		List<ClassroomState> list = classroomStateService.selectClassroomStateList(classroomState);
 		return getDataTable(list);
 	}

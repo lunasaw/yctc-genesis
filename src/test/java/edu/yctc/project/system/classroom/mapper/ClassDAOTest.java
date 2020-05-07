@@ -37,7 +37,7 @@ public class ClassDAOTest {
 	@Resource
 	LessonMapper lessonMapper;
 
-	@Test
+    // @Test
 	public void aTest() {
 		Infost infost=new Infost();
 		infost.setType(0L);
@@ -50,7 +50,7 @@ public class ClassDAOTest {
 	@Resource
 	IInfostService infostService;
 
-	@Test
+    // @Test
 	public void bTest() throws IOException {
 
 		FaceFunction faceFunction = new FaceFunctionImpl();

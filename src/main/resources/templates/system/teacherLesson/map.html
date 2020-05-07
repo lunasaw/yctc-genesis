@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+	<th:block th:include="include :: header('知识点状态图标')"/>
+</head>
+<body class="gray-bg">
+<div class="container-div">
+	<div class="row">
+
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>最近一次课程学生状态统计</h5>
+						<div class="ibox-tools">
+							<a class="collapse-link">
+								<i class="fa fa-chevron-up"></i>
+							</a>
+							<a class="dropdown-toggle" data-toggle="dropdown" href="graph_flot.html#">
+								<i class="fa fa-wrench"></i>
+							</a>
+							<ul class="dropdown-menu dropdown-user">
+								<li><a href="graph_flot.html#">选项1</a>
+								</li>
+								<li><a href="graph_flot.html#">选项2</a>
+								</li>
+							</ul>
+							<a class="close-link">
+								<i class="fa fa-times"></i>
+							</a>
+						</div>
+					</div>
+					<div class="ibox-content">
+						<div class="echarts" id="pie-chart"></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>不同班级对不同知识点组合所产生学生学习状态的影响</h5>
+						<div class="ibox-tools">
+							<a class="collapse-link">
+								<i class="fa fa-chevron-up"></i>
+							</a>
+							<a class="dropdown-toggle" data-toggle="dropdown" href="graph_flot.html#">
+								<i class="fa fa-wrench"></i>
+							</a>
+							<ul class="dropdown-menu dropdown-user">
+								<li><a href="graph_flot.html#">选项1</a>
+								</li>
+								<li><a href="graph_flot.html#">选项2</a>
+								</li>
+							</ul>
+							<a class="close-link">
+								<i class="fa fa-times"></i>
+							</a>
+						</div>
+					</div>
+					<div class="ibox-content">
+						<div class="echarts" id="echarts-scatter-chart"></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>未来一周课程知识点分布</h5>
+						<div class="ibox-tools">
+							<a class="collapse-link">
+								<i class="fa fa-chevron-up"></i>
+							</a>
+							<a class="dropdown-toggle" data-toggle="dropdown" href="graph_flot.html#">
+								<i class="fa fa-wrench"></i>
+							</a>
+							<ul class="dropdown-menu dropdown-user">
+								<li><a href="graph_flot.html#">选项1</a>
+								</li>
+								<li><a href="graph_flot.html#">选项2</a>
+								</li>
+							</ul>
+							<a class="close-link">
+								<i class="fa fa-times"></i>
+							</a>
+						</div>
+					</div>
+					<div class="ibox-content">
+						<div class="echarts" id="echarts-line-chart"></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>知识点难易程度分配</h5>
+						<div class="ibox-tools">
+							<a class="collapse-link">
+								<i class="fa fa-chevron-up"></i>
+							</a>
+							<a class="dropdown-toggle" data-toggle="dropdown" href="graph_flot.html#">
+								<i class="fa fa-wrench"></i>
+							</a>
+							<a class="close-link">
+								<i class="fa fa-times"></i>
+							</a>
+						</div>
+					</div>
+					<div class="ibox-content">
+						<div class="echarts" id="echarts-funnel-chart"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+</div>
+<th:block th:include="include :: footer"/>
+<th:block th:include="include :: echarts-js"/>
+<script>
+    var lineChart = echarts.init(document.getElementById("echarts-line-chart"));
+    var lineoption = {
+        title: {
+            text: '未来一周课程知识点分布'
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {
+            data: ['人文教育', '心里健康']
+        },
+        grid: {
+            x: 40,
+            x2: 40,
+            y2: 24
+        },
+        calculable: true,
+        xAxis: [
+            {
+                type: 'category',
+                boundaryGap: false,
+                data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                axisLabel: {
+                    formatter: '{value} '
+                }
+            }
+        ],
+        series: [
+            {
+                name: '人文教育',
+                type: 'line',
+                data: [7, 9, 12, 3, 8, 7, 0],
+                markPoint: {
+                    data: [
+                        {type: 'max', name: '最大值'},
+                        {type: 'min', name: '最小值'}
+                    ]
+                },
+                markLine: {
+                    data: [
+                        {type: 'average', name: '平均值'}
+                    ]
+                }
+            },
+            {
+                name: '心里健康',
+                type: 'line',
+                data: [6, 5, 3, 5, 3, 2, 0],
+                markPoint: {
+                    data: [
+                        {name: '周最低', value: 0, xAxis: 1, yAxis: -1.5}
+                    ]
+                },
+                markLine: {
+                    data: [
+                        {type: 'average', name: '平均值'}
+                    ]
+                }
+            }
+        ]
+    };
+    lineChart.setOption(lineoption);
+    $(window).resize(lineChart.resize);
+
+
+    var funnelChart = echarts.init(document.getElementById("echarts-funnel-chart"));
+    var funneloption = {
+        title: {
+            text: '知识点难易程度分配',
+        },
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c}%"
+        },
+        legend: {
+            data: ['易', '一般', '中等', '较难', '困难']
+        },
+        calculable: true,
+        series: [
+            {
+                name: '人文教育',
+                type: 'funnel',
+                width: '40%',
+                data: [
+                    {value: 60, name: '一般'},
+                    {value: 40, name: '较难'},
+                    {value: 20, name: '困难'},
+                    {value: 80, name: '中等'},
+                    {value: 100, name: '易'}
+                ]
+            },
+            {
+                name: '心里健康',
+                type: 'funnel',
+                x: '50%',
+                sort: 'ascending',
+                itemStyle: {
+                    normal: {
+                        // color: 各异,
+                        label: {
+                            position: 'left'
+                        }
+                    }
+                },
+                data: [
+                    {value: 60, name: '一般'},
+                    {value: 40, name: '较难'},
+                    {value: 20, name: '困难'},
+                    {value: 80, name: '中等'},
+                    {value: 100, name: '易'}
+                ]
+            }
+        ]
+    };
+    funnelChart.setOption(funneloption);
+    $(window).resize(funnelChart.resize);
+
+    var scatterChart = echarts.init(document.getElementById("echarts-scatter-chart"));
+    var scatteroption = {
+        title: {
+            text: '散点图',
+            subtext: ':   '
+        },
+        tooltip: {
+            trigger: 'axis',
+            showDelay: 0,
+            axisPointer: {
+                type: 'cross',
+                lineStyle: {
+                    type: 'dashed',
+                    width: 1
+                }
+            }
+        },
+        legend: {
+            data: ['1801', '1802']
+        },
+        grid: {
+            x: 45,
+            x2: 40,
+            y2: 24
+        },
+        xAxis: [
+            {
+                type: 'value',
+                scale: true,
+                axisLabel: {
+                    formatter: '{value} min'
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                scale: true,
+                axisLabel: {
+                    formatter: '{value}'
+                }
+            }
+        ],
+        series: [
+            {
+                name: '1801',
+                type: 'scatter',
+                tooltip: {
+                    trigger: 'item',
+                    formatter: function (params) {
+                        if (params.value.length > 1) {
+                            return params.seriesName + ' :<br/>'
+                                + params.value[0] + 'min '
+                                + params.value[1] + 'score';
+                        } else {
+                            return params.seriesName + ' :<br/>'
+                                + params.name + ' : '
+                                + params.value + 'score ';
+                        }
+                    }
+                },
+                data: [
+                    [61.2, 51.6], [67.5, 59.0], [59.5, 49.2], [57.0, 63.0], [55.8, 53.6],
+                    [70.0, 59.0], [59.1, 47.6], [66.0, 69.8], [76.2, 66.8], [60.2, 75.2],
+                    [72.5, 55.2], [70.9, 54.2], [72.9, 62.5], [53.4, 42.0], [60.0, 50.0],
+                    [47.2, 49.8], [68.2, 49.2], [75.0, 73.2], [57.0, 47.8], [67.6, 68.8],
+                    [59.5, 50.6], [75.0, 82.5], [66.8, 57.2], [76.5, 87.8], [70.2, 72.8],
+                    [74.0, 54.5], [73.0, 59.8], [79.9, 67.3], [70.5, 67.8], [60.0, 47.0],
+                    [54.4, 46.2], [62.0, 55.0], [76.5, 83.0], [60.0, 54.4], [52.0, 45.8],
+                    [62.1, 53.6], [70.0, 73.2], [60.2, 52.], [61.3, 67.9], [66.4, 56.6],
+                    [68.9, 62.3], [63.8, 58.5], [67.6, 54.5], [60.0, 50.2], [61.3, 60.3],
+                    [67.6, 58.3], [65.1, 56.2], [60.0, 50.2], [70.0, 72.9], [57.5, 59.8],
+                    [67.6, 61.0], [60.7, 69.1], [63.2, 55.9], [52.4, 46.5], [57.5, 54.3],
+                    [68.3, 54.8], [80.3, 60.7], [65.5, 60.0], [65.0, 62.0], [64.5, 60.3],
+                    [56.0, 52.7], [60.0, 74.3], [63.0, 62.0], [65.7, 73.1], [61.0, 80.0],
+                    [62.0, 54.7], [66.0, 53.2], [74.0, 75.7], [72.7, 6.1], [67.6, 55.7],
+                    [51.1, 48.7], [64.5, 52.3], [63.5, 50.0], [52.0, 59.3], [69.0, 62.5],
+                    [64.0, 55.7], [61.2, 54.8], [55.0, 45.9], [70.0, 70.6], [76.2, 67.2],
+                    [70.0, 69.4], [62.5, 58.2], [70.3, 64.8], [64.1, 71.6], [69.5, 52.8],
+                    [63.2, 59.8], [54.5, 49.0], [59.8, 50.0], [73.2, 69.2], [70.0, 55.9],
+                    [61.4, 63.4], [69.0, 58.2], [66.2, 58.6], [59.4, 45.7], [62.5, 52.2],
+                    [59.0, 48.6], [62.8, 57.8], [59.0, 55.6], [79.8, 66.8], [62.9, 59.4],
+                    [61.0, 53.6], [51.1, 73.2], [68.2, 53.4], [68.9, 69.0], [73.2, 58.4],
+                    [71.8, 56.2], [78.0, 70.6], [64.3, 59.8], [63.0, 72.0], [68.5, 65.2],
+                    [66.8, 56.6], [72.7, 5.2], [63.5, 51.8], [69.4, 63.4], [67.8, 59.0],
+                    [59.5, 47.6], [67.6, 63.0], [61.2, 55.2], [60.0, 45.0], [63.2, 54.0],
+                    [62.2, 50.2], [61.3, 60.2], [49.5, 44.8], [57.5, 58.8], [63.2, 56.4],
+                    [72.7, 62.0], [55.0, 49.2], [56.5, 67.2], [64.0, 53.8], [60.9, 54.4],
+                    [62.8, 58.0], [67.0, 59.8], [60.0, 54.8], [60.0, 43.2], [68.9, 60.5],
+                    [58.2, 46.4], [56.0, 64.4], [60.0, 48.8], [67.1, 62.2], [58.0, 55.5],
+                    [67.6, 57.8], [56.0, 54.6], [62.1, 59.2], [73.4, 52.7], [59.8, 53.2],
+                    [70.5, 64.5], [59.2, 51.8], [57.5, 56.0], [61.3, 63.6], [62.6, 63.2],
+                    [60.0, 59.5], [68.9, 56.8], [65.1, 64.], [62.6, 50.0], [65.1, 72.3],
+                    [66.4, 55.0], [60.0, 55.9], [52.4, 60.4], [70.2, 69.1], [62.6, 84.5],
+                    [70.2, 55.9], [58.8, 55.5], [72.7, 69.5], [67.6, 76.4], [62.6, 61.4],
+                    [67.6, 65.9], [56.2, 58.6], [75.2, 66.8], [72.1, 56.6], [62.6, 58.6],
+                    [60.0, 55.9], [65.1, 59.], [82.9, 8.8], [66.4, 70.7], [65.1, 56.8],
+                    [77.8, 60.0], [65.1, 58.2], [75.3, 72.7], [54.9, 54.1], [58.8, 49.1],
+                    [72.7, 75.9], [68.9, 55.0], [61.3, 57.3], [67.6, 55.0], [65.1, 65.5],
+                    [75.3, 65.5], [57.5, 48.6], [63.8, 58.6], [67.6, 63.6], [65.1, 55.2],
+                    [65.1, 62.7], [68.9, 56.6], [62.6, 53.9], [64.5, 63.2], [76.5, 73.6],
+                    [68.9, 62.0], [75.3, 63.6], [59.4, 53.2], [60.0, 53.4], [70.2, 55.0],
+                    [62.6, 70.5], [67.6, 54.5], [62.6, 54.5], [60.7, 55.9], [60.0, 59.0],
+                    [57.5, 63.6], [62.6, 54.5], [52.4, 47.3], [70.2, 67.7], [65.1, 80.9],
+                    [72.7, 70.5], [65., 60.9], [70.2, 63.6], [70.2, 54.5], [70.2, 59.1],
+                    [61.3, 70.5], [67.6, 52.7], [67.6, 62.7], [65.1, 86.3], [62.6, 66.4],
+                    [52.4, 67.3], [68.9, 63.0], [70.2, 73.6], [75.2, 62.3], [75.2, 57.7],
+                    [60.0, 55.4], [65.1, 4.1], [74.0, 55.5], [70.2, 77.3], [60.0, 80.5],
+                    [67.6, 64.5], [67.6, 72.3], [67.6, 6.4], [54.9, 58.2], [62.6, 81.8],
+                    [75.3, 63.6], [71.4, 53.4], [57.5, 54.5], [65.1, 53.6], [60.0, 60.0],
+                    [74.0, 73.6], [62.6, 6.4], [74.0, 55.5], [62.6, 63.6], [61.3, 60.9],
+                    [56.2, 60.0], [49.9, 46.8], [69.5, 57.3], [60.0, 64.], [75.3, 63.6],
+                    [69.5, 67.3], [60.0, 75.5], [72.7, 68.2], [62.6, 6.4], [57.5, 76.8],
+                    [76.5, 7.8], [64.4, 55.5], [60.7, 48.6], [74.0, 66.4], [63.8, 67.3]
+                ],
+                markPoint: {
+                    data: [
+                        {type: 'max', name: '最大值'},
+                        {type: 'min', name: '最小值'}
+                    ]
+                },
+                markLine: {
+                    data: [
+                        {type: 'average', name: '平均值'}
+                    ]
+                }
+            },
+            {
+                name: '1802',
+                type: 'scatter',
+                tooltip: {
+                    trigger: 'item',
+                    formatter: function (params) {
+                        if (params.value.length > 1) {
+                            return params.seriesName + ' :<br/>'
+                                + params.value[0] + 'min'
+                                + params.value[1] + 'score';
+                        } else {
+                            return params.seriesName + ' :<br/>'
+                                + params.name + ' : '
+                                + params.value + 'score ';
+                        }
+                    }
+                },
+                data: [
+                    [74.0, 65.6], [75.3, 71.8], [93.5, 80.7], [86.5, 72.6], [87.2, 78.8],
+                    [81.5, 74.8], [84.0, 86.4], [84.5, 78.4], [75.0, 62.0], [84.0, 81.6],
+                    [80.0, 76.6], [77.8, 83.6], [92.0, 90.0], [76.0, 74.6], [74.0, 71.0],
+                    [84.0, 79.6], [92.7, 93.8], [77.5, 70.0], [73.0, 72.4], [76.0, 85.9],
+                    [76.0, 78.8], [80.5, 77.8], [72.7, 66.2], [76.0, 86.4], [73.5, 81.8],
+                    [78.0, 89.6], [80.3, 82.8], [80.3, 76.4], [64.5, 63.2], [73.0, 60.9],
+                    [83.5, 74.8], [75.5, 70.0], [88.0, 72.4], [89.2, 84.], [72.8, 69.1],
+                    [70.0, 59.5], [82.0, 67.2], [70.0, 61.3], [77.8, 68.6], [84.2, 80.1],
+                    [86.7, 87.8], [71.4, 84.7], [72.7, 73.4], [75.3, 72.], [80.3, 82.6],
+                    [82.9, 88.7], [88.0, 84.1], [77.2, 94.1], [72.1, 74.9], [67.0, 59.1],
+                    [69.5, 75.6], [74.0, 86.2], [72.7, 75.3], [82.2, 87.1], [64.1, 55.2],
+                    [63.0, 57.0], [71.5, 61.4], [84.2, 76.8], [74.0, 86.8], [74.0, 72.2],
+                    [77.0, 71.6], [86.0, 84.8], [67.0, 68.2], [71.8, 66.1], [82.0, 72.0],
+                    [67.0, 64.6], [77.8, 74.8], [64.5, 70.0], [92.0, 91.6], [75.5, 63.2],
+                    [71.2, 79.1], [78.6, 78.9], [67.4, 67.7], [81.1, 66.0], [77.0, 68.2],
+                    [74.5, 63.9], [77.5, 72.0], [70.5, 56.8], [82.4, 74.5], [97.1, 90.9],
+                    [80.1, 93.0], [75.5, 80.9], [80.6, 72.7], [84.4, 68.0], [75.5, 70.9],
+                    [80.6, 72.5], [77.0, 72.5], [77.1, 83.4], [81.6, 75.5], [76.5, 73.0],
+                    [75.0, 70.2], [74.0, 73.4], [65.1, 70.5], [77.0, 68.9], [92.0, 72.3],
+                    [76.5, 68.4], [69.4, 65.9], [82.1, 75.7], [79.8, 84.5], [75.3, 87.7],
+                    [84.9, 86.4], [77.3, 73.2], [67.4, 53.9], [78.1, 72.0], [68.9, 55.5],
+                    [57.2, 58.4], [80.3, 83.2], [70.2, 72.7], [77.8, 64.1], [72.7, 72.3],
+                    [65.1, 65.0], [86.7, 86.4], [65.1, 65.0], [74.0, 88.6], [75.3, 84.1],
+                    [85.4, 66.8], [77.8, 75.5], [80.3, 93.2], [80.3, 82.7], [77.8, 58.0],
+                    [77.8, 79.5], [77.8, 78.6], [77.8, 71.8], [77.8, 6.4], [63.8, 72.2],
+                    [88.0, 83.6], [98.1, 85.5], [75.3, 90.9], [66.4, 85.9], [90.5, 89.1],
+                    [66.4, 75.0], [77.8, 77.7], [79.7, 86.4], [72.7, 90.9], [90.5, 73.6],
+                    [85.4, 76.4], [68.9, 69.], [67.6, 84.5], [75.3, 64.5], [70.2, 69.1],
+                    [90.5, 8.6], [77.8, 86.4], [90.5, 80.9], [77.8, 87.7], [84.2, 94.5],
+                    [76.5, 80.2], [77.8, 72.0], [80.3, 71.4], [71.4, 72.7], [72.7, 84.1],
+                    [72.7, 76.8], [77.8, 63.6], [77.8, 80.9], [82.9, 80.9], [70.2, 85.5],
+                    [67.6, 68.6], [75.3, 67.7], [65.1, 66.4], [85.4, 2.3], [81.6, 70.5],
+                    [72.7, 95.9], [90.5, 84.1], [79.1, 87.3], [75.3, 71.8], [70.2, 65.9],
+                    [93.0, 95.9], [71.4, 91.4], [77.8, 81.8], [77.8, 96.8], [67.6, 69.],
+                    [67.6, 82.7], [80.3, 75.5], [82.9, 79.5], [76.5, 73.6], [86.7, 91.8],
+                    [88.0, 84.1], [88.0, 85.9], [77.8, 81.8], [74.0, 82.5], [77.8, 80.5],
+                    [71.4, 70.0], [85.4, 81.8], [85.4, 84.1], [88.0, 90.5], [88.0, 91.4],
+                    [82.9, 89.1], [76.5, 85.0], [75.3, 69.1], [75.3, 73.6], [88.0, 80.5],
+                    [88.0, 82.7], [75.3, 86.4], [70.5, 67.7], [79.1, 92.7], [77.8, 93.6],
+                    [75.3, 70.9], [82.9, 75.0], [70.8, 93.2], [88.0, 93.2], [80.3, 77.7],
+                    [77.8, 61.4], [85.4, 94.], [68.9, 75.0], [85.4, 83.6], [80.3, 85.5],
+                    [74.0, 73.9], [67.6, 66.8], [82.9, 87.3], [60.0, 72.3], [80.3, 88.6],
+                    [67.6, 75.5], [86.7, 76.4], [75.3, 91.1], [75.3, 67.3], [75.9, 77.7],
+                    [75.3, 81.8], [79.1, 75.5], [81.6, 84.5], [77.8, 76.6], [82.9, 85.0],
+                    [77.8, 102.5], [84.2, 77.3], [79.1, 71.8], [76.5, 87.9], [88.0, 94.3],
+                    [74.0, 70.9], [67.6, 64.5], [70.2, 77.3], [67.6, 72.3], [88.0, 87.3],
+                    [74.0, 80.0], [76.5, 82.3], [80.3, 73.6], [67.6, 74.], [88.0, 85.9],
+                    [80.3, 73.2], [67.6, 76.3], [83.0, 65.9], [83.0, 90.9], [79.1, 89.],
+                    [70.2, 62.3], [77.8, 82.7], [79.1, 79.1], [90.5, 98.2], [77.8, 84.1],
+                    [80.3, 83.2], [80.3, 83.2]
+                ],
+                markPoint: {
+                    data: [
+                        {type: 'max', name: '最大值'},
+                        {type: 'min', name: '最小值'}
+                    ]
+                },
+                markLine: {
+                    data: [
+                        {type: 'average', name: '平均值'}
+                    ]
+                }
+            }
+        ]
+    };
+    scatterChart.setOption(scatteroption);
+    $(window).resize(scatterChart.resize);
+
+
+    var pieChart = echarts.init(document.getElementById("pie-chart"));
+    var pieoption = {
+        title: {
+            text: '学生状态统计',
+            x: 'center'
+        },
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        legend: {
+            orient: 'vertical',
+            x: 'left',
+            data: ['认真听课', '睡觉', '玩手机', '发呆']
+        },
+        calculable: true,
+        series: [
+            {
+                name: '状态统计',
+                type: 'pie',
+                radius: '55%',
+                center: ['50%', '60%'],
+                data: [
+                    {value: 96, name: '认真听课'},
+                    {value: 5, name: '睡觉'},
+                    {value: 12, name: '玩手机'},
+                    {value: 17, name: '发呆'},
+                ]
+            }
+        ]
+    };
+    pieChart.setOption(pieoption);
+    $(window).resize(pieChart.resize);
+</script>
+
+<script th:inline="javascript">
+    var editFlag = [[${@permission.hasPermi('system:teacherKnowledgeState:edit')}]];
+    var removeFlag = [[${@permission.hasPermi('system:teacherKnowledgeState:remove')}]];
+    var prefix = ctx + "system/teacherKnowledgeState";
+    var datas = [[${@dict.getType('sys_stu_state')}]];
+    $(function () {
+        var options = {
+            url: prefix + "/list",
+            createUrl: prefix + "/add",
+            updateUrl: prefix + "/edit/{id}",
+            removeUrl: prefix + "/remove",
+            exportUrl: prefix + "/export",
+            modalName: "知识点和学生状态关联",
+            sidePagination: "client",
+            columns: [{
+                checkbox: true
+            },
+                {
+                    field: 'id',
+                    title: '编号',
+                    visible: false
+                },
+                {
+                    field: 'userId',
+                    title: '用户id'
+                },
+                {
+                    field: 'infost.name',
+                    title: '用户名',
+                    sortable: true
+                },
+                {
+                    field: 'lesson.course.name',
+                    title: '课程名称',
+                    sortable: true
+                },
+                {
+                    field: 'lesson.number',
+                    title: '第几次课时'
+                },
+                {
+                    field: 'state',
+                    title: '状态',
+                    align: 'center',
+                    sortable: true,
+                    formatter: function (value, row, index) {
+                        return $.table.selectDictLabel(datas, value);
+                    }
+                },
+                {
+                    field: 'scanStartTime',
+                    title: '开始扫描时间'
+                },
+                {
+                    field: 'scanEndTime',
+                    title: '结束扫描时间'
+                },
+                {
+                    field: 'knowledgeId',
+                    title: '知识点id'
+                },
+                {
+                    field: 'knowledge.content',
+                    title: '知识点内容'
+                },
+                {
+                    field: 'modifyTime',
+                    title: '修改时间'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+        };
+        $.table.init(options);
+    });
+</script>
+</body>
+</html>

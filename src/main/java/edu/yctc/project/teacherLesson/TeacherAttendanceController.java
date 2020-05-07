@@ -58,7 +58,6 @@ public class TeacherAttendanceController extends BaseController {
             return new TableDataInfo();
         }
         attendance.setLessonId(lessonTeas.get(0).getLessonId());
-        startPage();
         List<Attendance> list = attendanceService.selectAttendanceList(attendance);
         return getDataTable(list);
     }

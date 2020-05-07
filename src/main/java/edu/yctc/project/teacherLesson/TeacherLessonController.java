@@ -45,6 +45,18 @@ public class TeacherLessonController extends BaseController {
         return prefix + "/tea";
     }
 
+    @RequiresPermissions("system:teacher:view")
+    @GetMapping("/map")
+    public String map() {
+        return prefix + "/map";
+    }
+
+    @RequiresPermissions("system:teacher:view")
+    @GetMapping("/graph")
+    public String graph() {
+        return prefix + "/graph";
+    }
+
     /**
      * 查询老师授课信息列表
      */
@@ -54,7 +66,7 @@ public class TeacherLessonController extends BaseController {
     public TableDataInfo list(LessonTea lessonTea) {
         Long userId = ShiroUtils.getUserId();
         lessonTea.setUserId(userId);
-        startPage();
+        // startPage();
         List<LessonTea> list = lessonTeaService.selectLessonTeaList(lessonTea);
         return getDataTable(list);
     }
@@ -96,7 +108,7 @@ public class TeacherLessonController extends BaseController {
 	    List<ClassScore> list = new ArrayList<>();
 	    for (int i = 0; i < lessonTeas.size(); i++) {
 		    classScore.setLessonId(lessonTeas.get(i).getLessonId());
-		    startPage();
+            // startPage();
 		    classScores = classScoreService.selectClassScoreList(classScore);
 		    list.addAll(classScores);
 	    }

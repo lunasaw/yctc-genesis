@@ -1,4 +1,4 @@
-package edu.yctc;
+package edu.yctc.project.system.classroom.mapper;
 
 import edu.yctc.project.system.attendance.domain.Attendance;
 import edu.yctc.project.system.attendance.mapper.AttendanceMapper;
@@ -66,7 +66,7 @@ public class ApplicationTests {
     @Resource
     AttendanceMapper     attendanceMapper;
 
-    @Test
+    // @Test
     public void dTest() throws ParseException {
         Course course = new Course();
         course.setClassesId("3");
@@ -128,7 +128,7 @@ public class ApplicationTests {
         }
     }
 
-    @Test
+    // @Test
     public void cTest() {
         Infost infost = new Infost();
         infost.setType(0L);
@@ -168,7 +168,7 @@ public class ApplicationTests {
         }
     }
 
-    @Test
+    // @Test
     public void aTest() {
         Infost infost = new Infost();
         infost.setType(0L);
@@ -212,7 +212,7 @@ public class ApplicationTests {
         return s;
     }
 
-    @Test
+    // @Test
     public void bTest() {
         List<Lesson> lessons = lessonMapper.selectLessonList(new Lesson());
         ClassroomState classroomState = new ClassroomState();
@@ -233,7 +233,7 @@ public class ApplicationTests {
     @Resource
 	StudentCoursestateMapper setScore;
 
-	@Test
+    // @Test
 	public void eTest() {
 		Infost infost = new Infost();
 		infost.setType(0L);
@@ -288,7 +288,7 @@ public class ApplicationTests {
 	@Resource
 	EquipmentMapper equipmentMapper;
 
-	@Test
+    // @Test
 	public void fTest() {
 		List<Classroom> classrooms = classroomMapper.selectClassroomList(new Classroom());
 		Date date = new Date();
@@ -339,7 +339,8 @@ public class ApplicationTests {
 
 	@Resource
 	CourseStuMapper courseStuMapper;
-	@Test
+
+    // @Test
 	public void hTest() {
 		Infost infost = new Infost();
 		infost.setType(0L);
@@ -370,7 +371,8 @@ public class ApplicationTests {
 
 	@Resource
 	LessonTeaMapper lessonTeaMapper;
-	@Test
+
+    // @Test
 	public void iTest() {
 		Infost infost = new Infost();
 		infost.setType(1L);

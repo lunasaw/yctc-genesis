@@ -60,6 +60,7 @@
     var removeFlag = [[${@permission.hasPermi('system:academy:remove')}]];
     var prefix = ctx + "system/academy";
 
+
     $(function () {
         var options = {
             url: prefix + "/list",
@@ -68,6 +69,7 @@
             removeUrl: prefix + "/remove",
             exportUrl: prefix + "/export",
             modalName: "学院",
+            sidePagination: "client",
             columns: [{
                 checkbox: true
             },
