@@ -6,7 +6,7 @@
 	<groupId>edu.yctc</groupId>
     <artifactId>yctc-genesis</artifactId>
 	<version>4.2.0</version>
-	<packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <name>yctc-genesis</name>
 	<url>http://yctc.iszychen.club/genesis</url>
@@ -65,12 +65,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-            <!--            <exclusions>-->
-            <!--                <exclusion>-->
-            <!--                    <groupId>org.springframework.boot</groupId>-->
-            <!--                    <artifactId>spring-boot-starter-tomcat</artifactId>-->
-            <!--                </exclusion>-->
-            <!--            </exclusions>-->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
