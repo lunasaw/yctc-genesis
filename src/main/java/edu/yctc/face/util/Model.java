@@ -17,6 +17,7 @@ public class Model {
 
     /** txt文件名字 */
     private final static String resultPathName = "C:\\src\\img\\vgg\\result.txt";
+
     /** pythin处理的图片名字 */
     private final static String imgPathName = "C:\\src\\img\\vgg\\text.jpg";
 
