@@ -20,7 +20,7 @@ yctc-genesis
     <img src="https://i.loli.net/2020/07/28/5MzIVArBZyp8NgX.png" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">"完美的"开发工具</h3>
+  <h3 align="center">智慧教学</h3>
   <p align="center">
     致力于一体化校园管理,人脸打卡,智能知识点反馈,知识图谱等新兴产出
     <br />
