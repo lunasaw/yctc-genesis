@@ -22,7 +22,7 @@ yctc-genesis
 
   <h3 align="center">"完美的"开发工具</h3>
   <p align="center">
-    市场上许多界面和工具的集合,例如ftp,httpd等文件与工具操作，包括但不限于图像处理、人脸识别等的api。让你免去寻找工具的烦恼
+    致力于一体化校园管理,人脸打卡,智能知识点反馈,知识图谱等新兴产出
     <br />
     <a href="https://github.com/czy1024/yctc-genesis"><strong>探索本项目的文档 »</strong></a>
     <br />
@@ -129,6 +129,10 @@ yctc-genesis-loc
 luna
 
 email Keyluna@126.com  &ensp; qq:1173288254
+
+luojie
+
+zhujiaye
 
  *您也可以在贡献者名单中参看所有参与该项目的开发者。*
 
