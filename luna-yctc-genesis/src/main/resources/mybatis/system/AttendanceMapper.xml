@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.yctc.project.system.attendance.mapper.AttendanceMapper">
+
+    <resultMap type="Attendance" id="AttendanceResult">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="lessonId" column="lesson_id"/>
+        <result property="attendState" column="attend_state"/>
+        <result property="createTime" column="create_time"/>
+        <result property="modifyTime" column="modify_time"/>
+        <association property="lesson" column="lesson" javaType="Lesson" resultMap="LessonResult"/>
+        <!--        <association property="user"    column="user" javaType="User" resultMap="UserResult" />-->
+        <association property="infost" column="infost" javaType="Infost" resultMap="InfostResult"/>
+
+    </resultMap>
+
+    <resultMap type="User" id="UserResult">
+        <id property="userId" column="user_id"/>
+        <result property="deptId" column="depte_uid"/>
+        <result property="loginName" column="login_name"/>
+        <result property="userName" column="user_name"/>
+        <result property="userType" column="user_type"/>
+        <result property="email" column="email"/>
+        <result property="phonenumber" column="phonenumber"/>
+        <result property="sex" column="sex"/>
+        <result property="avatar" column="avatar"/>
+        <result property="password" column="password"/>
+        <result property="salt" column="salt"/>
+        <result property="status" column="status"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="loginIp" column="login_ip"/>
+        <result property="loginDate" column="login_date"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+        <!--            <association property="dept"    column="dept_id" javaType="Dept" resultMap="DeptResult" />-->
+        <!--        <collection  property="roles"   javaType="java.util.List"        resultMap="RoleResult" />-->
+    </resultMap>
+
+    <resultMap type="Infost" id="InfostResult">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="academyId" column="academy_id"/>
+        <result property="classId" column="class_id"/>
+        <result property="number" column="inumber"/>
+        <result property="name" column="iname"/>
+        <result property="type" column="type"/>
+        <result property="sex" column="sex"/>
+        <result property="idCardNumber" column="id_card_number"/>
+        <result property="phone" column="phone"/>
+        <result property="mail" column="mail"/>
+        <result property="picture" column="picture"/>
+        <result property="faceToken" column="iface_token"/>
+        <result property="createTime" column="create_time"/>
+        <result property="modifyTime" column="modify_time"/>
+        <!--        <association property="classes"    column="classes" javaType="Classes" resultMap="ClassesResult" />-->
+    </resultMap>
+
+
+    <resultMap type="Dept" id="DeptResult">
+        <id property="deptId" column="dept_id"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="ancestors" column="ancestors"/>
+        <result property="deptName" column="dept_name"/>
+        <result property="orderNum" column="order_num"/>
+        <result property="leader" column="leader"/>
+        <result property="phone" column="phone"/>
+        <result property="email" column="email"/>
+        <result property="status" column="status"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="parentName" column="parent_name"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <resultMap type="Lesson" id="LessonResult">
+        <result property="id" column="id"/>
+        <result property="courseId" column="course_id"/>
+        <result property="number" column="number"/>
+        <result property="classroomId" column="classroom_id"/>
+        <result property="begin" column="begin"/>
+        <result property="end" column="end"/>
+        <result property="createTime" column="create_time"/>
+        <result property="modifyTime" column="modify_time"/>
+        <!--        <association property="classroom"    column="classroom" javaType="Classroom" resultMap="ClassroomResult" />-->
+        <association property="course" column="course" javaType="Course" resultMap="CourseResult"/>
+
+    </resultMap>
+
+    <resultMap type="Classes" id="ClassesResult">
+        <result property="id" column="id"/>
+        <result property="academyId" column="academy_id"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="number" column="qnumber"/>
+        <!--        <association property="dept"    column="dept_id" javaType="Dept" resultMap="deptResult" />-->
+        <!--        <association property="academy"    column="academy_id" javaType="Academy" resultMap="academyResult" />-->
+    </resultMap>
+
+    <resultMap type="Course" id="CourseResult">
+        <result property="id" column="id"/>
+        <result property="number" column="cnumber"/>
+        <result property="name" column="name"/>
+        <result property="lessonSum" column="lesson_sum"/>
+        <result property="year" column="year"/>
+        <result property="term" column="term"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="classesId" column="classes_id"/>
+        <association property="classes" column="classes" javaType="Classes" resultMap="ClassesResult"/>
+    </resultMap>
+
+    <sql id="selectAttendanceVo">
+        select t.id, t.user_id, t.lesson_id, t.attend_state, t.create_time, t.modify_time,
+             l.course_id, l.number, l.classroom_id, l.begin, l.end,
+             c.number as cnumber, c.name , c.lesson_sum, c.year, c.term, c.dept_id, c.classes_id,
+            q.number as qnumber,
+            i.academy_id, i.class_id, i.number as inumber, i.name as iname, i.type, i.sex, i.id_card_number, i.phone, i.mail, i.picture, i.face_token as iface_token
+         from sys_attendance t
+             left join sys_lesson l on l.id = t.lesson_id
+             left join sys_course c on c.id = l.course_id
+--              left join sys_user u on u.user_id = t.user_id
+             left join sys_classes q on c.classes_id = q.id
+             left join sys_infost i on t.user_id = i.user_id
+    </sql>
+
+    <select id="selectAttendanceList" parameterType="Attendance" resultMap="AttendanceResult">
+        <include refid="selectAttendanceVo"/>
+        <where>
+            <if test="userId != null ">and t.user_id = #{userId}</if>
+            <if test="lessonId != null ">and lesson_id = #{lessonId}</if>
+            <if test="attendState != null ">and attend_state = #{attendState}</if>
+            <if test="modifyTime != null ">and modify_time = #{modifyTime}</if>
+        </where>
+    </select>
+
+    <select id="selectAttendanceById" parameterType="Long" resultMap="AttendanceResult">
+        <include refid="selectAttendanceVo"/>
+        where t.id = #{id}
+    </select>
+
+    <insert id="insertAttendance" parameterType="Attendance" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_attendance
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">user_id,</if>
+            <if test="lessonId != null ">lesson_id,</if>
+            <if test="attendState != null ">attend_state,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="modifyTime != null ">modify_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">#{userId},</if>
+            <if test="lessonId != null ">#{lessonId},</if>
+            <if test="attendState != null ">#{attendState},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="modifyTime != null ">now(),</if>
+        </trim>
+    </insert>
+
+    <update id="updateAttendance" parameterType="Attendance">
+        update sys_attendance
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null ">user_id = #{userId},</if>
+            <if test="lessonId != null ">lesson_id = #{lessonId},</if>
+            <if test="attendState != null ">attend_state = #{attendState},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="modifyTime != null ">modify_time = #{modifyTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAttendanceById" parameterType="Long">
+        delete from sys_attendance where id = #{id}
+    </delete>
+
+    <delete id="deleteAttendanceByIds" parameterType="String">
+        delete from sys_attendance where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

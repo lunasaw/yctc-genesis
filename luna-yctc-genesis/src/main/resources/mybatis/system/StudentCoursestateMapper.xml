@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.yctc.project.system.courseState.mapper.StudentCoursestateMapper">
+
+    <resultMap type="StudentCoursestate" id="StudentCoursestateResult">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="lessonId" column="lesson_id"/>
+        <result property="state" column="state"/>
+        <result property="scanStartTime" column="scan_start_time"/>
+        <result property="scanEndTime" column="scan_end_time"/>
+        <result property="faceToken" column="face_token"/>
+        <result property="createTime" column="create_time"/>
+        <result property="modifyTime" column="modify_time"/>
+        <association property="lesson" column="lesson" javaType="Lesson" resultMap="LessonResult"/>
+        <association property="infost" column="infost" javaType="Infost" resultMap="InfostResult"/>
+    </resultMap>
+
+    <resultMap type="Infost" id="InfostResult">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="academyId" column="academy_id"/>
+        <result property="classId" column="class_id"/>
+        <result property="number" column="inumber"/>
+        <result property="name" column="iname"/>
+        <result property="type" column="type"/>
+        <result property="sex" column="sex"/>
+        <result property="idCardNumber" column="id_card_number"/>
+        <result property="phone" column="phone"/>
+        <result property="mail" column="mail"/>
+        <result property="picture" column="picture"/>
+        <result property="faceToken" column="iface_token"/>
+        <result property="createTime" column="create_time"/>
+        <result property="modifyTime" column="modify_time"/>
+        <!--        <association property="classes"    column="classes" javaType="Classes" resultMap="ClassesResult" />-->
+    </resultMap>
+
+    <resultMap type="Lesson" id="LessonResult">
+        <result property="id" column="id"/>
+        <result property="courseId" column="course_id"/>
+        <result property="number" column="number"/>
+        <result property="classroomId" column="classroom_id"/>
+        <result property="begin" column="begin"/>
+        <result property="end" column="end"/>
+        <result property="createTime" column="create_time"/>
+        <result property="modifyTime" column="modify_time"/>
+        <!--        <association property="classroom"    column="classroom" javaType="Classroom" resultMap="ClassroomResult" />-->
+        <association property="course" column="course" javaType="Course" resultMap="CourseResult"/>
+
+    </resultMap>
+
+    <resultMap type="Course" id="CourseResult">
+        <result property="id" column="id"/>
+        <result property="number" column="cnumber"/>
+        <result property="name" column="name"/>
+        <result property="lessonSum" column="lesson_sum"/>
+        <result property="year" column="year"/>
+        <result property="term" column="term"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="classesId" column="classes_id"/>
+        <!--        <association property="dept"    column="dept_id" javaType="Dept" resultMap="deptResult" />-->
+    </resultMap>
+
+    <sql id="selectStudentCoursestateVo">
+        select s.id, s.user_id, s.lesson_id, s.state, s.scan_start_time, s.scan_end_time, s.face_token, s.create_time, s.modify_time,
+        l.course_id, l.number, l.classroom_id, l.begin, l.end,
+        c.number as cnumber, c.name, c.lesson_sum, c.year,  c.term, c.dept_id, c.classes_id,
+        i.academy_id, i.class_id, i.number as inumber, i.name as iname, i.type, i.sex, i.id_card_number, i.phone, i.mail, i.picture, i.face_token as iface_token
+         from sys_student_courseState s
+            left join sys_lesson l on s.lesson_id = l.id
+            left join sys_course c on c.id = l.course_id
+            left join sys_infost i on s.user_id = i.user_id
+    </sql>
+
+    <select id="selectStudentCoursestateList" parameterType="StudentCoursestate" resultMap="StudentCoursestateResult">
+        <include refid="selectStudentCoursestateVo"/>
+        <where>
+            <if test="userId != null ">and s.user_id = #{userId}</if>
+            <if test="lessonId != null ">and lesson_id = #{lessonId}</if>
+            <if test="state != null ">and state = #{state}</if>
+            <if test="scanStartTime != null ">and scan_start_time = #{scanStartTime}</if>
+            <if test="scanEndTime != null ">and scan_end_time = #{scanEndTime}</if>
+            <if test="faceToken != null  and faceToken != ''">and face_token = #{faceToken}</if>
+            <if test="modifyTime != null ">and modify_time = #{modifyTime}</if>
+        </where>
+    </select>
+
+    <select id="selectStudentCoursestateById" parameterType="Long" resultMap="StudentCoursestateResult">
+        <include refid="selectStudentCoursestateVo"/>
+        where s.id = #{id}
+    </select>
+
+    <insert id="insertStudentCoursestate" parameterType="StudentCoursestate" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_student_courseState
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">user_id,</if>
+            <if test="lessonId != null ">lesson_id,</if>
+            <if test="state != null ">state,</if>
+            <if test="scanStartTime != null ">scan_start_time,</if>
+            <if test="scanEndTime != null ">scan_end_time,</if>
+            <if test="faceToken != null  and faceToken != ''">face_token,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="modifyTime != null ">modify_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">#{userId},</if>
+            <if test="lessonId != null ">#{lessonId},</if>
+            <if test="state != null ">#{state},</if>
+            <if test="scanStartTime != null ">#{scanStartTime},</if>
+            <if test="scanEndTime != null ">#{scanEndTime},</if>
+            <if test="faceToken != null  and faceToken != ''">#{faceToken},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="modifyTime != null ">#{modifyTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateStudentCoursestate" parameterType="StudentCoursestate">
+        update sys_student_courseState
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null ">user_id = #{userId},</if>
+            <if test="lessonId != null ">lesson_id = #{lessonId},</if>
+            <if test="state != null ">state = #{state},</if>
+            <if test="scanStartTime != null ">scan_start_time = #{scanStartTime},</if>
+            <if test="scanEndTime != null ">scan_end_time = #{scanEndTime},</if>
+            <if test="faceToken != null  and faceToken != ''">face_token = #{faceToken},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="modifyTime != null ">modify_time = #{modifyTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteStudentCoursestateById" parameterType="Long">
+        delete from sys_student_courseState where id = #{id}
+    </delete>
+
+    <delete id="deleteStudentCoursestateByIds" parameterType="String">
+        delete from sys_student_courseState where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

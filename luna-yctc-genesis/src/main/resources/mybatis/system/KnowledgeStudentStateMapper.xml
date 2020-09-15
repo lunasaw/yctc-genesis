@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.yctc.project.system.knowledgeStudentState.mapper.KnowledgeStudentStateMapper">
+    
+    <resultMap type="KnowledgeStudentState" id="KnowledgeStudentStateResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="lessonId"    column="lesson_id"    />
+        <result property="state"    column="state"    />
+        <result property="scanStartTime"    column="scan_start_time"    />
+        <result property="scanEndTime"    column="scan_end_time"    />
+        <result property="knowledgeId"    column="knowledge_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="modifyTime"    column="modify_time"    />
+        <association property="user"    column="user" javaType="User" resultMap="UserResult" />
+        <association property="knowledge"    column="knowledge" javaType="Knowledge" resultMap="KnowledgeResult" />
+        <association property="infost"    column="infost" javaType="Infost" resultMap="InfostResult" />
+        <association property="lesson"    column="lesson" javaType="Lesson" resultMap="LessonResult" />
+    </resultMap>
+
+    <resultMap type="Lesson" id="LessonResult">
+        <result property="id"    column="id"    />
+        <result property="courseId"    column="course_id"    />
+        <result property="number" column="lnumber"/>
+        <result property="classroomId"    column="classroom_id"    />
+        <result property="begin"    column="begin"    />
+        <result property="end"    column="end"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="modifyTime"    column="modify_time"    />
+<!--        <association property="classroom"    column="classroom" javaType="Classroom" resultMap="ClassroomResult" />-->
+        <association property="course"    column="course" javaType="Course" resultMap="CourseResult" />
+    </resultMap>
+
+    <resultMap type="Infost" id="InfostResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="academyId"    column="academy_id"    />
+        <result property="classId"    column="class_id"    />
+        <result property="number" column="number"/>
+        <result property="name"    column="name"    />
+        <result property="type"    column="type"    />
+        <result property="sex"    column="sex"    />
+        <result property="idCardNumber"    column="id_card_number"    />
+        <result property="phone"    column="phone"    />
+        <result property="mail"    column="mail"    />
+        <result property="picture"    column="picture"    />
+        <result property="faceToken"    column="face_token"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="modifyTime"    column="modify_time"    />
+<!--        <association property="classes"    column="classes" javaType="Classes" resultMap="ClassesResult" />-->
+    </resultMap>
+
+    <resultMap type="Course" id="CourseResult">
+        <result property="id"    column="id"    />
+        <result property="number"    column="cnumber"    />
+        <result property="name"    column="cname"    />
+        <result property="lessonSum"    column="lesson_sum"    />
+        <result property="year"    column="year"    />
+        <result property="term"    column="term"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="classesId"    column="classes_id"    />
+        <!--        <association property="dept"    column="dept_id" javaType="Dept" resultMap="deptResult" />-->
+    </resultMap>
+
+    <resultMap type="User" id="UserResult">
+        <id     property="userId"       column="user_id"      />
+<!--        <result property="deptId"       column="dept_id"      />-->
+<!--        <result property="loginName"    column="login_name"   />-->
+        <result property="userName"     column="user_name"    />
+<!--        <result property="userType"     column="user_type"    />-->
+<!--        <result property="email"        column="email"        />-->
+<!--        <result property="phonenumber"  column="phonenumber"  />-->
+<!--        <result property="sex"          column="sex"          />-->
+<!--        <result property="avatar"       column="avatar"       />-->
+<!--        <result property="password"     column="password"     />-->
+<!--        <result property="salt"         column="salt"         />-->
+<!--        <result property="status"       column="status"       />-->
+<!--        <result property="delFlag"      column="del_flag"     />-->
+<!--        <result property="loginIp"      column="login_ip"     />-->
+<!--        <result property="loginDate"    column="login_date"   />-->
+<!--        <result property="createBy"     column="create_by"    />-->
+<!--        <result property="createTime"   column="create_time"  />-->
+<!--        <result property="updateBy"     column="update_by"    />-->
+<!--        <result property="updateTime"   column="update_time"  />-->
+<!--        <result property="remark"       column="remark"       />-->
+    </resultMap>
+
+    <resultMap type="Knowledge" id="KnowledgeResult">
+        <result property="id"    column="id"    />
+        <result property="content"    column="content"    />
+        <result property="length"    column="length"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="modifyTime"    column="modify_time"    />
+    </resultMap>
+
+    <sql id="selectKnowledgeStudentStateVo">
+        select kss.id, kss.user_id, kss.lesson_id, kss.state, kss.scan_start_time, kss.scan_end_time, kss.knowledge_id, kss.create_time, kss.modify_time,
+        u.user_name,
+        k.content,
+        i.academy_id, i.class_id, i.number, i.name, i.type, i.sex, i.id_card_number, i.phone, i.mail, i.picture, i.face_token,
+        l.course_id, l.number as lnumber, l.classroom_id, l.begin, l.end,
+        c.number as cnumber, c.name as cname, c.lesson_sum, c.year, c.term, c.dept_id, c.classes_id
+
+        from sys_knowledge_student_state kss
+        left join sys_user u on u.user_id = kss.user_id
+        left join sys_infost i on i.id = kss.user_id
+        left join sys_lesson l on l.id = kss.lesson_id
+        left join sys_knowledge k on k.id = kss.knowledge_id
+        left join sys_course c on c.id = l.course_id
+    </sql>
+
+    <select id="selectKnowledgeStudentStateList" parameterType="KnowledgeStudentState" resultMap="KnowledgeStudentStateResult">
+        <include refid="selectKnowledgeStudentStateVo"/>
+        <where>  
+            <if test="userId != null "> and kss.user_id = #{userId}</if>
+            <if test="lessonId != null "> and kss.lesson_id = #{lessonId}</if>
+            <if test="state != null "> and kss.state = #{state}</if>
+            <if test="scanStartTime != null "> and kss.scan_start_time = #{scanStartTime}</if>
+            <if test="scanEndTime != null "> and kss.scan_end_time = #{scanEndTime}</if>
+            <if test="knowledgeId != null "> and kss.knowledge_id = #{knowledgeId}</if>
+            <if test="modifyTime != null "> and kss.modify_time = #{modifyTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectKnowledgeStudentStateById" parameterType="Long" resultMap="KnowledgeStudentStateResult">
+        <include refid="selectKnowledgeStudentStateVo"/>
+        where kss.id = #{id}
+    </select>
+        
+    <insert id="insertKnowledgeStudentState" parameterType="KnowledgeStudentState" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_knowledge_student_state
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">user_id,</if>
+            <if test="lessonId != null ">lesson_id,</if>
+            <if test="state != null ">state,</if>
+            <if test="scanStartTime != null ">scan_start_time,</if>
+            <if test="scanEndTime != null ">scan_end_time,</if>
+            <if test="knowledgeId != null ">knowledge_id,</if>
+            create_time,
+            modify_time,
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">#{userId},</if>
+            <if test="lessonId != null ">#{lessonId},</if>
+            <if test="state != null ">#{state},</if>
+            <if test="scanStartTime != null ">#{scanStartTime},</if>
+            <if test="scanEndTime != null ">#{scanEndTime},</if>
+            <if test="knowledgeId != null ">#{knowledgeId},</if>
+           now(),
+           now(),
+         </trim>
+    </insert>
+
+    <update id="updateKnowledgeStudentState" parameterType="KnowledgeStudentState">
+        update sys_knowledge_student_state
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null ">user_id = #{userId},</if>
+            <if test="lessonId != null ">lesson_id = #{lessonId},</if>
+            <if test="state != null ">state = #{state},</if>
+            <if test="scanStartTime != null ">scan_start_time = #{scanStartTime},</if>
+            <if test="scanEndTime != null ">scan_end_time = #{scanEndTime},</if>
+            <if test="knowledgeId != null ">knowledge_id = #{knowledgeId},</if>
+
+           modify_time = now(),
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteKnowledgeStudentStateById" parameterType="Long">
+        delete from sys_knowledge_student_state where id = #{id}
+    </delete>
+
+    <delete id="deleteKnowledgeStudentStateByIds" parameterType="String">
+        delete from sys_knowledge_student_state where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

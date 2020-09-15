@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+	<title>注册</title>
+	<meta name="description" content="智慧教学辅助">
+	<link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+	<link href="../static/css/font-awesome.min.css" th:href="@{/css/font-awesome.min.css}" rel="stylesheet"/>
+	<link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
+	<link href="../static/css/login.min.css" th:href="@{/css/login.min.css}" rel="stylesheet"/>
+	<link href="../static/yctc/css/yctc.css" th:href="@{/yctc/css/yctc.css?v=4.2.0}" rel="stylesheet"/>
+	<!-- 360浏览器急速模式 -->
+	<meta name="renderer" content="webkit">
+	<!-- 避免IE使用兼容模式 -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link rel="shortcut icon" href="../static/favicon.ico" th:href="@{favicon.ico}"/>
+	<!--    <style type="text/css">label.error { position:inherit;  }</style>-->
+
+	<!--stylesheets-->
+	<link href="../static/css/loginstyle.css" th:href="@{/css/loginstyle.css}" rel='stylesheet' type='text/css'
+	      media="all">
+	<!--//style sheet end here-->
+	<link href="../static/css/fonts.google.css" th:href="@{/css/fonts.google.css}" rel="stylesheet">
+</head>
+<body style="height: 100%">
+<h1 th:text="#{welcome.message}">Material Login Form</h1>
+<div class=" w3l-login-form">
+	<h2 class="no-margins" th:text="#{user.login.submit}">登录：</h2>
+	<form action="#" id="registerForm" autocomplete="off">
+
+		<div class=" w3l-form-group" >
+			<label  th:text="#{user.login.username}"  >Username:</label>
+			<div class="group" style="height: 50px" >
+				<i class="fa fa-user"></i>
+				<input type="text"   name="username" class="form-control uname"   />
+			</div>
+		</div>
+		<div class=" w3l-form-group">
+			<label  th:text="#{user.login.password}">Username:</label>
+			<div class="group"  style="height: 50px" >
+				<i class="fa fa-lock"></i>
+				<input type="password" name="password" class="form-control pword"    />
+			</div>
+		</div>
+		<div class=" w3l-form-group">
+			<label  th:text="#{user.register.ensurePassword}">Password:</label>
+			<div class="group"  style="height: 50px" >
+				<i class="fa fa-lock"></i>
+				<input type="password" name="confirmPassword" class="form-control pword"  />
+			</div>
+		</div>
+		<div class="row m-t" th:if="${captchaEnabled==true}">
+			<div class="col-xs-6">
+				<input type="text" name="validateCode" class="form-control code"  placeholder="验证码"   maxlength="5" >
+			</div>
+			<div class="col-xs-6">
+				<a href="javascript:void(0);" title="点击更换验证码">
+					<img th:src="@{captcha/captchaImage(type=${captchaType})}" class="imgcode" width="85%"/>
+				</a>
+			</div>
+		</div>
+		<div class="checkbox-custom" th:classappend="${captchaEnabled==false} ? 'm-t'">
+			<input type="checkbox" id="acceptTerm" name="acceptTerm"> <label for="acceptTerm">我已阅读并同意</label>
+			<a href="#" target="_blank">使用条款</a>
+		</div>
+		<br>
+		<button  id="btnSubmit" data-loading="正在验证注册，请稍后..." th:text="#{user.register.submit}">注册</button>
+		<a class="warning" href="?lang=en_US"> English </a>
+		<a class="warning" href="?lang=zh_CN"> 中文 </a>
+	</form>
+	<p class=" w3l-register-p" ><span href="" th:utext="#{user.register.already}"></span><a  th:href="@{/login}" th:text="#{user.register.loginNow}" class="register"> Register</a></p>
+</div>
+<footer class="bottem-wthree-footer">
+	<p class="copyright-agileinfo">
+		&copy; 2020 All Rights Reserved. yctc <br>
+		<a href="#" target="_blank">genesis.yctc</a>
+	</p>
+</footer>
+<script th:inline="javascript"> var ctx = [[@{/}]]; var captchaType = [[${captchaType}]]; </script>
+<!-- 全局js -->
+<script src="../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+<script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<!-- 验证插件 -->
+<script src="../static/ajax/libs/validate/jquery.validate.min.js" th:src="@{/ajax/libs/validate/jquery.validate.min.js}"></script>
+<script src="../static/ajax/libs/validate/messages_zh.min.js" th:src="@{/ajax/libs/validate/messages_zh.min.js}"></script>
+<script src="../static/ajax/libs/layer/layer.min.js" th:src="@{/ajax/libs/layer/layer.min.js}"></script>
+<script src="../static/ajax/libs/blockUI/jquery.blockUI.js" th:src="@{/ajax/libs/blockUI/jquery.blockUI.js}"></script>
+<script src="../static/yctc/js/yctc.js" th:src="@{/yctc/js/yctc.js?v=4.2.0}"></script>
+<script src="../static/yctc/register.js" th:src="@{/yctc/register.js}"></script>
+</body>
+</html>

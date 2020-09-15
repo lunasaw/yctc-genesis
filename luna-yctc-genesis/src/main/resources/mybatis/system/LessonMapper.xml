@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.yctc.project.system.lesson.mapper.LessonMapper">
+    
+    <resultMap type="Lesson" id="LessonResult">
+        <result property="id"    column="id"    />
+        <result property="courseId"    column="course_id"    />
+        <result property="number"    column="number"    />
+        <result property="classroomId"    column="classroom_id"    />
+        <result property="begin"    column="begin"    />
+        <result property="end"    column="end"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="modifyTime"    column="modify_time"    />
+        <association property="classroom"    column="classroom" javaType="Classroom" resultMap="ClassroomResult" />
+        <association property="course"    column="course" javaType="Course" resultMap="CourseResult" />
+
+    </resultMap>
+
+    <resultMap type="Course" id="CourseResult">
+        <result property="id"    column="id"    />
+        <result property="number"    column="cnumber"    />
+        <result property="name"    column="name"    />
+        <result property="lessonSum"    column="lesson_sum"    />
+        <result property="year"    column="year"    />
+        <result property="term"    column="term"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="classesId"    column="classes_id"    />
+<!--        <association property="dept"    column="dept_id" javaType="Dept" resultMap="deptResult" />-->
+    </resultMap>
+
+    <resultMap type="Classroom" id="ClassroomResult">
+        <result property="buildingFloorId"    column="building_floor_id"    />
+        <result property="number"    column="qnumber"    />
+        <result property="equipmentId"    column="equipment_id"    />
+        <association property="buildingFloor"    column="building_floor_id" javaType="BuildingFloor" resultMap="BuildingFloorResult" />
+    </resultMap>
+
+    <resultMap type="BuildingFloor" id="BuildingFloorResult">
+        <result property="id"    column="id"    />
+        <result property="building"    column="building"    />
+        <result property="floor"    column="floor"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="modifyTime"    column="modify_time"    />
+    </resultMap>
+
+    <sql id="selectLessonVo">
+        select l.id, l.course_id, l.number, l.classroom_id, l.begin, l.end, l.create_time, l.modify_time,
+            q.building_floor_id, q.number as qnumber, q.equipment_id,
+            b.building, b.floor,
+            c.number as cnumber, c.name , c.lesson_sum, c.year, c.term, c.dept_id, c.classes_id
+        from sys_lesson l
+            left join sys_classroom q on q.id = l.classroom_id
+            left join sys_building_floor b on q.building_floor_id = b.id
+            left join sys_course c on c.id = l.course_id
+    </sql>
+
+    <select id="selectLessonList" parameterType="Lesson" resultMap="LessonResult">
+        <include refid="selectLessonVo"/>
+        <where>  
+            <if test="courseId != null "> and course_id = #{courseId}</if>
+            <if test="number != null "> and l.number = #{number}</if>
+            <if test="classroomId != null "> and classroom_id = #{classroomId}</if>
+            <if test="begin != null "> and begin = #{begin}</if>
+            <if test="end != null "> and end = #{end}</if>
+            <if test="modifyTime != null "> and modify_time = #{modifyTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectLessonById" parameterType="Long" resultMap="LessonResult">
+        <include refid="selectLessonVo"/>
+        where l.id = #{id}
+    </select>
+        
+    <insert id="insertLesson" parameterType="Lesson" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_lesson
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="courseId != null ">course_id,</if>
+            <if test="number != null ">number,</if>
+            <if test="classroomId != null ">classroom_id,</if>
+            <if test="begin != null ">begin,</if>
+            <if test="end != null ">end,</if>
+            create_time,
+            modify_time,
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="courseId != null ">#{courseId},</if>
+            <if test="number != null ">#{number},</if>
+            <if test="classroomId != null ">#{classroomId},</if>
+            <if test="begin != null ">#{begin},</if>
+            <if test="end != null ">#{end},</if>
+            now(),
+            now(),
+         </trim>
+    </insert>
+
+    <update id="updateLesson" parameterType="Lesson">
+        update sys_lesson
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="courseId != null ">course_id = #{courseId},</if>
+            <if test="number != null ">number = #{number},</if>
+            <if test="classroomId != null ">classroom_id = #{classroomId},</if>
+            <if test="begin != null ">begin = #{begin},</if>
+            <if test="end != null ">end = #{end},</if>
+            modify_time = now() ,
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteLessonById" parameterType="Long">
+        delete from sys_lesson where id = #{id}
+    </delete>
+
+    <delete id="deleteLessonByIds" parameterType="String">
+        delete from sys_lesson where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

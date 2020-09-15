@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改检测图片')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-checkpicture-edit" th:object="${checkpicture}">
+            <input name="id" th:field="*{id}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">图片编号：</label>
+                <div class="col-sm-8">
+                    <input name="pictureid" th:field="*{pictureid}" class="form-control" type="text">
+                </div>
+            </div>
+	        <div class="form-group">
+		        <label class="col-sm-3 control-label">教室状态：</label>
+		        <div class="col-sm-8">
+			        <div class="radio-box" th:each="dict : ${@dict.getType('sys_knowledge_check')}">
+				        <input type="radio" th:id="${dict.dictCode}" name="intflag" th:value="${dict.dictValue}" th:field="*{intflag}">
+				        <label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+			        </div>
+		        </div>
+	        </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">知识点编号：</label>
+                <div class="col-sm-8">
+                    <input name="knowledgeid" th:field="*{knowledgeid}" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "system/checkpicture";
+        $("#form-checkpicture-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-checkpicture-edit').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

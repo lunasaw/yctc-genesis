@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.yctc.project.system.applyClassroom.mapper.UserApplyclassroomMapper">
+
+    <resultMap type="UserApplyclassroom" id="UserApplyclassroomResult">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="classroomId" column="classroom_id"/>
+        <result property="lessonId" column="lesson_id"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <sql id="selectUserApplyclassroomVo">
+        select id, user_id, classroom_id, lesson_id, create_time from sys_user_applyClassroom
+    </sql>
+
+    <select id="selectUserApplyclassroomList" parameterType="UserApplyclassroom" resultMap="UserApplyclassroomResult">
+        <include refid="selectUserApplyclassroomVo"/>
+        <where>
+            <if test="userId != null ">and user_id = #{userId}</if>
+            <if test="classroomId != null ">and classroom_id = #{classroomId}</if>
+            <if test="lessonId != null ">and lesson_id = #{lessonId}</if>
+        </where>
+    </select>
+
+    <select id="selectUserApplyclassroomById" parameterType="Long" resultMap="UserApplyclassroomResult">
+        <include refid="selectUserApplyclassroomVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertUserApplyclassroom" parameterType="UserApplyclassroom" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_user_applyClassroom
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">user_id,</if>
+            <if test="classroomId != null ">classroom_id,</if>
+            <if test="lessonId != null ">lesson_id,</if>
+            create_time,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">#{userId},</if>
+            <if test="classroomId != null ">#{classroomId},</if>
+            <if test="lessonId != null ">#{lessonId},</if>
+            now(),
+        </trim>
+    </insert>
+
+    <update id="updateUserApplyclassroom" parameterType="UserApplyclassroom">
+        update sys_user_applyClassroom
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null ">user_id = #{userId},</if>
+            <if test="classroomId != null ">classroom_id = #{classroomId},</if>
+            <if test="lessonId != null ">lesson_id = #{lessonId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteUserApplyclassroomById" parameterType="Long">
+        delete from sys_user_applyClassroom where id = #{id}
+    </delete>
+
+    <delete id="deleteUserApplyclassroomByIds" parameterType="String">
+        delete from sys_user_applyClassroom where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

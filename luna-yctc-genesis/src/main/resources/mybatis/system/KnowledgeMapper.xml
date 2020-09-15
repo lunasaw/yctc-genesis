@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.yctc.project.system.knowledge.mapper.KnowledgeMapper">
+    
+    <resultMap type="Knowledge" id="KnowledgeResult">
+        <result property="id"    column="id"    />
+        <result property="content"    column="content"    />
+        <result property="length"    column="length"    />
+        <result property="lessonId"    column="lesson_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="modifyTime"    column="modify_time"    />
+        <association property="lesson" column="lesson" javaType="Lesson" resultMap="LessonResult"/>
+    </resultMap>
+
+    <resultMap type="Lesson" id="LessonResult">
+        <result property="id" column="id"/>
+        <result property="courseId" column="course_id"/>
+        <result property="number" column="number"/>
+        <result property="classroomId" column="classroom_id"/>
+        <result property="begin" column="begin"/>
+        <result property="end" column="end"/>
+        <result property="createTime" column="create_time"/>
+        <result property="modifyTime" column="modify_time"/>
+        <association property="classroom" column="classroom" javaType="Classroom" resultMap="ClassroomResult"/>
+        <association property="course" column="course" javaType="Course" resultMap="CourseResult"/>
+
+    </resultMap>
+
+    <resultMap type="Course" id="CourseResult">
+        <result property="id" column="id"/>
+        <result property="number" column="cnumber"/>
+        <result property="name" column="name"/>
+        <result property="lessonSum" column="lesson_sum"/>
+        <result property="year" column="year"/>
+        <result property="term" column="term"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="classesId" column="classes_id"/>
+        <!--        <association property="dept"    column="dept_id" javaType="Dept" resultMap="deptResult" />-->
+    </resultMap>
+
+    <resultMap type="Classroom" id="ClassroomResult">
+        <result property="buildingFloorId" column="building_floor_id"/>
+        <result property="number" column="qnumber"/>
+        <result property="equipmentId" column="equipment_id"/>
+        <association property="buildingFloor" column="building_floor_id" javaType="BuildingFloor"
+                     resultMap="BuildingFloorResult"/>
+    </resultMap>
+
+    <resultMap type="BuildingFloor" id="BuildingFloorResult">
+        <result property="id" column="id"/>
+        <result property="building" column="building"/>
+        <result property="floor" column="floor"/>
+        <result property="createTime" column="create_time"/>
+        <result property="modifyTime" column="modify_time"/>
+    </resultMap>
+
+    <resultMap type="Infost" id="InfostResult">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="academyId" column="academy_id"/>
+        <result property="classId" column="class_id"/>
+        <result property="number" column="inumber"/>
+        <result property="name" column="iname"/>
+        <result property="type" column="type"/>
+        <result property="sex" column="sex"/>
+        <result property="idCardNumber" column="id_card_number"/>
+        <result property="phone" column="phone"/>
+        <result property="mail" column="mail"/>
+        <result property="picture" column="picture"/>
+        <result property="faceToken" column="face_token"/>
+        <result property="createTime" column="create_time"/>
+        <result property="modifyTime" column="modify_time"/>
+        <!--        <association property="classes"    column="classes" javaType="Classes" resultMap="ClassesResult" />-->
+    </resultMap>
+
+    <sql id="selectKnowledgeVo">
+        select k.id, k.content, k.length, k.lesson_id, k.create_time, k.modify_time,
+             l.course_id, l.number, l.classroom_id, l.begin, l.end,
+             q.building_floor_id, q.number as qnumber, q.equipment_id,
+             b.building, b.floor,
+             c.number as cnumber, c.name , c.lesson_sum, c.year, c.term, c.dept_id, c.classes_id
+
+
+         from sys_knowledge k
+              left join sys_lesson l on l.id = k.lesson_id
+             left join sys_classroom q on q.id = l.classroom_id
+             left join sys_building_floor b on q.building_floor_id = b.id
+             left join sys_course c on c.id = l.course_id
+    </sql>
+
+    <select id="selectKnowledgeList" parameterType="Knowledge" resultMap="KnowledgeResult">
+        <include refid="selectKnowledgeVo"/>
+        <where>
+            <if test="content != null  and content != ''">and k.content = #{content}</if>
+            <if test="length != null ">and k.length = #{length}</if>
+            <if test="lessonId != null ">and k.lesson_id = #{lessonId}</if>
+        </where>
+    </select>
+    
+    <select id="selectKnowledgeById" parameterType="Long" resultMap="KnowledgeResult">
+        <include refid="selectKnowledgeVo"/>
+        where k.id = #{id}
+    </select>
+        
+    <insert id="insertKnowledge" parameterType="Knowledge" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_knowledge
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="content != null  and content != ''">content,</if>
+            <if test="length != null ">length,</if>
+            <if test="lessonId != null ">lesson_id,</if>
+            create_time,
+            modify_time,
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="content != null  and content != ''">#{content},</if>
+            <if test="length != null ">#{length},</if>
+            <if test="lessonId != null ">#{lessonId},</if>
+            now(),
+            now(),
+         </trim>
+    </insert>
+
+    <update id="updateKnowledge" parameterType="Knowledge">
+        update sys_knowledge
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="content != null  and content != ''">content = #{content},</if>
+            <if test="length != null ">length = #{length},</if>
+            <if test="lessonId != null ">lesson_id = #{lessonId},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="modifyTime != null ">modify_time = #{modifyTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteKnowledgeById" parameterType="Long">
+        delete from sys_knowledge where id = #{id}
+    </delete>
+
+    <delete id="deleteKnowledgeByIds" parameterType="String">
+        delete from sys_knowledge where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

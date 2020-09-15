@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('学生上课评分汇总列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>用户编号：</label>
+                                <input type="text" name="userId"/>
+                            </li>
+                            <li>
+                                <label>课时编号：</label>
+                                <input type="text" name="lessonId"/>
+                            </li>
+                            <li>
+                                <label>课程评分：</label>
+                                <input type="text" name="score"/>
+                            </li>
+                            <li class="select-time">
+                                <label>修改时间：</label>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginModifyTime]"/>
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endModifyTime]"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:teacher:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:teacher:remove')}]];
+        var prefix = ctx + "system/teacher";
+
+        $(function() {
+            var options = {
+                url: ctx + "/system/teacher/lessonScorelist",
+                createUrl: prefix + "/scoreadd",
+                updateUrl: prefix + "/scoreedit/{id}",
+                removeUrl: prefix + "/scoreremove",
+                exportUrl: prefix + "/scoreexport",
+                modalName: "学生上课评分汇总",
+                sidePagination: "client",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field: 'id', 
+                    title: '编号',
+                    visible: false
+                },
+                {
+                    field: 'userId', 
+                    title: '用户编号',
+                    visible: false
+                },
+                    {
+                        field: 'infost.number',
+                        title: '学号'
+                    },
+                    {
+                        field: 'infost.name',
+                        title: '姓名',
+                        sortable: true
+                    },
+                    {
+                        field: 'lesson.course.year',
+                        title: '学年'
+                    },
+                    {
+                        field: 'lesson.course.term',
+                        title: '学期',
+                        align: 'center',
+                        sortable: true,
+                        formatter: function(value, row, index) {
+                            if (value == '0') {
+                                return '<span class="badge badge-primary">上期</span>';
+                            } else if (value == '1') {
+                                return '<span class="badge badge-success">下期</span>';
+                            }
+                        }
+                    },
+                {
+                    field: 'lessonId', 
+                    title: '课时编号'
+                },
+                    {
+                        field: 'lesson.course.name',
+                        title: '课程'
+                    },
+                    {
+                        field: 'lesson.number',
+                        title: '第几次课时'
+                    },
+                    {
+                        field: 'lesson.begin',
+                        title: '上课时间'
+                    },
+                    {
+                        field: 'lesson.course.classes.number',
+                        title: '班级'
+                    },
+                {
+                    field: 'score', 
+                    title: '课程评分',
+                    sortable: true
+                },
+                {
+                    field: 'modifyTime', 
+                    title: '修改时间'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        // actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        // actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

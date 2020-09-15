@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.yctc.project.system.academy.mapper.AcademyMapper">
+    
+    <resultMap type="Academy" id="AcademyResult">
+        <result property="id"    column="id"    />
+        <result property="academy"    column="academy"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="modifyTime"    column="modify_time"    />
+    </resultMap>
+
+    <sql id="selectAcademyVo">
+        select id, academy, create_time, modify_time from sys_academy
+    </sql>
+
+    <select id="selectAcademyList" parameterType="Academy" resultMap="AcademyResult">
+        <include refid="selectAcademyVo"/>
+        <where>  
+            <if test="academy != null  and academy != ''"> and academy = #{academy}</if>
+            <if test="modifyTime != null "> and modify_time = #{modifyTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectAcademyById" parameterType="Long" resultMap="AcademyResult">
+        <include refid="selectAcademyVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAcademy" parameterType="Academy" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_academy
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="academy != null  and academy != ''">academy,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="modifyTime != null ">modify_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="academy != null  and academy != ''">#{academy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="modifyTime != null ">#{modifyTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAcademy" parameterType="Academy">
+        update sys_academy
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="academy != null  and academy != ''">academy = #{academy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="modifyTime != null ">modify_time = #{modifyTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAcademyById" parameterType="Long">
+        delete from sys_academy where id = #{id}
+    </delete>
+
+    <delete id="deleteAcademyByIds" parameterType="String">
+        delete from sys_academy where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

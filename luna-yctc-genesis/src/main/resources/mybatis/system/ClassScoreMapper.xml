@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.yctc.project.system.score.mapper.ClassScoreMapper">
+    
+    <resultMap type="ClassScore" id="ClassScoreResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="lessonId"    column="lesson_id"    />
+        <result property="score"    column="score"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="modifyTime"    column="modify_time"    />
+        <association property="lesson"    column="lesson" javaType="Lesson" resultMap="LessonResult" />
+<!--        <association property="user"    column="user" javaType="User" resultMap="UserResult" />-->
+        <association property="infost"    column="infost" javaType="Infost" resultMap="InfostResult" />
+    </resultMap>
+
+    <resultMap type="Lesson" id="LessonResult">
+        <result property="id"    column="id"    />
+        <result property="courseId"    column="course_id"    />
+        <result property="number"    column="number"    />
+        <result property="classroomId"    column="classroom_id"    />
+        <result property="begin"    column="begin"    />
+        <result property="end"    column="end"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="modifyTime"    column="modify_time"    />
+<!--        <association property="classroom"    column="classroom" javaType="Classroom" resultMap="ClassroomResult" />-->
+        <association property="course"    column="course" javaType="Course" resultMap="CourseResult" />
+    </resultMap>
+
+    <resultMap type="Infost" id="InfostResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="academyId"    column="academy_id"    />
+        <result property="classId"    column="class_id"    />
+        <result property="number"    column="inumber"    />
+        <result property="name"    column="iname"    />
+        <result property="type"    column="type"    />
+        <result property="sex"    column="sex"    />
+        <result property="idCardNumber"    column="id_card_number"    />
+        <result property="phone"    column="phone"    />
+        <result property="mail"    column="mail"    />
+        <result property="picture"    column="picture"    />
+        <result property="faceToken"    column="iface_token"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="modifyTime"    column="modify_time"    />
+        <!--        <association property="classes"    column="classes" javaType="Classes" resultMap="ClassesResult" />-->
+    </resultMap>
+
+
+    <resultMap type="User" id="UserResult">
+        <id     property="userId"       column="user_id"      />
+        <result property="deptId"       column="depte_uid"      />
+        <result property="loginName"    column="login_name"   />
+        <result property="userName"     column="user_name"    />
+        <result property="userType"     column="user_type"    />
+        <result property="email"        column="email"        />
+        <result property="phonenumber"  column="phonenumber"  />
+        <result property="sex"          column="sex"          />
+        <result property="avatar"       column="avatar"       />
+        <result property="password"     column="password"     />
+        <result property="salt"         column="salt"         />
+        <result property="status"       column="status"       />
+        <result property="delFlag"      column="del_flag"     />
+        <result property="loginIp"      column="login_ip"     />
+        <result property="loginDate"    column="login_date"   />
+        <result property="createBy"     column="create_by"    />
+        <result property="createTime"   column="create_time"  />
+        <result property="updateBy"     column="update_by"    />
+        <result property="updateTime"   column="update_time"  />
+        <result property="remark"       column="remark"       />
+<!--        <association property="dept"    column="dept_id" javaType="Dept" resultMap="deptResult" />-->
+<!--        <collection  property="roles"   javaType="java.util.List"        resultMap="RoleResult" />-->
+    </resultMap>
+
+    <resultMap type="Course" id="CourseResult">
+        <result property="id"    column="id"    />
+        <result property="number"    column="cnumber"    />
+        <result property="name"    column="name"    />
+        <result property="lessonSum"    column="lesson_sum"    />
+        <result property="year"    column="year"    />
+        <result property="term"    column="term"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="classesId"    column="classes_id"    />
+                <association property="classes"    column="classes" javaType="Classes" resultMap="ClassesResult" />
+    </resultMap>
+
+    <resultMap type="Classes" id="ClassesResult">
+        <result property="id"    column="id"    />
+        <result property="academyId"    column="academy_id"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="number"    column="qnumber"    />
+        <!--        <association property="dept"    column="dept_id" javaType="Dept" resultMap="deptResult" />-->
+        <!--        <association property="academy"    column="academy_id" javaType="Academy" resultMap="academyResult" />-->
+    </resultMap>
+
+    <sql id="selectClassScoreVo">
+        select s.id, s.user_id, s.lesson_id, s.score, s.create_time, s.modify_time ,
+            l.course_id, l.number, l.classroom_id, l.begin, l.end,
+            c.number as cnumber, c.name , c.lesson_sum, c.year, c.term, c.dept_id, c.classes_id,
+            q.number as qnumber,
+            i.academy_id, i.class_id, i.number as inumber, i.name as iname, i.type, i.sex, i.id_card_number, i.phone, i.mail, i.picture, i.face_token as iface_token
+        from sys_class_score s
+             left join sys_lesson l on l.id = s.lesson_id
+             left join sys_course c on c.id = l.course_id
+--              left join sys_user u on u.user_id = s.user_id
+             left join sys_classes q on c.classes_id = q.id
+              left join sys_infost i on s.user_id = i.user_id
+    </sql>
+
+    <select id="selectClassScoreList" parameterType="ClassScore" resultMap="ClassScoreResult">
+        <include refid="selectClassScoreVo"/>
+        <where>  
+            <if test="userId != null "> and s.user_id = #{userId}</if>
+            <if test="lessonId != null "> and lesson_id = #{lessonId}</if>
+            <if test="score != null "> and score = #{score}</if>
+            <if test="modifyTime != null "> and modify_time = #{modifyTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectClassScoreById" parameterType="Long" resultMap="ClassScoreResult">
+        <include refid="selectClassScoreVo"/>
+        where s.id = #{id}
+    </select>
+        
+    <insert id="insertClassScore" parameterType="ClassScore" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_class_score
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">user_id,</if>
+            <if test="lessonId != null ">lesson_id,</if>
+            <if test="score != null ">score,</if>
+            create_time,
+            modify_time,
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">#{userId},</if>
+            <if test="lessonId != null ">#{lessonId},</if>
+            <if test="score != null ">#{score},</if>
+           now(),
+           now(),
+         </trim>
+    </insert>
+
+    <update id="updateClassScore" parameterType="ClassScore">
+        update sys_class_score
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null ">user_id = #{userId},</if>
+            <if test="lessonId != null ">lesson_id = #{lessonId},</if>
+            <if test="score != null ">score = #{score},</if>
+            modify_time = now(),
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteClassScoreById" parameterType="Long">
+        delete from sys_class_score where id = #{id}
+    </delete>
+
+    <delete id="deleteClassScoreByIds" parameterType="String">
+        delete from sys_class_score where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.yctc.project.system.floor.mapper.BuildingFloorMapper">
+
+    <resultMap type="BuildingFloor" id="BuildingFloorResult">
+        <result property="id" column="id"/>
+        <result property="building" column="building"/>
+        <result property="floor" column="floor"/>
+        <result property="createTime" column="create_time"/>
+        <result property="modifyTime" column="modify_time"/>
+    </resultMap>
+
+    <sql id="selectBuildingFloorVo">
+        select id, building, floor, create_time, modify_time from sys_building_floor
+    </sql>
+
+    <select id="selectBuildingFloorList" parameterType="BuildingFloor" resultMap="BuildingFloorResult">
+        <include refid="selectBuildingFloorVo"/>
+        <where>
+            <if test="floor != null  and floor != ''">and floor = #{floor}</if>
+            <if test="building != null  and building != ''">and building = #{building}</if>
+            <if test="modifyTime != null ">and modify_time = #{modifyTime}</if>
+        </where>
+    </select>
+
+    <select id="selectBuildingFloorById" parameterType="Long" resultMap="BuildingFloorResult">
+        <include refid="selectBuildingFloorVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertBuildingFloor" parameterType="BuildingFloor" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_building_floor
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="building != null  and building != ''">building,</if>
+            <if test="floor != null  and floor != ''">floor,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="modifyTime != null ">modify_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="building != null  and building != ''">#{building},</if>
+            <if test="floor != null  and floor != ''">#{floor},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="modifyTime != null ">#{modifyTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateBuildingFloor" parameterType="BuildingFloor">
+        update sys_building_floor
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="building != null  and building != ''">building = #{building},</if>
+            <if test="floor != null  and floor != ''">floor = #{floor},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="modifyTime != null ">modify_time = #{modifyTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBuildingFloorById" parameterType="Long">
+        delete from sys_building_floor where id = #{id}
+    </delete>
+
+    <delete id="deleteBuildingFloorByIds" parameterType="String">
+        delete from sys_building_floor where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

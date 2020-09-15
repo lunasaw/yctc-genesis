@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.yctc.project.system.know.mapper.LessonKnowMapper">
+    
+    <resultMap type="LessonKnow" id="LessonKnowResult">
+        <result property="id"    column="id"    />
+        <result property="lessonId"    column="lesson_id"    />
+        <result property="knowledgeId"    column="knowledge_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="modifyTime"    column="modify_time"    />
+        <association property="knowledge"    column="knowledge" javaType="Knowledge" resultMap="KnowledgeResult" />
+        <association property="lesson"    column="lesson" javaType="Lesson" resultMap="LessonResult" />
+    </resultMap>
+
+    <resultMap type="Knowledge" id="KnowledgeResult">
+        <result property="id"    column="id"    />
+        <result property="content"    column="content"    />
+        <result property="length"    column="length"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="modifyTime"    column="modify_time"    />
+    </resultMap>
+
+    <resultMap type="Lesson" id="LessonResult">
+        <result property="id"    column="id"    />
+        <result property="courseId"    column="course_id"    />
+        <result property="number"    column="number"    />
+        <result property="classroomId"    column="classroom_id"    />
+        <result property="begin"    column="begin"    />
+        <result property="end"    column="end"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="modifyTime"    column="modify_time"    />
+<!--        <association property="classroom"    column="classroom" javaType="Classroom" resultMap="ClassroomResult" />-->
+        <association property="course"    column="course" javaType="Course" resultMap="CourseResult" />
+
+    </resultMap>
+
+    <resultMap type="Course" id="CourseResult">
+        <result property="id"    column="id"    />
+        <result property="number"    column="cnumber"    />
+        <result property="name"    column="name"    />
+        <result property="lessonSum"    column="lesson_sum"    />
+        <result property="year"    column="year"    />
+        <result property="term"    column="term"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="classesId"    column="classes_id"    />
+<!--        <association property="dept"    column="dept_id" javaType="Dept" resultMap="deptResult" />-->
+<!--        <association property="classes"    column="classes" javaType="Classes" resultMap="ClassesResult" />-->
+    </resultMap>
+
+    <sql id="selectLessonKnowVo">
+        select k.id, k.lesson_id, k.knowledge_id, k.create_time, k.modify_time ,
+            n.content, n.length,
+             c.number as cnumber, c.name, c.lesson_sum, c.year, c.term, c.dept_id, c.classes_id,
+             l.course_id, l.number, l.classroom_id, l.begin, l.end
+        from sys_lesson_know k
+            left join sys_knowledge n on n.id = k.knowledge_id
+            left join sys_lesson l on l.id = k.lesson_id
+            left join sys_course c on l.course_id = c.id
+    </sql>
+
+    <select id="selectLessonKnowList" parameterType="LessonKnow" resultMap="LessonKnowResult">
+        <include refid="selectLessonKnowVo"/>
+        <where>  
+            <if test="lessonId != null "> and k.lesson_id = #{lessonId}</if>
+            <if test="knowledgeId != null "> and k.knowledge_id = #{knowledgeId}</if>
+            <if test="modifyTime != null "> and modify_time = #{modifyTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectLessonKnowById" parameterType="Long" resultMap="LessonKnowResult">
+        <include refid="selectLessonKnowVo"/>
+        where k.id = #{id}
+    </select>
+        
+    <insert id="insertLessonKnow" parameterType="LessonKnow" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_lesson_know
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="lessonId != null ">lesson_id,</if>
+            <if test="knowledgeId != null ">knowledge_id,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="modifyTime != null ">modify_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="lessonId != null ">#{lessonId},</if>
+            <if test="knowledgeId != null ">#{knowledgeId},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="modifyTime != null ">#{modifyTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateLessonKnow" parameterType="LessonKnow">
+        update sys_lesson_know
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="lessonId != null ">lesson_id = #{lessonId},</if>
+            <if test="knowledgeId != null ">knowledge_id = #{knowledgeId},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="modifyTime != null ">modify_time = #{modifyTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteLessonKnowById" parameterType="Long">
+        delete from sys_lesson_know where id = #{id}
+    </delete>
+
+    <delete id="deleteLessonKnowByIds" parameterType="String">
+        delete from sys_lesson_know where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

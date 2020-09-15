@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.yctc.project.system.tea.mapper.LessonTeaMapper">
+    
+    <resultMap type="LessonTea" id="LessonTeaResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="lessonId"    column="lesson_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="modifyTime"    column="modify_time"    />
+        <association property="lesson"    column="lesson" javaType="Lesson" resultMap="LessonResult" />
+        <association property="infost"    column="infost" javaType="Infost" resultMap="InfostResult" />
+
+    </resultMap>
+
+    <resultMap type="Lesson" id="LessonResult">
+        <result property="id"    column="id"    />
+        <result property="courseId"    column="course_id"    />
+        <result property="number"    column="number"    />
+        <result property="classroomId"    column="classroom_id"    />
+        <result property="begin"    column="begin"    />
+        <result property="end"    column="end"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="modifyTime"    column="modify_time"    />
+        <association property="classroom"    column="classroom" javaType="Classroom" resultMap="ClassroomResult" />
+        <association property="course"    column="course" javaType="Course" resultMap="CourseResult" />
+
+    </resultMap>
+
+    <resultMap type="Course" id="CourseResult">
+        <result property="id"    column="id"    />
+        <result property="number"    column="cnumber"    />
+        <result property="name"    column="name"    />
+        <result property="lessonSum"    column="lesson_sum"    />
+        <result property="year"    column="year"    />
+        <result property="term"    column="term"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="classesId"    column="classes_id"    />
+<!--        <association property="dept"    column="dept_id" javaType="Dept" resultMap="deptResult" />-->
+    </resultMap>
+
+    <resultMap type="Classroom" id="ClassroomResult">
+        <result property="buildingFloorId"    column="building_floor_id"    />
+        <result property="number"    column="qnumber"    />
+        <result property="equipmentId"    column="equipment_id"    />
+        <association property="buildingFloor"    column="building_floor_id" javaType="BuildingFloor" resultMap="BuildingFloorResult" />
+    </resultMap>
+
+    <resultMap type="BuildingFloor" id="BuildingFloorResult">
+        <result property="id"    column="id"    />
+        <result property="building"    column="building"    />
+        <result property="floor"    column="floor"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="modifyTime"    column="modify_time"    />
+    </resultMap>
+
+    <resultMap type="Infost" id="InfostResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="academyId"    column="academy_id"    />
+        <result property="classId"    column="class_id"    />
+        <result property="number"    column="inumber"    />
+        <result property="name"    column="iname"    />
+        <result property="type"    column="type"    />
+        <result property="sex"    column="sex"    />
+        <result property="idCardNumber"    column="id_card_number"    />
+        <result property="phone"    column="phone"    />
+        <result property="mail"    column="mail"    />
+        <result property="picture"    column="picture"    />
+        <result property="faceToken"    column="face_token"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="modifyTime"    column="modify_time"    />
+<!--        <association property="classes"    column="classes" javaType="Classes" resultMap="ClassesResult" />-->
+    </resultMap>
+
+    <sql id="selectLessonTeaVo">
+        select e.id, e.user_id, e.lesson_id, e.create_time, e.modify_time ,
+             l.course_id, l.number, l.classroom_id, l.begin, l.end,
+             q.building_floor_id, q.number as qnumber, q.equipment_id,
+             b.building, b.floor,
+             c.number as cnumber, c.name , c.lesson_sum, c.year, c.term, c.dept_id, c.classes_id,
+             i.academy_id, i.class_id, i.number as inumber, i.name as iname, i.type, i.sex, i.id_card_number, i.phone, i.mail, i.picture, i.face_token
+        from sys_lesson_tea e
+             left join sys_lesson l on l.id = e.lesson_id
+             left join sys_classroom q on q.id = l.classroom_id
+             left join sys_building_floor b on q.building_floor_id = b.id
+             left join sys_course c on c.id = l.course_id
+             left join sys_infost i on e.user_id = i.id
+    </sql>
+
+    <select id="selectLessonTeaList" parameterType="LessonTea" resultMap="LessonTeaResult">
+        <include refid="selectLessonTeaVo"/>
+        <where>  
+            <if test="userId != null "> and e.user_id = #{userId}</if>
+            <if test="lessonId != null "> and e.lesson_id = #{lessonId}</if>
+            <if test="modifyTime != null "> and modify_time = #{modifyTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectLessonTeaById" parameterType="Long" resultMap="LessonTeaResult">
+        <include refid="selectLessonTeaVo"/>
+        where e.id = #{id}
+    </select>
+        
+    <insert id="insertLessonTea" parameterType="LessonTea" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_lesson_tea
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">user_id,</if>
+            <if test="lessonId != null ">lesson_id,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="modifyTime != null ">modify_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">#{userId},</if>
+            <if test="lessonId != null ">#{lessonId},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="modifyTime != null ">#{modifyTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateLessonTea" parameterType="LessonTea">
+        update sys_lesson_tea
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null ">user_id = #{userId},</if>
+            <if test="lessonId != null ">lesson_id = #{lessonId},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="modifyTime != null ">modify_time = #{modifyTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteLessonTeaById" parameterType="Long">
+        delete from sys_lesson_tea where id = #{id}
+    </delete>
+
+    <delete id="deleteLessonTeaByIds" parameterType="String">
+        delete from sys_lesson_tea where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

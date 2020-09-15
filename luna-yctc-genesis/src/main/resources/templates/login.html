@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+	<title>登陆</title>
+	<meta name="description" content="智慧教学辅助系统">
+	<link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+	<link href="../static/css/font-awesome.min.css" th:href="@{/css/font-awesome.min.css}" rel="stylesheet"/>
+	<link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
+	<link href="../static/css/login.min.css" th:href="@{/css/login.min.css}" rel="stylesheet"/>
+	<link href="../static/yctc/css/yctc.css" th:href="@{/yctc/css/yctc.css?v=4.2.0}" rel="stylesheet"/>
+	<!-- 360浏览器急速模式 -->
+	<meta name="renderer" content="webkit">
+	<!-- 避免IE使用兼容模式 -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link rel="shortcut icon" href="../static/favicon.ico" th:href="@{favicon.ico}"/>
+	<style type="text/css">label.error {
+		position: inherit;
+	}</style>
+	<script>
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+	</script>
+	<!--stylesheets-->
+	<link href="../static/css/loginstyle.css" th:href="@{/css/loginstyle.css}" rel='stylesheet' type='text/css'
+	      media="all">
+	<!--//style sheet end here-->
+	<link href="../static/css/fonts.google.css" th:href="@{/css/fonts.google.css}" rel="stylesheet">
+	<script>
+        if (window.top !== window.self) {
+            alert('未登录或登录超时。请重新登录');
+            window.top.location = window.location
+        }
+        ;
+	</script>
+</head>
+<body style="height: 100%">
+<h1 th:text="#{welcome.message}">Material Login Form</h1>
+<div class=" w3l-login-form">
+	<h2 class="no-margins" th:text="#{user.login.submit}">登录：</h2>
+	<form action="#" id="signupForm" autocomplete="off">
+
+		<div class=" w3l-form-group">
+			<label th:text="#{user.login.username}">Username:</label>
+			<div class="group">
+				<i class="fa fa-user"></i>
+				<input type="text"     name="username" class="form-control uname"   value=""    />
+			</div>
+		</div>
+		<div class=" w3l-form-group">
+			<label  th:text="#{user.login.password}">Password:</label>
+			<div class="group">
+				<i class="fa fa-lock"></i>
+				<input type="password" name="password" class="form-control pword"    value="" />
+			</div>
+		</div>
+
+		<div class="row m-t" th:if="${captchaEnabled==true}">
+			<div class="col-xs-6">
+				<input type="text" name="validateCode" class="form-control code" th:text="#{user.login.code}"  maxlength="5" />
+			</div>
+			<div class="col-xs-6">
+				<a href="javascript:void(0);" title="点击更换验证码">
+					<img th:src="@{captcha/captchaImage(type=${captchaType})}" class="imgcode" width="85%"/>
+				</a>
+			</div>
+		</div>
+		<div class="checkbox-custom" th:classappend="${captchaEnabled==false} ? 'm-t'">
+			<input type="checkbox" id="rememberme" name="rememberme">
+			<label th:text="#{user.login.remember}"></label>
+		</div>
+		<br>
+		<button id="btnSubmit" data-loading="正在验证登录，请稍后..." th:text="#{user.login.submit}">登录</button>
+		<a class="warning" href="?lang=en_US"> English </a>
+		<a class="warning" href="?lang=zh_CN"> 中文 </a>
+	</form>
+	<p class=" w3l-register-p"  th:if="${@config.getKey('sys.account.registerUser')}"><span href="" th:utext="#{user.login.noAccount}"></span><a  th:href="@{/register}" th:text="#{user.login.register}" class="register"> Register</a></p>
+</div>
+<footer class="bottem-wthree-footer">
+	<p class="copyright-agileinfo">
+		&copy; 2020 All Rights Reserved. yctc <br>
+		<a href="#" target="_blank">genesis.yctc</a>
+	</p>
+</footer>
+<script th:inline="javascript"> var ctx = [[@{/}]]; var captchaType = [[${captchaType}]]; </script>
+<!-- 全局js -->
+<script src="../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+<script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<!-- 验证插件 -->
+<script src="../static/ajax/libs/validate/jquery.validate.min.js"
+        th:src="@{/ajax/libs/validate/jquery.validate.min.js}"></script>
+<script src="../static/ajax/libs/validate/messages_zh.min.js"
+        th:src="@{/ajax/libs/validate/messages_zh.min.js}"></script>
+<script src="../static/ajax/libs/layer/layer.min.js" th:src="@{/ajax/libs/layer/layer.min.js}"></script>
+<script src="../static/ajax/libs/blockUI/jquery.blockUI.js" th:src="@{/ajax/libs/blockUI/jquery.blockUI.js}"></script>
+<script src="../static/yctc/js/yctc.js" th:src="@{/yctc/js/yctc.js?v=4.2.0}"></script>
+<script src="../static/yctc/login.js" th:src="@{/yctc/login.js}"></script>
+<!--jQuery国际化插件-->
+<script src="../static/js/jquery.i18n.properties.min.js" th:src="@{/js/jquery.i18n.properties.min.js}"></script>
+
+<script th:inline="javascript">
+    //获取应用路径
+    var ROOT = [[${#servletContext.contextPath}]];
+    console.log(ROOT)
+    //获取默认语言
+    var LANG_COUNTRY = [[${#locale.language+'_'+#locale.country}]];
+    console.log(LANG_COUNTRY)
+    //初始化i18n插件
+    $.i18n.properties({
+        path: ROOT + '/i18n/',//这里表示访问路径
+        name: 'messages',//文件名开头
+        language: LANG_COUNTRY,//文件名语言 例如en_US
+        mode: 'map'//默认值
+    });
+
+    //初始化i18n函数
+    function i18n(msgKey) {
+        try {
+            return $.i18n.prop(msgKey);
+        } catch (e) {
+            return msgKey;
+        }
+    }
+
+    //获取国际化翻译值
+    console.log(i18n('user.login.username'));
+    console.log(i18n('user.login.password'));
+    console.log(i18n('user.login.code'));
+    console.log(i18n('user.login.remember'));
+    console.log(i18n('user.login.submit'));
+</script>
+</body>
+</html>

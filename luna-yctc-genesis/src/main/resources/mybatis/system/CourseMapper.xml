@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.yctc.project.system.course.mapper.CourseMapper">
+    
+    <resultMap type="Course" id="CourseResult">
+        <result property="id"    column="id"    />
+        <result property="number"    column="number"    />
+        <result property="name"    column="name"    />
+        <result property="lessonSum"    column="lesson_sum"    />
+        <result property="year"    column="year"    />
+        <result property="term"    column="term"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="classesId"    column="classes_id"    />
+        <association property="dept"    column="dept_id" javaType="Dept" resultMap="deptResult" />
+        <association property="classes"    column="classes" javaType="Classes" resultMap="ClassesResult" />
+    </resultMap>
+
+    <resultMap type="Classes" id="ClassesResult">
+        <result property="id"    column="id"    />
+        <result property="academyId"    column="academy_id"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="number"    column="unumber"    />
+<!--        <association property="dept"    column="dept_id" javaType="Dept" resultMap="deptResult" />-->
+<!--        <association property="academy"    column="academy_id" javaType="Academy" resultMap="academyResult" />-->
+    </resultMap>
+
+    <resultMap id="deptResult" type="Dept">
+        <id     property="deptId"   column="dept_id"     />
+        <result property="parentId" column="parent_id"   />
+        <result property="deptName" column="dept_name"   />
+        <result property="orderNum" column="order_num"   />
+        <result property="leader"   column="leader"   />
+        <result property="status"   column="dept_status" />
+    </resultMap>
+
+    <sql id="selectCourseVo">
+        select c.id, c.number, c.name, c.lesson_sum, c.year, c.term, c.dept_id, c.classes_id ,
+         d.dept_id, d.parent_id, d.dept_name, d.order_num, d.leader, d.status as dept_status ,
+         u.academy_id, u.dept_id, u.number as  unumber
+        from sys_course c
+            left join sys_dept d on c.dept_id = d.dept_id
+            left join sys_classes u on u.id = c.classes_id
+    </sql>
+
+    <select id="selectCourseList" parameterType="Course" resultMap="CourseResult">
+        <include refid="selectCourseVo"/>
+        <where>  
+            <if test="number != null  and number != ''"> and c.number = #{number}</if>
+            <if test="name != null  and name != ''"> and c.name like concat('%', #{name}, '%')</if>
+            <if test="lessonSum != null "> and c.lesson_sum = #{lessonSum}</if>
+            <if test="year != null  and year != ''"> and c.year = #{year}</if>
+            <if test="term != null "> and c.term = #{term}</if>
+            <if test="deptId != null and deptId != 0">
+                AND (c.dept_id = #{deptId} OR c.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE FIND_IN_SET (#{deptId},ancestors)))
+            </if>
+            <if test="classesId != null  and classesId != ''"> and c.classes_id = #{classesId}</if>
+        </where>
+    </select>
+    
+    <select id="selectCourseById" parameterType="Long" resultMap="CourseResult">
+        <include refid="selectCourseVo"/>
+        where c.id = #{id}
+    </select>
+        
+    <insert id="insertCourse" parameterType="Course" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_course
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="number != null  and number != ''">number,</if>
+            <if test="name != null  and name != ''">name,</if>
+            <if test="lessonSum != null ">lesson_sum,</if>
+            <if test="year != null  and year != ''">year,</if>
+            <if test="term != null ">term,</if>
+            <if test="deptId != null ">dept_id,</if>
+            <if test="classesId != null  and classesId != ''">classes_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="number != null  and number != ''">#{number},</if>
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="lessonSum != null ">#{lessonSum},</if>
+            <if test="year != null  and year != ''">#{year},</if>
+            <if test="term != null ">#{term},</if>
+            <if test="deptId != null ">#{deptId},</if>
+            <if test="classesId != null  and classesId != ''">#{classesId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCourse" parameterType="Course">
+        update sys_course
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="number != null  and number != ''">number = #{number},</if>
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="lessonSum != null ">lesson_sum = #{lessonSum},</if>
+            <if test="year != null  and year != ''">year = #{year},</if>
+            <if test="term != null ">term = #{term},</if>
+            <if test="deptId != null ">dept_id = #{deptId},</if>
+            <if test="classesId != null  and classesId != ''">classes_id = #{classesId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCourseById" parameterType="Long">
+        delete from sys_course where id = #{id}
+    </delete>
+
+    <delete id="deleteCourseByIds" parameterType="String">
+        delete from sys_course where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
