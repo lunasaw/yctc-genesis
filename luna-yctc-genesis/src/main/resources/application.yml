@@ -16,7 +16,7 @@ yctc:
 # 开发环境配置
 server:
   # 服务器的HTTP端口，默认为80
-  port: 80
+  port: 8081
   servlet:
     # 应用的访问路径
     context-path: /yctc-genesis
@@ -96,7 +96,7 @@ shiro:
     # 首页地址
     indexUrl: /index
     # 验证码开关
-    captchaEnabled: false
+    captchaEnabled: true
     # 验证码类型 math 数组计算 char 字符
     captchaType: math
   cookie:
